@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">PurpleSQ</string>
+
+    <string name="title_leftdrawer_home">Home</string>
+    <string name="title_leftdrawer_collection">Collection</string>
+    <string name="title_leftdrawer_section1">Section1</string>
+    <string name="title_leftdrawer_section2">Section2</string>
+    <string name="title_leftdrawer_settings">Setings</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_activity_check_in">Map</string>
+    <string name="title_activity_contacts">ContactsActivity</string>
+
+    <string name="title_contacts_students">Students</string>
+    <string name="title_contacts_psq">PSQ</string>
+    <string name="title_contacts_others">Others</string>
+    <string name="title_activity_itinerary">ItineraryActivity</string>
+    <string name="title_activity_expense">ExpenseActivity</string>
+
+</resources>

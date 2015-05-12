@@ -1,0 +1,33 @@
+<resources>
+
+    <dimen name="tab_host_default_height">48dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+         https://developer.android.com/design/patterns/navigation-drawer.html -->
+    <dimen name="navigation_drawer_width">240dp</dimen>
+
+    <!-- MaskImage -->
+    <dimen name="border_width">2dp</dimen>
+    <dimen name="border_width_small">1dp</dimen>
+
+    <!-- Background Rounded dimensions -->
+    <dimen name="bg_rounded_radius">8px</dimen>
+    <dimen name="bg_padding_top">4dp</dimen>
+    <dimen name="bg_padding_left">6dp</dimen>
+    <dimen name="bg_padding_right">6dp</dimen>
+    <dimen name="bg_padding_bottom">4dp</dimen>
+
+    <!-- Text Sizes -->
+    <dimen name="font_extra_small">10sp</dimen>
+    <dimen name="font_smaller">11sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="font_normal">14sp</dimen>
+    <dimen name="font_medium">16sp</dimen>
+    <dimen name="font_large">18sp</dimen>
+    <dimen name="font_extra_large">20sp</dimen>
+    <dimen name="font_largest">22sp</dimen>
+</resources>

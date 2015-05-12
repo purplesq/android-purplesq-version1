@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Generated with http://android-holo-colors.com -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="PurpleSQ" parent="@style/_PurpleSQ" />
+
+    <style name="_PurpleSQ" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <!-- Light.DarkActionBar specific -->
+        <item name="android:actionBarWidgetTheme">@style/Theme.Purplesq.Widget</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_purplesq</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Purplesq</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Purplesq</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Purplesq</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_purplesq</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_purplesq</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Purplesq</item>
+
+        <!-- Views specific -->
+        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_light_purplesq</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewPurpleSQ</item>
+        <item name="android:buttonStyle">@style/ButtonPurpleSQ</item>
+        <item name="android:buttonStyleToggle">@style/TogglePurpleSQ</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Purplesq</item>
+        <item name="android:dropDownSpinnerStyle">@style/SpinnerPurpleSQ</item>
+        <item name="android:editTextBackground">@drawable/edit_text_holo_light_purplesq</item>
+        <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_holo_purplesq</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonPurpleSQ</item>
+        <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector_holo_light_purplesq</item>
+        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_holo_light_purplesq</item>
+        <item name="android:listChoiceIndicatorSingle">@drawable/btn_radio_holo_light_purplesq</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Purplesq</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBarPurpleSQ</item>
+        <item name="android:seekBarStyle">@style/SeekBarPurpleSQ</item>
+        <item name="android:textColor">@color/purplesq_color</item>
+        <item name="android:textColorHighlight">#995d2f90</item>
+        <item name="android:textSelectHandleLeft">@drawable/text_select_handle_left</item>
+        <item name="android:textSelectHandleRight">@drawable/text_select_handle_right</item>
+        <item name="android:textSelectHandle">@drawable/text_select_handle_middle</item>
+
+    </style>
+
+</resources>
