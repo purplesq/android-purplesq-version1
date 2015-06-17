@@ -27,6 +27,7 @@ Thumbs.db
 
 # Android Studio
 .idea/workspace.xml
+.idea/inspectionProfiles/
 .idea/libraries/
 .gradle
 build/
