@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="2"
+    android:rowCount="3">
+
+    <TextView
+        android:layout_gravity="left"
+        android:padding="8dp"
+        android:text="Q."
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/item_faq_question"
+        android:padding="8dp"
+        android:text="Is photography/videography permitted at the visit?"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_gravity="left"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="A."/>
+
+    <TextView
+        android:id="@+id/item_faq_answer"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="No. Photography/videography is not permitted while seminar/visit is being conducted, unless instructed otherwise."/>
+
+    <Space
+        android:layout_height="10dp"
+        android:layout_columnSpan="2"
+        android:layout_gravity="fill"/>
+
+</GridLayout>
