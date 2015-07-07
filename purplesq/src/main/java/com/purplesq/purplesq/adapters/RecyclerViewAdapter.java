@@ -46,11 +46,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mTextViewHeading = (TextView) v.findViewById(R.id.item_cardlayout_textview_heading);
             mTextViewSubText = (TextView) v.findViewById(R.id.item_cardlayout_textview_subheading);
             v.setOnClickListener(this);
+            mBtnBook.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mRecyclerViewItemClickListener.OnRecyclerViewItemClick(position);
+                }
+            });
+
+
         }
 
         @Override
         public void onClick(View v) {
-            Log.d("Nish", "Click detected at : " + position);
+            Log.i("Nish", "Click detected at : " + position);
             mRecyclerViewItemClickListener.OnRecyclerViewItemClick(position);
         }
     }
@@ -81,14 +89,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 ImageLoader.getInstance().displayImage(mediaVo.getUrl(), holder.mImage);
             }
         }
-
-        holder.mBtnBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO :
-            }
-        });
-
 
     }
 

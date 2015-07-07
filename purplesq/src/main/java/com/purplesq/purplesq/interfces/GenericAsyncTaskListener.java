@@ -6,4 +6,6 @@ public interface GenericAsyncTaskListener {
     public void genericAsyncTaskOnError(Object obj);
 
     public void genericAsyncTaskOnProgress(Object obj);
+
+    public void genericAsyncTaskOnCancelled(Object obj);
 }

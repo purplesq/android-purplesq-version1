@@ -3,6 +3,7 @@ package com.purplesq.purplesq.activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -90,8 +91,8 @@ public class NavigationDrawerActivity extends Activity {
                 new String[]{
                         getString(R.string.title_leftdrawer_home),
                         getString(R.string.title_leftdrawer_collection),
+                        getString(R.string.title_leftdrawer_login),
                         getString(R.string.title_leftdrawer_section1),
-                        getString(R.string.title_leftdrawer_section2),
                         getString(R.string.title_leftdrawer_settings)
                 }));
 
@@ -159,6 +160,8 @@ public class NavigationDrawerActivity extends Activity {
                 fragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment.newInstance()).commit();
                 break;
             case 2:
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
                 break;
             case 3:
                 break;
@@ -174,10 +177,10 @@ public class NavigationDrawerActivity extends Activity {
                 mTitle = getString(R.string.title_leftdrawer_collection);
                 break;
             case 2:
-                mTitle = getString(R.string.title_leftdrawer_section1);
+                mTitle = getString(R.string.title_leftdrawer_login);
                 break;
             case 3:
-                mTitle = getString(R.string.title_leftdrawer_section2);
+                mTitle = getString(R.string.title_leftdrawer_section1);
                 break;
             case 4:
                 mTitle = getString(R.string.title_leftdrawer_settings);

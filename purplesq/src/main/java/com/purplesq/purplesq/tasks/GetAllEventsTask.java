@@ -46,8 +46,8 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
 //            URI uri = URIUtils.createURI("http", "www.google.com", -1, "/search",URLEncodedUtils.format(qparams, "UTF-8"), null);
 
             Request request = new Request.Builder()
-//                    .url("http://dev.purplesq.com:4000/eduventures/events")
-                    .url("http://api.purplesq.com/eduventures/events/odis")
+                    .url("http://dev.purplesq.com:4000/eduventures/events/odis")
+//                    .url("http://api.purplesq.com/eduventures/events/odis")
                     .build();
 
             Response response = okHttpClient.newCall(request).execute();

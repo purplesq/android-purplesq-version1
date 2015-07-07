@@ -103,6 +103,11 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
     }
 
     @Override
+    public void genericAsyncTaskOnCancelled(Object obj) {
+
+    }
+
+    @Override
     public void OnRecyclerViewItemClick(int position) {
         Log.d("Nish", "RecyclerView clicked at  : " + position);
 

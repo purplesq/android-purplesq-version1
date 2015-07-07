@@ -2,6 +2,7 @@ package com.purplesq.purplesq.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.nineoldandroids.view.ViewHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.purplesq.purplesq.R;
+import com.purplesq.purplesq.activities.ParticipantsActivity;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.customviews.ObservableScrollView;
 import com.purplesq.purplesq.vos.EventsVo;
@@ -46,6 +48,7 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
     private ImageView mImageView;
     private ObservableScrollView mObservableScrollView;
     private Activity mActivity;
+    private int position = -1;
 
     private Handler handler = new Handler() {
         @Override
@@ -70,7 +73,7 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
         View rootView = inflater.inflate(R.layout.fragment_event_details, container, false);
         Bundle args = getArguments();
 
-        int position = args.getInt("event-position", -1);
+        position = args.getInt("event-position", -1);
 
         if (position >= 0) {
             eventData = ((PurpleSQ) mActivity.getApplication()).getEventsData().get(position);
@@ -155,7 +158,10 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
         rootView.findViewById(R.id.fragment_event_details_topcard_btn_book).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:
+                Intent i = new Intent(mActivity, ParticipantsActivity.class);
+                i.putExtra("event-id", eventData.get_id());
+                i.putExtra("event-position", position);
+                mActivity.startActivity(i);
             }
         });
     }
