@@ -1,0 +1,58 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.purplesq.purplesq.activities.PaymentActivity">
+
+    <include
+        android:id="@+id/activity_payment_cardview"
+        layout="@layout/item_cardview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/activity_payment_tv_participants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/activity_payment_cardview"
+        android:layout_marginTop="10dp"
+        android:text="Participants :"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <LinearLayout
+        android:id="@+id/activity_payment_linlayout_participants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/activity_payment_tv_amount"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/activity_payment_tv_participants"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/activity_payment_btn_pay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:minHeight="60dp"
+        android:minWidth="200dp"
+        android:padding="8dp"
+        android:text="Make Payment"
+        android:textSize="24sp"/>
+
+    <TextView
+        android:id="@+id/activity_payment_tv_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/activity_payment_btn_pay"
+        android:layout_centerHorizontal="true"
+        android:text="2500/-"
+        android:textSize="30sp"/>
+</RelativeLayout>

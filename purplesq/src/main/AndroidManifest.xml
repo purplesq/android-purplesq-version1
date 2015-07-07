@@ -117,9 +117,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.purplesq.purplesq.activities.EventDetailsActivity"/>
         </activity>
+        <activity
+            android:name=".activities.PaymentActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_payment"
+            android:parentActivityName=".activities.ParticipantsActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.purplesq.purplesq.activities.HomeActivity" />
+                android:value="com.purplesq.purplesq.activities.ParticipantsActivity"/>
         </activity>
     </application>
 
