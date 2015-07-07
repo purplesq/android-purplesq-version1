@@ -8,6 +8,7 @@
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_login">Sign in </string>
     <string name="title_activity_email_login">Sign in via Email</string>
+    <string name="title_activity_participants">Participants</string>
     <string name="title_leftdrawer_home">Home</string>
     <string name="title_leftdrawer_collection">Collection</string>
     <string name="title_leftdrawer_section1">Section1</string>

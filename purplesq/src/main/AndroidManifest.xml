@@ -107,6 +107,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.purplesq.purplesq.activities.LoginActivity"/>
         </activity>
+        <activity
+            android:name=".activities.ParticipantsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_participants"
+            android:parentActivityName=".activities.EventDetailsActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.purplesq.purplesq.activities.EventDetailsActivity"/>
+        </activity>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.purplesq.purplesq.activities.HomeActivity" />

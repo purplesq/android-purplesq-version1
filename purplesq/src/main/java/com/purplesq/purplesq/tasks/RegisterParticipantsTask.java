@@ -1,0 +1,130 @@
+package com.purplesq.purplesq.tasks;
+
+import android.os.AsyncTask;
+import android.text.TextUtils;
+import android.util.Log;
+
+import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.vos.ParticipantVo;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+/**
+ * Created by nishant on 04/07/15.
+ */
+public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
+
+    public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private final OkHttpClient okHttpClient = new OkHttpClient();
+
+    GenericAsyncTaskListener mListener;
+    ArrayList<ParticipantVo> mParticipants = new ArrayList<>();
+    String mEventId;
+    String mToken;
+
+    public RegisterParticipantsTask(String event, String token, ArrayList<ParticipantVo> data, GenericAsyncTaskListener listener) {
+        this.mEventId = event;
+        this.mToken = token;
+        this.mParticipants = data;
+        this.mListener = listener;
+    }
+
+    @Override
+    protected String doInBackground(Void... params) {
+
+        try {
+            // Simulate network access.
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            return null;
+        }
+
+
+        JSONObject jsonParticipants = new JSONObject();
+        try {
+//            {"students":[{"fname":"xyz","lname":"xyz","email":"xyz@purplesq.com","phone":"9999999999","institute":"XYZ"},{"fname":"xyz","lname":"xyz","email":"xyz@purplesq.com","phone":"9999999999","institute":"XYZ"}]}
+
+            JSONArray jsonArrayStudents = new JSONArray();
+            for (ParticipantVo participantVo : mParticipants) {
+                JSONObject participant = new JSONObject();
+                String fname = "", lname = "";
+                if (participantVo.getName().contains(" ")) {
+                    fname = participantVo.getName().substring(0, participantVo.getName().indexOf(" "));
+                    lname = participantVo.getName().substring(participantVo.getName().lastIndexOf(" "));
+                } else {
+                    fname = participantVo.getName();
+                }
+                participant.put("fname", fname);
+                participant.put("lname", lname);
+                participant.put("email", participantVo.getEmail());
+                participant.put("phone", participantVo.getPhone());
+                participant.put("institute", participantVo.getInstitute());
+
+                jsonArrayStudents.put(participant);
+            }
+
+            jsonParticipants.put("students", jsonArrayStudents);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+
+            RequestBody body = RequestBody.create(JSON, jsonParticipants.toString());
+
+            Log.i("Nish", "Request Json : " + jsonParticipants.toString());
+
+            Request request = new Request.Builder()
+                    .url("http://dev.purplesq.com:4000/payments/events/" + mEventId + "/initiate")
+                    .header("Purple-Token", mToken)
+                    .post(body)
+                    .build();
+
+            Response response = okHttpClient.newCall(request).execute();
+
+            if (!response.isSuccessful()) {
+                Log.i("Nish", "Response failed Message : " + response.message());
+                Log.i("Nish", "Response failed Body : " + response.body().string());
+                return null;
+            }
+
+            return response.body().string();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+
+    }
+
+    @Override
+    protected void onPostExecute(final String response) {
+        if (!TextUtils.isEmpty(response)) {
+            try {
+                JSONObject jsonResponse = new JSONObject(response);
+                mListener.genericAsyncTaskOnSuccess(jsonResponse);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                mListener.genericAsyncTaskOnSuccess(null);
+            }
+        } else {
+            Log.i("Nish", "Response : " + response);
+            mListener.genericAsyncTaskOnSuccess(null);
+        }
+    }
+
+    @Override
+    protected void onCancelled() {
+        mListener.genericAsyncTaskOnCancelled(null);
+    }
+}

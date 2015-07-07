@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/item_participants_tv_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:text="No"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@id/item_participants_tv_no"
+        android:layout_toRightOf="@id/item_participants_tv_no"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/item_participants_et_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Name"
+                android:inputType="textPersonName"
+                android:maxLines="1"/>
+
+            <Button
+                android:id="@+id/item_participants_btn_remove"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/ic_content_clear"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/item_participants_et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/item_participants_et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Phone No."
+            android:inputType="phone"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/item_participants_et_insitute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Institute Name"
+            android:maxLines="1"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
