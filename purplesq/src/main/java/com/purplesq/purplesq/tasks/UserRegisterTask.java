@@ -50,7 +50,7 @@ public class UserRegisterTask extends AsyncTask<Void, Void, String> {
 
         try {
             // Simulate network access.
-            Thread.sleep(2000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             return null;
         }
@@ -74,6 +74,7 @@ public class UserRegisterTask extends AsyncTask<Void, Void, String> {
 
             Request request = new Request.Builder()
                     .url("http://dev.purplesq.com:4000/users/account")
+                    .header("platform", "android")
                     .post(body)
                     .build();
 

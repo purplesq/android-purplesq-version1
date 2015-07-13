@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +18,8 @@ import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.RegisterParticipantsTask;
 import com.purplesq.purplesq.vos.ParticipantVo;
+import com.purplesq.purplesq.vos.TransactionVo;
 import com.purplesq.purplesq.vos.UserVo;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -317,10 +314,8 @@ public class ParticipantsActivity extends Activity implements GenericAsyncTaskLi
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
         mRegisterParticipantsTask = null;
-        if (obj != null && obj instanceof JSONObject) {
-            JSONObject jsonResponse = (JSONObject) obj;
-            Log.i("Nish", "Response : " + jsonResponse.toString());
-
+        if (obj != null && obj instanceof TransactionVo) {
+            TransactionVo transactionVo = (TransactionVo) obj;
             try {
                 ArrayList<String> participantList = new ArrayList<>();
                 for (ParticipantVo participantVo : mParticipantList) {
@@ -328,13 +323,12 @@ public class ParticipantsActivity extends Activity implements GenericAsyncTaskLi
                 }
 
                 Intent intent = new Intent(mActivity, PaymentActivity.class);
-                intent.putExtra("transaction-id", jsonResponse.getString("id"));
-                intent.putExtra("amount", (double)jsonResponse.getInt("amount"));
+                intent.putExtra("transaction", transactionVo.toString());
                 intent.putExtra("event-position", position);
                 intent.putStringArrayListExtra("participants-name", participantList);
                 startActivity(intent);
 
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

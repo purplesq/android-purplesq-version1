@@ -48,6 +48,7 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
             Request request = new Request.Builder()
                     .url("http://dev.purplesq.com:4000/eduventures/events/odis")
 //                    .url("http://api.purplesq.com/eduventures/events/odis")
+                    .header("platform", "android")
                     .build();
 
             Response response = okHttpClient.newCall(request).execute();

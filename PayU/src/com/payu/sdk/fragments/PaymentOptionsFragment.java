@@ -85,12 +85,12 @@ public class PaymentOptionsFragment extends Fragment implements PaymentListener 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if(getActivity() != null && !isRemoving() && isAdded()){
-            mProgressDialog.setMessage(getString(R.string.please_wait));
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.show();
-        }
+//        if(getActivity() != null && !isRemoving() && isAdded()){
+//            mProgressDialog.setMessage(getString(R.string.please_wait));
+//            mProgressDialog.setIndeterminate(true);
+//            mProgressDialog.setCancelable(false);
+//            mProgressDialog.show();
+//        }
 //        PayU.PaymentMode[] paymentOptions;
 
         if (paymentOptions == null) {

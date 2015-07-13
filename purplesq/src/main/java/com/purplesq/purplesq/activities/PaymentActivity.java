@@ -2,30 +2,42 @@ package com.purplesq.purplesq.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.payu.sdk.PayU;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.application.PurpleSQ;
+import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.tasks.PayUTask;
+import com.purplesq.purplesq.tasks.PaymentTask;
 import com.purplesq.purplesq.vos.EventsVo;
 import com.purplesq.purplesq.vos.MediaVo;
+import com.purplesq.purplesq.vos.PaymentPayUVo;
+import com.purplesq.purplesq.vos.TransactionVo;
 
 import java.util.ArrayList;
 
-public class PaymentActivity extends Activity {
+public class PaymentActivity extends Activity implements GenericAsyncTaskListener {
 
     private Activity mActivity;
-    private String mTransactionId;
+    private TransactionVo mTransactionVo;
     private double mAmount;
     private ArrayList<String> mPaticipantsNames;
     private int position = -1;
     private EventsVo mEventData;
+    private PaymentTask mPaymentTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +76,21 @@ public class PaymentActivity extends Activity {
 
         for (int i = 0; i < mPaticipantsNames.size(); i++) {
             TextView tvName = new TextView(mActivity);
-            tvName.setText((i+1)+ ". " +mPaticipantsNames.get(i));
+            tvName.setText((i + 1) + ". " + mPaticipantsNames.get(i));
             tvName.setPadding(4, 4, 4, 4);
             tvName.setTextAppearance(mActivity, android.R.style.TextAppearance_Medium);
 
             participantslayout.addView(tvName);
         }
 
-        tvAmount.setText(mAmount+"");
+        tvAmount.setText(mAmount + "");
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+                SharedPreferences sharedPreferences = getSharedPreferences("purple-squirrel-settings", MODE_PRIVATE);
+                String mToken = sharedPreferences.getString("token", "");
+                mPaymentTask = new PaymentTask(mToken, mTransactionVo, PaymentActivity.this);
+                mPaymentTask.execute((Void) null);
             }
         });
 
@@ -94,11 +109,16 @@ public class PaymentActivity extends Activity {
 
     public void getIntentExtras() {
         Intent i = getIntent();
-        if (i.hasExtra("transaction-id")) {
-            mTransactionId = i.getStringExtra("transaction-id");
-        }
-        if (i.hasExtra("amount")) {
-            mAmount = i.getDoubleExtra("amount", 0.0);
+        if (i.hasExtra("transaction")) {
+            String transaction = i.getStringExtra("transaction");
+            if (!TextUtils.isEmpty(transaction)) {
+                Gson gson = new Gson();
+                mTransactionVo = gson.fromJson(transaction, TransactionVo.class);
+
+                if (mTransactionVo != null) {
+                    mAmount = mTransactionVo.getAmount();
+                }
+            }
         }
         if (i.hasExtra("participants-name")) {
             mPaticipantsNames = i.getStringArrayListExtra("participants-name");
@@ -112,5 +132,56 @@ public class PaymentActivity extends Activity {
             mEventData = ((PurpleSQ) mActivity.getApplication()).getEventsData().get(position);
         }
 
+    }
+
+    @Override
+    public void genericAsyncTaskOnSuccess(Object obj) {
+        mPaymentTask = null;
+        if (obj != null && obj instanceof PaymentPayUVo) {
+            PaymentPayUVo paymentPayUVo = (PaymentPayUVo) obj;
+            PaymentPayUVo.PaymentRequstVo mPaymentRequstVo = paymentPayUVo.getRequest();
+            new PayUTask(mActivity, mPaymentRequstVo).execute();
+        }
+    }
+
+    @Override
+    public void genericAsyncTaskOnError(Object obj) {
+
+    }
+
+    @Override
+    public void genericAsyncTaskOnProgress(Object obj) {
+
+    }
+
+    @Override
+    public void genericAsyncTaskOnCancelled(Object obj) {
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PayU.RESULT) {
+            if(resultCode == RESULT_OK) {
+                //success
+                if(data != null ) {
+                    String jsonString = data.getStringExtra("result");
+                    jsonString = jsonString.replaceAll("&quot;", "\"");
+                    Toast.makeText(this, "Success" + jsonString, Toast.LENGTH_LONG).show();
+                    Log.i("Nish", "Transaction Details : " + jsonString);
+                    Intent intent = new Intent(mActivity, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                    startActivity(intent);
+                    finish();
+
+                }
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //failed
+                if(data != null)
+                    Toast.makeText(this, "Failed" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

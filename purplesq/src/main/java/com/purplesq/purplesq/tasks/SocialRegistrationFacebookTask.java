@@ -58,6 +58,7 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
 
             Request request = new Request.Builder()
                     .url("http://dev.purplesq.com:4000/users/facebook")
+                    .header("platform", "android")
                     .post(body)
                     .build();
 

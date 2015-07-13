@@ -146,5 +146,8 @@
     <orderEntry type="library" exported="" name="support-v4-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="cardview-v7-22.1.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-7.3.0" level="project" />
+    <orderEntry type="module" module-name="PayU" exported="" />
+    <orderEntry type="module" module-name="CustomBrowser" exported="" />
+    <orderEntry type="library" exported="" name="CustomBrowser-unspecified" level="project" />
   </component>
 </module>

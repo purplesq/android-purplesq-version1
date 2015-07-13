@@ -51,6 +51,7 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
 
             Request request = new Request.Builder()
                     .url("http://dev.purplesq.com:4000/users/google")
+                    .header("platform", "android")
                     .post(body)
                     .build();
 

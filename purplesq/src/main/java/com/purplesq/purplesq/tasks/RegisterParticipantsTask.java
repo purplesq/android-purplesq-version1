@@ -4,8 +4,10 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.vos.ParticipantVo;
+import com.purplesq.purplesq.vos.TransactionVo;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -26,6 +28,7 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
 
     public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final OkHttpClient okHttpClient = new OkHttpClient();
+    private final Gson gson = new Gson();
 
     GenericAsyncTaskListener mListener;
     ArrayList<ParticipantVo> mParticipants = new ArrayList<>();
@@ -44,7 +47,7 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
 
         try {
             // Simulate network access.
-            Thread.sleep(2000);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             return null;
         }
@@ -74,6 +77,7 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
             }
 
             jsonParticipants.put("students", jsonArrayStudents);
+            jsonParticipants.put("client", "android");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -83,11 +87,10 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
 
             RequestBody body = RequestBody.create(JSON, jsonParticipants.toString());
 
-            Log.i("Nish", "Request Json : " + jsonParticipants.toString());
-
             Request request = new Request.Builder()
                     .url("http://dev.purplesq.com:4000/payments/events/" + mEventId + "/initiate")
                     .header("Purple-Token", mToken)
+                    .header("platform", "android")
                     .post(body)
                     .build();
 
@@ -111,9 +114,10 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(final String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
-                JSONObject jsonResponse = new JSONObject(response);
-                mListener.genericAsyncTaskOnSuccess(jsonResponse);
-            } catch (JSONException e) {
+                Log.i("Nish", "Response : " + response);
+                TransactionVo transactionVo = gson.fromJson(response, TransactionVo.class);
+                mListener.genericAsyncTaskOnSuccess(transactionVo);
+            } catch (Exception e) {
                 e.printStackTrace();
                 mListener.genericAsyncTaskOnSuccess(null);
             }
