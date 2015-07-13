@@ -10,8 +10,7 @@ public class ItinerariesVo {
     private String type;
     private String image;
     private String location;
-    private DescriptionVo description;
-    private IconVo icon;
+    private String description;
     private ItinerariesScheduleVo schedule;
 
     public String get_id() {
@@ -54,20 +53,12 @@ public class ItinerariesVo {
         this.location = location;
     }
 
-    public DescriptionVo getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(DescriptionVo description) {
+    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public IconVo getIcon() {
-        return icon;
-    }
-
-    public void setIcon(IconVo icon) {
-        this.icon = icon;
     }
 
     public ItinerariesScheduleVo getItinerariesSchedule() {

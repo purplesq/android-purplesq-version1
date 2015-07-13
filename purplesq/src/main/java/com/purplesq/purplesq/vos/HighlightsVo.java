@@ -6,7 +6,7 @@ package com.purplesq.purplesq.vos;
  */
 public class HighlightsVo {
     private String _id;
-    private DescriptionVo description;
+    private String description;
     private String image;
     private String name;
 
@@ -18,11 +18,11 @@ public class HighlightsVo {
         this._id = _id;
     }
 
-    public DescriptionVo getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(DescriptionVo description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

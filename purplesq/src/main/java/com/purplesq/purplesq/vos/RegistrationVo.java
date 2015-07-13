@@ -4,65 +4,24 @@ package com.purplesq.purplesq.vos;
  * Created by nishant on 01/06/15.
  */
 public class RegistrationVo {
-    private Relative relative;
-    private Absolute absolute;
 
-    public Relative getRelative() {
-        return relative;
+    private Long until;
+    private Long since;
+
+    public Long getUntil() {
+        return until;
     }
 
-    public void setRelative(Relative relative) {
-        this.relative = relative;
+    public void setUntil(Long until) {
+        this.until = until;
     }
 
-    public Absolute getAbsolute() {
-        return absolute;
+    public Long getSince() {
+        return since;
     }
 
-    public void setAbsolute(Absolute absolute) {
-        this.absolute = absolute;
+    public void setSince(Long since) {
+        this.since = since;
     }
 
-    
-    public class Relative {
-        private String until;
-        private String since;
-
-        public String getUntil() {
-            return until;
-        }
-
-        public void setUntil(String until) {
-            this.until = until;
-        }
-
-        public String getSince() {
-            return since;
-        }
-
-        public void setSince(String since) {
-            this.since = since;
-        }
-    }
-
-    public class Absolute {
-        private String until;
-        private String since;
-
-        public String getUntil() {
-            return until;
-        }
-
-        public void setUntil(String until) {
-            this.until = until;
-        }
-
-        public String getSince() {
-            return since;
-        }
-
-        public void setSince(String since) {
-            this.since = since;
-        }
-    }
 }

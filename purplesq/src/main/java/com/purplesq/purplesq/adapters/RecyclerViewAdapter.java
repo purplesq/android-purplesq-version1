@@ -13,7 +13,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.interfces.RecyclerViewItemClickListener;
 import com.purplesq.purplesq.vos.EventsVo;
-import com.purplesq.purplesq.vos.MediaVo;
 
 import java.util.List;
 
@@ -52,8 +51,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     mRecyclerViewItemClickListener.OnRecyclerViewItemClick(position);
                 }
             });
-
-
         }
 
         @Override
@@ -70,8 +67,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardview, parent, false);
 
         // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(itemView);
-        return vh;
+        return new ViewHolder(itemView);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -83,13 +79,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // - replace the contents of the view with that element
         holder.position = position;
         holder.mTextViewHeading.setText(item.getName());
-        holder.mTextViewSubText.setText(item.getSummary().getContent());
-        for (MediaVo mediaVo : item.getMedia()) {
-            if (mediaVo.getSubtype().contentEquals("Thumbnail")) {
-                ImageLoader.getInstance().displayImage(mediaVo.getUrl(), holder.mImage);
-            }
-        }
-
+        holder.mTextViewSubText.setText(item.getSummary());
+        ImageLoader.getInstance().displayImage(item.getThumbnail(), holder.mImage);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

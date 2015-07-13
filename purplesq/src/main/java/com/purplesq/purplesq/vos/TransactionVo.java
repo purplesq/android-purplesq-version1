@@ -14,9 +14,9 @@ public class TransactionVo {
     String email;
     long phone = -1;
     String mode;
-    int amount = -1;
+    float amount = -1;
 
-    public TransactionVo(String id, String status, String email, long phone, String mode, int amount) {
+    public TransactionVo(String id, String status, String email, long phone, String mode, float amount) {
         this.id = id;
         this.status = status;
         this.email = email;
@@ -65,11 +65,11 @@ public class TransactionVo {
         this.mode = mode;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 

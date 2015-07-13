@@ -30,12 +30,10 @@ import com.purplesq.purplesq.vos.EventsVo;
 import com.purplesq.purplesq.vos.FacilitiesVo;
 import com.purplesq.purplesq.vos.FaqsVo;
 import com.purplesq.purplesq.vos.ItinerariesVo;
-import com.purplesq.purplesq.vos.MediaVo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 /**
  * Created by nishant on 15/06/15.
@@ -100,7 +98,7 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
 
         mTopView = (RelativeLayout) rootView.findViewById(R.id.fragment_event_details_layout_top_sticky);
         mPlaceHolder = rootView.findViewById(R.id.fragment_event_details_cardview_placeholder);
-        mImageView = (ImageView)rootView.findViewById(R.id.fragment_event_details_topcard_iv_banner);
+        mImageView = (ImageView) rootView.findViewById(R.id.fragment_event_details_topcard_iv_banner);
 
         mObservableScrollView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -130,13 +128,8 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
 
     private void populateTopCard(View rootView) {
         String eventDay = "";
-        String thumbnailUrl = "";
-        String dateString = eventData.getSchedule().getStart_date();
-        dateString = dateString.substring(0, 23);
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            Date date = sdf.parse(dateString);
+            Date date = new Date(eventData.getSchedule().getStart_date());
 
             SimpleDateFormat sdf2 = new SimpleDateFormat("dd, MMM", Locale.ENGLISH);
             eventDay = sdf2.format(date);
@@ -145,16 +138,10 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
             e.printStackTrace();
         }
 
-        for (MediaVo mediaVo : eventData.getMedia()) {
-            if (mediaVo.getSubtype().contentEquals("Thumbnail")) {
-                thumbnailUrl = mediaVo.getUrl();
-            }
-        }
-
         ((TextView) rootView.findViewById(R.id.fragment_event_details_topcard_tv_heading)).setText(eventData.getName());
         ((TextView) rootView.findViewById(R.id.fragment_event_details_topcard_tv_cost)).setText(eventData.getCost().getTotal() + "/-");
         ((TextView) rootView.findViewById(R.id.fragment_event_details_topcard_tv_date)).setText(eventDay);
-        ImageLoader.getInstance().displayImage(thumbnailUrl, mImageView);
+        ImageLoader.getInstance().displayImage(eventData.getThumbnail(), mImageView);
         rootView.findViewById(R.id.fragment_event_details_topcard_btn_book).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,12 +155,8 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
 
     private void populateStatusCard(View rootView) {
         String registrationTill = "";
-        String dateString = eventData.getSchedule().getRegistration().getAbsolute().getUntil();
-        dateString = dateString.substring(0, 23);
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH);
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-            Date date = sdf.parse(dateString);
+            Date date = new Date(eventData.getSchedule().getRegistration().getUntil());
 
             SimpleDateFormat sdf2 = new SimpleDateFormat("dd, MMM hh:mm a", Locale.ENGLISH);
             registrationTill = sdf2.format(date);
@@ -182,7 +165,7 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
             e.printStackTrace();
         }
 
-        String eligibility = eventData.getEligibility().getContent();
+        String eligibility = eventData.getEligibility();
 
         String availability = "Registrations end " + registrationTill;
         String disclaimer = "Disclaimer";
@@ -190,7 +173,7 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
         ((TextView) rootView.findViewById(R.id.fragment_event_details_statuscard_tv_eligibility)).setText(eligibility);
         ((TextView) rootView.findViewById(R.id.fragment_event_details_statuscard_tv_availability)).setText(availability);
         ((TextView) rootView.findViewById(R.id.fragment_event_details_statuscard_tv_disclaimer)).setText(disclaimer);
-        ((TextView) rootView.findViewById(R.id.fragment_event_details_statuscard_tv_description)).setText(eventData.getSummary().getContent());
+        ((TextView) rootView.findViewById(R.id.fragment_event_details_statuscard_tv_description)).setText(eventData.getSummary());
 
     }
 
@@ -198,7 +181,7 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
 
         LinearLayout featuresLayout = (LinearLayout) rootView.findViewById(R.id.fragment_event_details_cardview_features);
 
-        String[] features = eventData.getLearnings().getContent().split("\n");
+        String[] features = eventData.getLearnings().split("\n");
 
         for (String feature : features) {
             TextView tv = new TextView(mActivity);
@@ -216,7 +199,7 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
             RelativeLayout itineraryLayout = (RelativeLayout) inflater.inflate(R.layout.item_schedule, null);
             ((TextView) itineraryLayout.findViewById(R.id.item_schedule_tv_time)).setText(itinerary.getItinerariesSchedule().getSince());
             ((TextView) itineraryLayout.findViewById(R.id.item_schedule_tv_title)).setText(itinerary.getTitle());
-            ((TextView) itineraryLayout.findViewById(R.id.item_schedule_tv_detail)).setText(itinerary.getDescription().getContent());
+            ((TextView) itineraryLayout.findViewById(R.id.item_schedule_tv_detail)).setText(itinerary.getDescription());
 
             scheduleLayout.addView(itineraryLayout);
         }
@@ -252,17 +235,15 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
         }
 
 
-        for (MediaVo mediaVo : eventData.getMedia()) {
-            if (mediaVo.getSubtype().contentEquals("Gallery")) {
-                ImageView partner = (ImageView) inflater.inflate(R.layout.item_gridlayout_imageview, null);
-                if (iconWidth > 0) {
-                    partner.setLayoutParams(new GridLayout.LayoutParams(new ViewGroup.LayoutParams(iconWidth, iconWidth)));
-                }
-
-                partner.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                ImageLoader.getInstance().displayImage(mediaVo.getUrl(), partner);
-                partnersLayout.addView(partner);
+        for (String mediaUrl : eventData.getMedia()) {
+            ImageView partner = (ImageView) inflater.inflate(R.layout.item_gridlayout_imageview, null);
+            if (iconWidth > 0) {
+                partner.setLayoutParams(new GridLayout.LayoutParams(new ViewGroup.LayoutParams(iconWidth, iconWidth)));
             }
+
+            partner.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            ImageLoader.getInstance().displayImage(mediaUrl, partner);
+            partnersLayout.addView(partner);
         }
 
     }
@@ -273,7 +254,7 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
         for (FaqsVo faq : eventData.getFaqs()) {
             GridLayout faqItemLayout = (GridLayout) inflater.inflate(R.layout.item_faq, null);
             ((TextView) faqItemLayout.findViewById(R.id.item_faq_question)).setText(faq.getFaqQue());
-            ((TextView) faqItemLayout.findViewById(R.id.item_faq_answer)).setText(faq.getFaqAns().getContent());
+            ((TextView) faqItemLayout.findViewById(R.id.item_faq_answer)).setText(faq.getFaqAns());
 
             faqsLayout.addView(faqItemLayout);
         }

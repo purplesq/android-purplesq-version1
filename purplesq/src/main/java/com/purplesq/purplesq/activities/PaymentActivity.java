@@ -23,7 +23,6 @@ import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.PayUTask;
 import com.purplesq.purplesq.tasks.PaymentTask;
 import com.purplesq.purplesq.vos.EventsVo;
-import com.purplesq.purplesq.vos.MediaVo;
 import com.purplesq.purplesq.vos.PaymentPayUVo;
 import com.purplesq.purplesq.vos.TransactionVo;
 
@@ -33,7 +32,7 @@ public class PaymentActivity extends Activity implements GenericAsyncTaskListene
 
     private Activity mActivity;
     private TransactionVo mTransactionVo;
-    private double mAmount;
+    private float mAmount;
     private ArrayList<String> mPaticipantsNames;
     private int position = -1;
     private EventsVo mEventData;
@@ -67,12 +66,8 @@ public class PaymentActivity extends Activity implements GenericAsyncTaskListene
 
 
         tvHeading.setText(mEventData.getName());
-        tvSubText.setText(mEventData.getSummary().getContent());
-        for (MediaVo mediaVo : mEventData.getMedia()) {
-            if (mediaVo.getSubtype().contentEquals("Thumbnail")) {
-                ImageLoader.getInstance().displayImage(mediaVo.getUrl(), image);
-            }
-        }
+        tvSubText.setText(mEventData.getSummary());
+        ImageLoader.getInstance().displayImage(mEventData.getThumbnail(), image);
 
         for (int i = 0; i < mPaticipantsNames.size(); i++) {
             TextView tvName = new TextView(mActivity);
@@ -161,9 +156,9 @@ public class PaymentActivity extends Activity implements GenericAsyncTaskListene
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PayU.RESULT) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 //success
-                if(data != null ) {
+                if (data != null) {
                     String jsonString = data.getStringExtra("result");
                     jsonString = jsonString.replaceAll("&quot;", "\"");
                     Toast.makeText(this, "Success" + jsonString, Toast.LENGTH_LONG).show();
@@ -179,7 +174,7 @@ public class PaymentActivity extends Activity implements GenericAsyncTaskListene
             }
             if (resultCode == RESULT_CANCELED) {
                 //failed
-                if(data != null)
+                if (data != null)
                     Toast.makeText(this, "Failed" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
             }
         }

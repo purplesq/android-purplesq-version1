@@ -5,49 +5,49 @@ package com.purplesq.purplesq.vos;
  * Created by nishant on 01/06/15.
  */
 public class CostVo {
-    private int base;
-    private int discount;
-    private String others;
-    private String service;
-    private int total;
+    private float base;
+    private float discount;
+    private float others;
+    private float service;
+    private float total;
 
-    public int getBase() {
+    public float getBase() {
         return base;
     }
 
-    public void setBase(int base) {
+    public void setBase(float base) {
         this.base = base;
     }
 
-    public int getDiscount() {
+    public float getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
+    public void setDiscount(float discount) {
         this.discount = discount;
     }
 
-    public String getOthers() {
+    public float getOthers() {
         return others;
     }
 
-    public void setOthers(String others) {
+    public void setOthers(float others) {
         this.others = others;
     }
 
-    public String getService() {
+    public float getService() {
         return service;
     }
 
-    public void setService(String service) {
+    public void setService(float service) {
         this.service = service;
     }
 
-    public int getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 }

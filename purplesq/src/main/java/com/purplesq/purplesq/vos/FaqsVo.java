@@ -6,7 +6,7 @@ package com.purplesq.purplesq.vos;
  */
 public class FaqsVo {
     private String _id;
-    private FaqAnswerVo ans;
+    private String ans;
     private String q;
 
     public String get_id() {
@@ -17,11 +17,11 @@ public class FaqsVo {
         this._id = _id;
     }
 
-    public FaqAnswerVo getFaqAns() {
+    public String getFaqAns() {
         return ans;
     }
 
-    public void setFaqAns(FaqAnswerVo ans) {
+    public void setFaqAns(String ans) {
         this.ans = ans;
     }
 

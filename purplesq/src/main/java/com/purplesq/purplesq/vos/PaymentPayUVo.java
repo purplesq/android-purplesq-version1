@@ -52,10 +52,10 @@ public class PaymentPayUVo {
         private String lastname;
         private String firstname;
         private String productinfo;
-        private double amount;
+        private float amount;
         private String txnid;
 
-        public PaymentRequstVo(String hash, String udf1, String furl, String curl, String surl, String key, long phone, String email, String lastname, String firstname, String productinfo, double amount, String txnid) {
+        public PaymentRequstVo(String hash, String udf1, String furl, String curl, String surl, String key, long phone, String email, String lastname, String firstname, String productinfo, float amount, String txnid) {
             this.hash = hash;
             this.udf1 = udf1;
             this.furl = furl;
@@ -159,11 +159,11 @@ public class PaymentPayUVo {
             this.productinfo = productinfo;
         }
 
-        public double getAmount() {
+        public float getAmount() {
             return amount;
         }
 
-        public void setAmount(double amount) {
+        public void setAmount(float amount) {
             this.amount = amount;
         }
 

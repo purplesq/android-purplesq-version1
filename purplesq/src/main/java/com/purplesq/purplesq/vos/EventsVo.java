@@ -13,20 +13,24 @@ public class EventsVo {
     private int num_days;
     private String status;
     private int batch_size;
+    private boolean soldout;
+    private int consumed;
     private String id;
+    private String thumbnail;
+    private String eligibility;
+    private String requirements;
+    private String instructions;
+    private String learnings;
+    private String summary;
+    private List<String> media;
+
 
     private List<SocialProfileVo> social_profiles;
     private List<AreaOfStudyVo> area_of_study;
     private List<FacilitiesVo> facilities;
     private List<ItinerariesVo> itineraries;
     private List<HighlightsVo> highlights;
-    private List<MediaVo> media;
     private List<FaqsVo> faqs;
-    private EligibilityVo eligibility;
-    private RequirementsVo requirements;
-    private InstructionsVo instructions;
-    private LearningsVo learnings;
-    private SummaryVo summary;
     private List<DropoffsVo> dropoffs;
     private List<PickupsVo> pickups;
     private EventLocationVo location;
@@ -129,11 +133,11 @@ public class EventsVo {
         this.highlights = highlights;
     }
 
-    public List<MediaVo> getMedia() {
+    public List<String> getMedia() {
         return media;
     }
 
-    public void setMedia(List<MediaVo> media) {
+    public void setMedia(List<String> media) {
         this.media = media;
     }
 
@@ -145,43 +149,43 @@ public class EventsVo {
         this.faqs = faqs;
     }
 
-    public EligibilityVo getEligibility() {
+    public String getEligibility() {
         return eligibility;
     }
 
-    public void setEligibility(EligibilityVo eligibility) {
+    public void setEligibility(String eligibility) {
         this.eligibility = eligibility;
     }
 
-    public RequirementsVo getRequirements() {
+    public String getRequirements() {
         return requirements;
     }
 
-    public void setRequirements(RequirementsVo requirements) {
+    public void setRequirements(String requirements) {
         this.requirements = requirements;
     }
 
-    public InstructionsVo getInstructions() {
+    public String getInstructions() {
         return instructions;
     }
 
-    public void setInstructions(InstructionsVo instructions) {
+    public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
 
-    public LearningsVo getLearnings() {
+    public String getLearnings() {
         return learnings;
     }
 
-    public void setLearnings(LearningsVo learnings) {
+    public void setLearnings(String learnings) {
         this.learnings = learnings;
     }
 
-    public SummaryVo getSummary() {
+    public String getSummary() {
         return summary;
     }
 
-    public void setSummary(SummaryVo summary) {
+    public void setSummary(String summary) {
         this.summary = summary;
     }
 
@@ -223,5 +227,29 @@ public class EventsVo {
 
     public void setCost(CostVo cost) {
         this.cost = cost;
+    }
+
+    public boolean isSoldout() {
+        return soldout;
+    }
+
+    public void setSoldout(boolean soldout) {
+        this.soldout = soldout;
+    }
+
+    public int getConsumed() {
+        return consumed;
+    }
+
+    public void setConsumed(int consumed) {
+        this.consumed = consumed;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }
