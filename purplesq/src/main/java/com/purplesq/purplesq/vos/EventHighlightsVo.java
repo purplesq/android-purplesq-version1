@@ -4,7 +4,7 @@ package com.purplesq.purplesq.vos;
 /**
  * Created by nishant on 01/06/15.
  */
-public class HighlightsVo {
+public class EventHighlightsVo {
     private String _id;
     private String description;
     private String image;

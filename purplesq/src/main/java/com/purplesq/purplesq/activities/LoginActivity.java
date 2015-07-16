@@ -1,7 +1,6 @@
 package com.purplesq.purplesq.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,11 +12,13 @@ import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
+import com.google.gson.Gson;
 import com.purplesq.purplesq.R;
+import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.SocialRegistrationGoogleTask;
+import com.purplesq.purplesq.vos.AuthVo;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -126,24 +127,16 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
                 Log.i("Nish", "Login Successful Task : " + jsonObject.toString());
 
                 try {
-                    JSONObject user = jsonObject.getJSONObject("user");
+                    Gson gson = new Gson();
+                    AuthVo authVo = gson.fromJson(jsonObject.toString(), AuthVo.class);
 
-
-                    SharedPreferences sharedPreferences = getSharedPreferences("purple-squirrel-settings", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("token", jsonObject.getString("token").trim());
-                    editor.putString("user-id", user.getString("_id").trim());
-                    editor.putString("user-fname", user.getString("fname").trim());
-                    editor.putString("user-lname", user.getString("lname").trim());
-                    editor.putString("user-email", user.getString("email").trim());
-                    editor.putString("user-phone", user.getString("phone").trim());
-                    editor.apply();
+                    AuthDataManager.insertOrUpdateAuthData(LoginActivity.this, authVo);
 
                     Intent i = new Intent(LoginActivity.this, ParticipantsActivity.class);
                     LoginActivity.this.startActivity(i);
                     finish();
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

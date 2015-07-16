@@ -3,7 +3,7 @@ package com.purplesq.purplesq.vos;
 /**
  * Created by nishant on 01/06/15.
  */
-public class SocialProfileVo {
+public class EventSocialProfileVo {
     private String _id;
     private String link;
     private String type;

@@ -25,17 +25,17 @@ public class EventsVo {
     private List<String> media;
 
 
-    private List<SocialProfileVo> social_profiles;
-    private List<AreaOfStudyVo> area_of_study;
-    private List<FacilitiesVo> facilities;
-    private List<ItinerariesVo> itineraries;
-    private List<HighlightsVo> highlights;
-    private List<FaqsVo> faqs;
-    private List<DropoffsVo> dropoffs;
-    private List<PickupsVo> pickups;
+    private List<EventSocialProfileVo> social_profiles;
+    private List<EventAreaOfStudyVo> area_of_study;
+    private List<EventFacilitiesVo> facilities;
+    private List<EventItinerariesVo> itineraries;
+    private List<EventHighlightsVo> highlights;
+    private List<EventFaqsVo> faqs;
+    private List<EventDropoffsVo> dropoffs;
+    private List<EventPickupsVo> pickups;
     private EventLocationVo location;
-    private ScheduleVo schedule;
-    private CostVo cost;
+    private EventScheduleVo schedule;
+    private EventCostVo cost;
 
     public String get_id() {
         return _id;
@@ -93,43 +93,43 @@ public class EventsVo {
         this.id = id;
     }
 
-    public List<SocialProfileVo> getSocial_profiles() {
+    public List<EventSocialProfileVo> getSocial_profiles() {
         return social_profiles;
     }
 
-    public void setSocial_profiles(List<SocialProfileVo> social_profiles) {
+    public void setSocial_profiles(List<EventSocialProfileVo> social_profiles) {
         this.social_profiles = social_profiles;
     }
 
-    public List<AreaOfStudyVo> getArea_of_study() {
+    public List<EventAreaOfStudyVo> getArea_of_study() {
         return area_of_study;
     }
 
-    public void setArea_of_study(List<AreaOfStudyVo> area_of_study) {
+    public void setArea_of_study(List<EventAreaOfStudyVo> area_of_study) {
         this.area_of_study = area_of_study;
     }
 
-    public List<FacilitiesVo> getFacilities() {
+    public List<EventFacilitiesVo> getFacilities() {
         return facilities;
     }
 
-    public void setFacilities(List<FacilitiesVo> facilities) {
+    public void setFacilities(List<EventFacilitiesVo> facilities) {
         this.facilities = facilities;
     }
 
-    public List<ItinerariesVo> getItineraries() {
+    public List<EventItinerariesVo> getItineraries() {
         return itineraries;
     }
 
-    public void setItineraries(List<ItinerariesVo> itineraries) {
+    public void setItineraries(List<EventItinerariesVo> itineraries) {
         this.itineraries = itineraries;
     }
 
-    public List<HighlightsVo> getHighlights() {
+    public List<EventHighlightsVo> getHighlights() {
         return highlights;
     }
 
-    public void setHighlights(List<HighlightsVo> highlights) {
+    public void setHighlights(List<EventHighlightsVo> highlights) {
         this.highlights = highlights;
     }
 
@@ -141,11 +141,11 @@ public class EventsVo {
         this.media = media;
     }
 
-    public List<FaqsVo> getFaqs() {
+    public List<EventFaqsVo> getFaqs() {
         return faqs;
     }
 
-    public void setFaqs(List<FaqsVo> faqs) {
+    public void setFaqs(List<EventFaqsVo> faqs) {
         this.faqs = faqs;
     }
 
@@ -189,19 +189,19 @@ public class EventsVo {
         this.summary = summary;
     }
 
-    public List<DropoffsVo> getDropoffs() {
+    public List<EventDropoffsVo> getDropoffs() {
         return dropoffs;
     }
 
-    public void setDropoffs(List<DropoffsVo> dropoffs) {
+    public void setDropoffs(List<EventDropoffsVo> dropoffs) {
         this.dropoffs = dropoffs;
     }
 
-    public List<PickupsVo> getPickups() {
+    public List<EventPickupsVo> getPickups() {
         return pickups;
     }
 
-    public void setPickups(List<PickupsVo> pickups) {
+    public void setPickups(List<EventPickupsVo> pickups) {
         this.pickups = pickups;
     }
 
@@ -213,19 +213,19 @@ public class EventsVo {
         this.location = location;
     }
 
-    public ScheduleVo getSchedule() {
+    public EventScheduleVo getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(ScheduleVo schedule) {
+    public void setSchedule(EventScheduleVo schedule) {
         this.schedule = schedule;
     }
 
-    public CostVo getCost() {
+    public EventCostVo getCost() {
         return cost;
     }
 
-    public void setCost(CostVo cost) {
+    public void setCost(EventCostVo cost) {
         this.cost = cost;
     }
 

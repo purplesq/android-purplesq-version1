@@ -4,14 +4,14 @@ package com.purplesq.purplesq.vos;
 /**
  * Created by nishant on 01/06/15.
  */
-public class ItinerariesVo {
+public class EventItinerariesVo {
     private String _id;
     private String title;
     private String type;
     private String image;
     private String location;
     private String description;
-    private ItinerariesScheduleVo schedule;
+    private EventItinerariesScheduleVo schedule;
 
     public String get_id() {
         return _id;
@@ -61,11 +61,11 @@ public class ItinerariesVo {
         this.description = description;
     }
 
-    public ItinerariesScheduleVo getItinerariesSchedule() {
+    public EventItinerariesScheduleVo getItinerariesSchedule() {
         return schedule;
     }
 
-    public void setItinerariesSchedule(ItinerariesScheduleVo schedule) {
+    public void setItinerariesSchedule(EventItinerariesScheduleVo schedule) {
         this.schedule = schedule;
     }
 }

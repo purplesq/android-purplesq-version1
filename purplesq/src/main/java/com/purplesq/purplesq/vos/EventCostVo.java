@@ -4,7 +4,7 @@ package com.purplesq.purplesq.vos;
 /**
  * Created by nishant on 01/06/15.
  */
-public class CostVo {
+public class EventCostVo {
     private float base;
     private float discount;
     private float others;

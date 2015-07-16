@@ -150,6 +150,13 @@
         <activity
             android:name="com.payu.sdk.ProcessPaymentActivity"
             android:configChanges="orientation|screenSize"/>
+
+
+        <provider
+            android:name=".db.PsqContentProvider"
+            android:authorities="com.purplesq.purplesq.provider"
+            android:exported="false">
+        </provider>
     </application>
 
 </manifest>

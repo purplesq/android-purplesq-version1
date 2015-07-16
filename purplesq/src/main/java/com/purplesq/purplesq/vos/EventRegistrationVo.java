@@ -3,7 +3,7 @@ package com.purplesq.purplesq.vos;
 /**
  * Created by nishant on 01/06/15.
  */
-public class RegistrationVo {
+public class EventRegistrationVo {
 
     private Long until;
     private Long since;

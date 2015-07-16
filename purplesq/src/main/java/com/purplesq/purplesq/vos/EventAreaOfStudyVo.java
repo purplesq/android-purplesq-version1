@@ -4,7 +4,7 @@ package com.purplesq.purplesq.vos;
 /**
  * Created by nishant on 01/06/15.
  */
-public class AreaOfStudyVo {
+public class EventAreaOfStudyVo {
     private String _id;
     private String degree;
     private String department;

@@ -3,10 +3,10 @@ package com.purplesq.purplesq.vos;
 /**
  * Created by nishant on 01/06/15.
  */
-public class ScheduleVo {
+public class EventScheduleVo {
     private Long end_date;
     private Long start_date;
-    private RegistrationVo registration;
+    private EventRegistrationVo registration;
 
     public Long getEnd_date() {
         return end_date;
@@ -24,11 +24,11 @@ public class ScheduleVo {
         this.start_date = start_date;
     }
 
-    public RegistrationVo getRegistration() {
+    public EventRegistrationVo getRegistration() {
         return registration;
     }
 
-    public void setRegistration(RegistrationVo registration) {
+    public void setRegistration(EventRegistrationVo registration) {
         this.registration = registration;
     }
 }

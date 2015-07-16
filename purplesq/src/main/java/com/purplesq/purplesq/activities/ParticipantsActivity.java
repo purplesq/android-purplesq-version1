@@ -2,7 +2,6 @@ package com.purplesq.purplesq.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -15,8 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.purplesq.purplesq.R;
+import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.RegisterParticipantsTask;
+import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ParticipantVo;
 import com.purplesq.purplesq.vos.TransactionVo;
 import com.purplesq.purplesq.vos.UserVo;
@@ -28,11 +29,10 @@ public class ParticipantsActivity extends Activity implements GenericAsyncTaskLi
     private LinearLayout mParticipantsLayout;
     private Activity mActivity;
     private ArrayList<ParticipantVo> mParticipantList;
-    private UserVo userVo;
+    private AuthVo authVo;
     private boolean isUserEdited = false;
     private boolean isUserDeleted = false;
     private String mEventId = "";
-    private String mToken = "";
     private RegisterParticipantsTask mRegisterParticipantsTask;
     private int position = -1;
 
@@ -52,22 +52,14 @@ public class ParticipantsActivity extends Activity implements GenericAsyncTaskLi
             position = getIntent().getIntExtra("event-position", -1);
         }
 
-        SharedPreferences sharedPreferences = getSharedPreferences("purple-squirrel-settings", MODE_PRIVATE);
+        authVo = AuthDataManager.getAuthData(this);
 
-        String userId = sharedPreferences.getString("user-id", "");
-        if (TextUtils.isEmpty(userId)) {
+        if (authVo == null || authVo.getUser() == null || TextUtils.isEmpty(authVo.getUser().getId())) {
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
             finish();
         } else {
-            userVo = new UserVo();
-            userVo.setId(userId);
-            userVo.setFirstName(sharedPreferences.getString("user-fname", ""));
-            userVo.setLastName(sharedPreferences.getString("user-lname", ""));
-            userVo.setEmail(sharedPreferences.getString("user-email", ""));
-            userVo.setPhone(sharedPreferences.getString("user-phone", ""));
-            mToken = sharedPreferences.getString("token", "");
-
+            UserVo userVo = authVo.getUser();
             mParticipantList = new ArrayList<>();
 
             mParticipantsLayout = (LinearLayout) findViewById(R.id.activity_participants_layout_participants);
@@ -169,7 +161,7 @@ public class ParticipantsActivity extends Activity implements GenericAsyncTaskLi
         getParticipantData(false);
         if (position == 0) {
             if (!TextUtils.isEmpty(mParticipantList.get(0).getEmail())) {
-                if (mParticipantList.get(0).getEmail().equalsIgnoreCase(userVo.getEmail())) {
+                if (mParticipantList.get(0).getEmail().equalsIgnoreCase(authVo.getUser().getEmail())) {
                     isUserDeleted = true;
                 }
             }
@@ -306,7 +298,7 @@ public class ParticipantsActivity extends Activity implements GenericAsyncTaskLi
         }
         getParticipantData(false);
         if (!mParticipantList.isEmpty()) {
-            mRegisterParticipantsTask = new RegisterParticipantsTask(mEventId, mToken, mParticipantList, this);
+            mRegisterParticipantsTask = new RegisterParticipantsTask(mEventId, authVo.getToken(), mParticipantList, this);
             mRegisterParticipantsTask.execute((Void) null);
         }
     }

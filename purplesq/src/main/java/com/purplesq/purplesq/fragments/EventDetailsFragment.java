@@ -27,9 +27,9 @@ import com.purplesq.purplesq.activities.ParticipantsActivity;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.customviews.ObservableScrollView;
 import com.purplesq.purplesq.vos.EventsVo;
-import com.purplesq.purplesq.vos.FacilitiesVo;
-import com.purplesq.purplesq.vos.FaqsVo;
-import com.purplesq.purplesq.vos.ItinerariesVo;
+import com.purplesq.purplesq.vos.EventFacilitiesVo;
+import com.purplesq.purplesq.vos.EventFaqsVo;
+import com.purplesq.purplesq.vos.EventItinerariesVo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -195,7 +195,7 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
     private void populateScheduleCard(View rootView, LayoutInflater inflater) {
         LinearLayout scheduleLayout = (LinearLayout) rootView.findViewById(R.id.fragment_event_details_cardview_schedule);
 
-        for (ItinerariesVo itinerary : eventData.getItineraries()) {
+        for (EventItinerariesVo itinerary : eventData.getItineraries()) {
             RelativeLayout itineraryLayout = (RelativeLayout) inflater.inflate(R.layout.item_schedule, null);
             ((TextView) itineraryLayout.findViewById(R.id.item_schedule_tv_time)).setText(itinerary.getItinerariesSchedule().getSince());
             ((TextView) itineraryLayout.findViewById(R.id.item_schedule_tv_title)).setText(itinerary.getTitle());
@@ -208,7 +208,7 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
     private void populateWhatYouGetCard(View rootView) {
         LinearLayout whatYouGetLayout = (LinearLayout) rootView.findViewById(R.id.fragment_event_details_cardview_whatuget);
 
-        for (FacilitiesVo facility : eventData.getFacilities()) {
+        for (EventFacilitiesVo facility : eventData.getFacilities()) {
             TextView tv = new TextView(mActivity);
             tv.setText(facility.getName());
             tv.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -251,7 +251,7 @@ public class EventDetailsFragment extends Fragment implements ObservableScrollVi
     private void populateFAQCard(View rootView, LayoutInflater inflater) {
         LinearLayout faqsLayout = (LinearLayout) rootView.findViewById(R.id.fragment_event_details_cardview_faq);
 
-        for (FaqsVo faq : eventData.getFaqs()) {
+        for (EventFaqsVo faq : eventData.getFaqs()) {
             GridLayout faqItemLayout = (GridLayout) inflater.inflate(R.layout.item_faq, null);
             ((TextView) faqItemLayout.findViewById(R.id.item_faq_question)).setText(faq.getFaqQue());
             ((TextView) faqItemLayout.findViewById(R.id.item_faq_answer)).setText(faq.getFaqAns());

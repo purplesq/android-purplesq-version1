@@ -4,7 +4,7 @@ package com.purplesq.purplesq.vos;
 /**
  * Created by nishant on 01/06/15.
  */
-public class FaqsVo {
+public class EventFaqsVo {
     private String _id;
     private String ans;
     private String q;
