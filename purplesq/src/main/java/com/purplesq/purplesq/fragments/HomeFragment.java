@@ -1,10 +1,10 @@
 package com.purplesq.purplesq.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
             mRecyclerViewAdapter = new RecyclerViewAdapter(allEvents, this);
             mRecyclerView.setAdapter(mRecyclerViewAdapter);
 
-            ((PurpleSQ)getActivity().getApplication()).setEventsData(allEvents);
+            ((PurpleSQ) getActivity().getApplication()).setEventsData(allEvents);
         }
     }
 

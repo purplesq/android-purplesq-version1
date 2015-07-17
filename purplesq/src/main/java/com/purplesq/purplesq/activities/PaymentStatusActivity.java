@@ -2,12 +2,14 @@ package com.purplesq.purplesq.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.purplesq.purplesq.R;
 
-public class PaymentStatusActivity extends Activity {
+public class PaymentStatusActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

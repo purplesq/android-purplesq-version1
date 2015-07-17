@@ -1,7 +1,6 @@
 package com.purplesq.purplesq.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
@@ -9,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +26,10 @@ import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.activities.ParticipantsActivity;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.customviews.ObservableScrollView;
-import com.purplesq.purplesq.vos.EventsVo;
 import com.purplesq.purplesq.vos.EventFacilitiesVo;
 import com.purplesq.purplesq.vos.EventFaqsVo;
 import com.purplesq.purplesq.vos.EventItinerariesVo;
+import com.purplesq.purplesq.vos.EventsVo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

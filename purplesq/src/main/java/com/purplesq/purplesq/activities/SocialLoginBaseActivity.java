@@ -1,6 +1,5 @@
 package com.purplesq.purplesq.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -8,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.facebook.CallbackManager;
@@ -29,14 +30,13 @@ import com.google.android.gms.plus.Plus;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.GooglePlusLoginInfoTask;
 import com.purplesq.purplesq.tasks.SocialRegistrationFacebookTask;
-import com.purplesq.purplesq.tasks.SocialRegistrationGoogleTask;
 
 import org.json.JSONObject;
 
 /**
  * A base class to wrap communication with the Google Play Services PlusClient.
  */
-public abstract class SocialLoginBaseActivity extends Activity
+public abstract class SocialLoginBaseActivity extends AppCompatActivity
         implements ConnectionCallbacks, OnConnectionFailedListener,
         FacebookCallback<LoginResult>, GenericAsyncTaskListener {
 

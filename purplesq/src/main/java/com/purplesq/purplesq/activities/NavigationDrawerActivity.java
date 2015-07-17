@@ -1,15 +1,15 @@
 package com.purplesq.purplesq.activities;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +24,7 @@ import com.purplesq.purplesq.fragments.HomeFragment;
 /**
  * Created by nishant on 11/05/15.
  */
-public class NavigationDrawerActivity extends Activity {
+public class NavigationDrawerActivity extends AppCompatActivity {
 
     /**
      * Remember the position of the selected item.
@@ -69,14 +69,14 @@ public class NavigationDrawerActivity extends Activity {
         getLayoutInflater().inflate(layoutResID, mMainContainer, true);
 
         mTitle = getTitle().toString();
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
         }
 
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
         mDrawerListView = (ListView) mDrawerLayout.findViewById(R.id.navigation_drawer_listview);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -151,7 +151,7 @@ public class NavigationDrawerActivity extends Activity {
             }
         }
 
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {
             case 0:
                 fragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment.newInstance()).commit();

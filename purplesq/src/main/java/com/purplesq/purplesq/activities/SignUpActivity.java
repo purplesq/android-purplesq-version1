@@ -10,6 +10,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -30,7 +32,7 @@ import com.purplesq.purplesq.tasks.UserRegisterTask;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignUpActivity extends Activity implements LoaderCallbacks<Cursor>, GenericAsyncTaskListener {
+public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, GenericAsyncTaskListener {
 
     private AutoCompleteTextView mEmailView, mPhoneNoView;
     private EditText mFirstNameView, mLastNameView, mPasswordView, mConfirmPasswordView;
@@ -83,8 +85,8 @@ public class SignUpActivity extends Activity implements LoaderCallbacks<Cursor>,
      * Set up the {@link android.app.ActionBar}.
      */
     private void setupActionBar() {
-        if (getActionBar() != null) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 

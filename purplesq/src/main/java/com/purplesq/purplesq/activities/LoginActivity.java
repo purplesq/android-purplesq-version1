@@ -90,8 +90,8 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
      * Set up the {@link android.app.ActionBar}, if the API is available.
      */
     private void setupActionBar() {
-        if (getActionBar() != null) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 

@@ -1,14 +1,15 @@
 package com.purplesq.purplesq.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.adapters.EventDetailsPagerAdapter;
 import com.purplesq.purplesq.application.PurpleSQ;
 
-public class EventDetailsActivity extends Activity {
+public class EventDetailsActivity extends AppCompatActivity {
 
     int position = -1;
 
@@ -19,13 +20,13 @@ public class EventDetailsActivity extends Activity {
 
         int totalItems = ((PurpleSQ) getApplication()).getEventsData().size();
 
-        getActionBar().setTitle("One Day Events");
+        getSupportActionBar().setTitle("One Day Events");
 
         if (getIntent().hasExtra("event-position")) {
             position = getIntent().getIntExtra("event-position", -1);
         }
 
-        EventDetailsPagerAdapter mEventDetailsPagerAdapter = new EventDetailsPagerAdapter(getFragmentManager(), totalItems);
+        EventDetailsPagerAdapter mEventDetailsPagerAdapter = new EventDetailsPagerAdapter(getSupportFragmentManager(), totalItems);
         ViewPager mViewPager = (ViewPager) findViewById(R.id.activity_event_details_pager);
         mViewPager.setAdapter(mEventDetailsPagerAdapter);
         mViewPager.setCurrentItem(position);
