@@ -5,18 +5,18 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.fragments.HomeFragment;
@@ -39,12 +39,13 @@ public class NavigationDrawerActivity extends AppCompatActivity {
 
     DrawerLayout mDrawerLayout;
     FrameLayout mMainContainer;
-    ListView mDrawerListView;
+    NavigationView mNavigationView;
     ActionBarDrawerToggle mDrawerToggle;
     int mCurrentSelectedPosition = 0;
     String mTitle;
     private boolean mUserLearnedDrawer;
-    ActionBar actionBar;
+    private Toolbar mToolbar;
+    private ActionBar mActionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,53 +69,54 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         setContentView(mDrawerLayout);
         getLayoutInflater().inflate(layoutResID, mMainContainer, true);
 
+        mToolbar = (Toolbar) mDrawerLayout.findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
+        mActionBar = getSupportActionBar();
+
         mTitle = getTitle().toString();
-        actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(true);
+        if (mActionBar != null) {
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+            mActionBar.setHomeButtonEnabled(true);
+            mActionBar.setDisplayShowTitleEnabled(true);
+            mActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
         }
 
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
-        mDrawerListView = (ListView) mDrawerLayout.findViewById(R.id.navigation_drawer_listview);
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mNavigationView = (NavigationView) mDrawerLayout.findViewById(R.id.navigation_drawer_navigationview);
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                //Checking if the item is in checked state or not, if not make it in checked state
+                if(menuItem.isChecked()) {
+                    menuItem.setChecked(false);
+                }  else menuItem.setChecked(true);
+
+                mDrawerLayout.closeDrawers();
+                selectItem(menuItem.getItemId());
+                return true;
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                this,
-                R.layout.item_navigation_drawer,
-                R.id.item_navigation_drawer_textview,
-                new String[]{
-                        getString(R.string.title_leftdrawer_home),
-                        getString(R.string.title_leftdrawer_collection),
-                        getString(R.string.title_leftdrawer_login),
-                        getString(R.string.title_leftdrawer_section1),
-                        getString(R.string.title_leftdrawer_settings)
-                }));
-
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
+                mToolbar,             /* Toolbar */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         ) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                actionBar.setTitle(mTitle);
+                mActionBar.setTitle(mTitle);
                 invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                actionBar.setTitle(mTitle);
+                mActionBar.setTitle(mTitle);
 
                 if (!mUserLearnedDrawer) {
                     // The user manually opened the drawer; store this flag to prevent auto-showing
@@ -128,76 +130,43 @@ public class NavigationDrawerActivity extends AppCompatActivity {
             }
         };
 
-        // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
-
         // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
         // per the navigation drawer design guidelines.
         if (!mUserLearnedDrawer) {
-            mDrawerLayout.openDrawer(mDrawerListView);
+            mDrawerLayout.openDrawer(mNavigationView);
         }
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+        selectItem(R.id.menu_navigation_home);
     }
 
-    private void selectItem(int position) {
-        mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
-        }
-        if (mDrawerLayout != null) {
-            if (mDrawerListView != null) {
-                mDrawerLayout.closeDrawer(mDrawerListView);
-            }
-        }
-
+    private void selectItem(int itemId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        switch (position) {
-            case 0:
+        switch (itemId) {
+            case R.id.menu_navigation_home:
                 fragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment.newInstance()).commit();
-                break;
-            case 1:
-                fragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment.newInstance()).commit();
-                break;
-            case 2:
-                Intent i = new Intent(this, LoginActivity.class);
-                startActivity(i);
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-        }
-
-        switch (position) {
-            case 0:
                 mTitle = getString(R.string.title_leftdrawer_home);
                 break;
-            case 1:
-                mTitle = getString(R.string.title_leftdrawer_collection);
-                break;
-            case 2:
+            case R.id.menu_navigation_login:
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
                 mTitle = getString(R.string.title_leftdrawer_login);
                 break;
-            case 3:
-                mTitle = getString(R.string.title_leftdrawer_section1);
+            case R.id.menu_navigation_logout:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                mTitle = getString(R.string.title_leftdrawer_logout);
                 break;
-            case 4:
+            case R.id.menu_navigation_settings:
                 mTitle = getString(R.string.title_leftdrawer_settings);
                 break;
+            case 4:
+                break;
         }
 
-        actionBar.setTitle(mTitle);
+        mActionBar.setTitle(mTitle);
 
-    }
-
-    public boolean isDrawerOpen() {
-        if (mDrawerLayout != null) {
-            if (mDrawerListView != null) {
-                return mDrawerLayout.isDrawerOpen(mDrawerListView);
-            }
-        }
-        return false;
     }
 
     @Override
@@ -215,12 +184,11 @@ public class NavigationDrawerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns true, then it has handled the app icon touch event
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 

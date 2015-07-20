@@ -3,9 +3,9 @@ package com.purplesq.purplesq.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +40,7 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
     private int position = -1;
     private EventsVo mEventData;
     private PaymentTask mPaymentTask;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
         setContentView(R.layout.activity_payment);
 
         mActivity = this;
-        setupActionBar();
+        setupToolBar();
         getIntentExtras();
 
         populateUI();
@@ -97,11 +98,15 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
     }
 
     /**
-     * Set up the {@link android.app.ActionBar}.
+     * Set up the {@link android.support.v7.widget.Toolbar}.
      */
-    private void setupActionBar() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private void setupToolBar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
         }
     }
 

@@ -3,8 +3,8 @@ package com.purplesq.purplesq.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +37,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
     private String mEventId = "";
     private RegisterParticipantsTask mRegisterParticipantsTask;
     private int position = -1;
+    private Toolbar mToolbar;
 
 
     @Override
@@ -44,7 +45,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participants);
         mActivity = this;
-        setupActionBar();
+        setupToolBar();
 
         if (getIntent().hasExtra("event-id")) {
             mEventId = getIntent().getStringExtra("event-id");
@@ -267,11 +268,15 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
 
 
     /**
-     * Set up the {@link android.app.ActionBar}.
+     * Set up the {@link android.support.v7.widget.Toolbar}.
      */
-    private void setupActionBar() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private void setupToolBar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
         }
     }
 

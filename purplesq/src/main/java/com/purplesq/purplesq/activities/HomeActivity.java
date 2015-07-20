@@ -24,10 +24,7 @@ public class HomeActivity extends NavigationDrawerActivity implements HomeFragme
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!isDrawerOpen()) {
-            getMenuInflater().inflate(R.menu.home, menu);
-            return true;
-        }
+        getMenuInflater().inflate(R.menu.home, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -5,16 +5,18 @@
 
     <style name="PurpleSQ" parent="@style/_PurpleSQ" />
 
-    <style name="_PurpleSQ" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Light.DarkActionBar specific -->
-        <item name="android:actionBarWidgetTheme">@style/Theme.Purplesq.Widget</item>
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_purplesq</item>
-        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Purplesq</item>
-        <item name="android:actionDropDownStyle">@style/DropDownNav.Purplesq</item>
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.Purplesq</item>
-        <item name="android:actionModeBackground">@drawable/cab_background_top_purplesq</item>
-        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_purplesq</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Purplesq</item>
+    <style name="_PurpleSQ" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/colorAccent</item>
+
 
         <!-- Views specific -->
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_light_purplesq</item>

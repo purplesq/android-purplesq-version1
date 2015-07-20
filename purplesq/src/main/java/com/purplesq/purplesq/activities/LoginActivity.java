@@ -2,6 +2,7 @@ package com.purplesq.purplesq.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,12 +34,13 @@ import java.util.Arrays;
  */
 public class LoginActivity extends SocialLoginBaseActivity implements GenericAsyncTaskListener {
 
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setupActionBar();
+        setupToolBar();
 
         // Find the Google+ sign in button.
         SignInButton mPlusSignInButton = (SignInButton) findViewById(R.id.activity_login_btn_plus_sign_in);
@@ -87,11 +89,15 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
     }
 
     /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
+     * Set up the {@link android.support.v7.widget.Toolbar}.
      */
-    private void setupActionBar() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private void setupToolBar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
         }
     }
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menu_navigation_home"
+            android:checked="true"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/title_leftdrawer_home"/>
+
+        <item
+            android:id="@+id/menu_navigation_login"
+            android:checked="false"
+            android:icon="@drawable/ic_person_add_black_24dp"
+            android:title="@string/title_leftdrawer_login"/>
+
+        <item
+            android:id="@+id/menu_navigation_logout"
+            android:checked="false"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="@string/title_leftdrawer_logout"/>
+
+        <item
+            android:id="@+id/menu_navigation_settings"
+            android:checked="false"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/title_leftdrawer_settings"/>
+
+    </group>
+</menu>

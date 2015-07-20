@@ -9,8 +9,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -46,12 +46,13 @@ public class EmailLoginActivity extends AppCompatActivity implements LoaderCallb
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email_login);
-        setupActionBar();
+        setupToolBar();
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.activity_email_login_autotv_email);
@@ -86,11 +87,15 @@ public class EmailLoginActivity extends AppCompatActivity implements LoaderCallb
     }
 
     /**
-     * Set up the {@link android.app.ActionBar}.
+     * Set up the {@link android.support.v7.widget.Toolbar}.
      */
-    private void setupActionBar() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private void setupToolBar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
         }
     }
 

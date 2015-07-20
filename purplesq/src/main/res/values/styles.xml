@@ -12,30 +12,6 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="ActionBar.Solid.Purplesq" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/ab_solid_purplesq</item>
-        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_purplesq</item>
-        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_purplesq</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Purplesq</item>
-    </style>
-
-    <style name="ActionBar.Transparent.Purplesq" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@drawable/ab_transparent_purplesq</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Purplesq</item>
-    </style>
-
-    <style name="ActionBarTabStyle.Purplesq" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_indicator_ab_purplesq</item>
-    </style>
-
-    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Purplesq.Widget" parent="@android:style/Theme.Holo">
-        <item name="android:popupMenuStyle">@style/PopupMenu.Purplesq</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Purplesq</item>
-        <item name="android:itemTextAppearance">@style/WhiteTextAppearance</item>
-    </style>
-
-
     <style name="ActivatedBackgroundIndicatorStyle" >
         <item name="android:background">@drawable/activated_background_holo_light_purplesq</item>
         <item name="android:textColor">@color/white</item>
@@ -60,11 +36,6 @@
     <style name="ProgressBar.Purplesq" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/progress_horizontal_purplesq</item>
     </style>
-
-    <style name="ActionButton.CloseMode.Purplesq" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
-        <item name="android:background">@drawable/btn_cab_done_purplesq</item>
-    </style>
-
 
     <style name="AutoCompleteTextViewPurpleSQ" parent="android:Widget.Holo.Light.AutoCompleteTextView">
         <item name="android:dropDownSelector">@drawable/list_selector_holo_light_purplesq</item>
@@ -123,46 +94,6 @@
 
     <style name="WhiteTextAppearance">
         <item name="android:textColor">@color/white</item>
-    </style>
-
-
-    <!-- Masked Image Styles (Circle / Rectangle) -->
-    <style name="MaskedProfileImageStyle">
-        <item name="border_width">@dimen/border_width</item>
-        <item name="android:scaleType">centerCrop</item>
-        <item name="android:layout_width">64dp</item>
-        <item name="android:layout_height">64dp</item>
-        <item name="android:src">@drawable/user</item>
-    </style>
-
-    <style name="MaskedProfileImageStyle.Circle" parent="MaskedProfileImageStyle">
-        <item name="android:adjustViewBounds">true</item>
-        <item name="maskType">circle</item>
-    </style>
-
-    <style name="MaskedProfileImageStyle.Circle.Gray" parent="MaskedProfileImageStyle.Circle">
-        <item name="border_color">@android:color/darker_gray</item>
-    </style>
-
-    <style name="MaskedProfileImageStyle.Circle.White" parent="MaskedProfileImageStyle.Circle">
-        <item name="border_color">@android:color/white</item>
-    </style>
-
-    <style name="MaskedProfileImageStyle.RoundRect" parent="MaskedProfileImageStyle">
-        <item name="maskType">rounded_rect</item>
-        <item name="border_width">@dimen/border_width</item>
-        <item name="android:scaleType">centerCrop</item>
-        <item name="android:layout_width">54dp</item>
-        <item name="android:layout_height">54dp</item>
-        <item name="android:src">@drawable/user</item>
-    </style>
-
-    <style name="MaskedProfileImageStyle.RoundRect.Gray" parent="MaskedProfileImageStyle.RoundRect">
-        <item name="border_color">@android:color/darker_gray</item>
-    </style>
-
-    <style name="MaskedProfileImageStyle.RoundRect.White" parent="MaskedProfileImageStyle.RoundRect">
-        <item name="border_color">@android:color/white</item>
     </style>
 
 

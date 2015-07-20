@@ -97,6 +97,7 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
             Response response = okHttpClient.newCall(request).execute();
 
             if (!response.isSuccessful()) {
+                Log.i("Nish", "Response failed Message : " + response.code());
                 Log.i("Nish", "Response failed Message : " + response.message());
                 Log.i("Nish", "Response failed Body : " + response.body().string());
                 return null;

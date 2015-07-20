@@ -2,7 +2,6 @@ package com.purplesq.purplesq.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -10,8 +9,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -38,6 +37,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     private EditText mFirstNameView, mLastNameView, mPasswordView, mConfirmPasswordView;
     private View mProgressView;
     private ImageView mUserImageView;
+    private Toolbar mToolbar;
 
     private UserRegisterTask mRegisterTask = null;
 
@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        setupActionBar();
+        setupToolBar();
 
         mFirstNameView = (EditText) findViewById(R.id.activity_signup_et_first_name);
         mLastNameView = (EditText) findViewById(R.id.activity_signup_et_last_name);
@@ -82,11 +82,15 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     }
 
     /**
-     * Set up the {@link android.app.ActionBar}.
+     * Set up the {@link android.support.v7.widget.Toolbar}.
      */
-    private void setupActionBar() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private void setupToolBar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
         }
     }
 
