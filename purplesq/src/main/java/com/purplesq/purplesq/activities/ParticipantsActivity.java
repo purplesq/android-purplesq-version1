@@ -118,7 +118,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
         etInstitute.setText(mParticipantList.get(0).getInstitute());
 
         if (isUserEdited) {
-            btnClear.setBackgroundResource(R.drawable.ic_content_clear);
+            btnClear.setBackgroundResource(R.drawable.ic_clear_black_36dp);
             btnClear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -127,7 +127,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
             });
 
         } else {
-            btnClear.setBackgroundResource(R.drawable.ic_content_create);
+            btnClear.setBackgroundResource(R.drawable.ic_create_black_36dp);
             btnClear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -135,7 +135,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                     etEmail.setVisibility(View.VISIBLE);
                     etPhone.setVisibility(View.VISIBLE);
                     etInstitute.setVisibility(View.VISIBLE);
-                    btnClear.setBackgroundResource(R.drawable.ic_content_save);
+                    btnClear.setBackgroundResource(R.drawable.ic_save_black_36dp);
 
                     btnClear.setOnClickListener(null);
 
