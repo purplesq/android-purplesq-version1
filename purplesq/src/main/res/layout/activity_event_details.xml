@@ -1,17 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_event_details_coordinatorlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
-    
-    <android.support.v4.view.ViewPager
-        android:id="@+id/activity_event_details_pager"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/activity_event_details_appbarlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="220dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-</LinearLayout>
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/activity_event_details_collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:backgroundTint="?attr/colorPrimary"
+            app:expandedTitleMarginBottom="8dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/activity_event_details_iv_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_material"
+                android:contentDescription="Image"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitXY"
+                app:layout_collapseMode="parallax"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/activity_event_details_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/screen_horizontal_margin"
+            android:layout_marginLeft="@dimen/screen_horizontal_margin"
+            android:layout_marginRight="@dimen/screen_horizontal_margin"
+            android:layout_marginStart="@dimen/screen_horizontal_margin"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/screen_vertical_margin"
+                android:layout_marginTop="@dimen/screen_vertical_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_event_details_tv_headline"
+                    style="@style/TextAppearance_Headline"/>
+
+                <TextView
+                    android:id="@+id/activity_event_details_tv_event_date"
+                    style="@style/TextAppearance_Medium"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/screen_vertical_margin"
+                android:layout_marginTop="@dimen/screen_vertical_margin">
+
+                <Button
+                    android:id="@+id/activity_event_details_btn_book"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/colorAccent"
+                    android:minWidth="70dp"
+                    android:text="Book"/>
+
+
+                <LinearLayout
+                    android:id="@+id/activity_event_details_cardview_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toLeftOf="@id/activity_event_details_btn_book"
+                    android:layout_toStartOf="@id/activity_event_details_btn_book"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/activity_event_details_statuscard_tv_eligibility"
+                        style="@style/TextAppearance_Caption"/>
+
+                    <TextView
+                        android:id="@+id/activity_event_details_statuscard_tv_availability"
+                        style="@style/TextAppearance_Caption"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                style="@style/LinearLayout_Vertical"
+                android:layout_marginBottom="@dimen/screen_vertical_margin"
+                android:layout_marginTop="@dimen/screen_vertical_margin"
+                android:background="@drawable/bg_rectangle_outline_teal"
+                android:paddingLeft="@dimen/horizontal_padding"
+                android:paddingRight="@dimen/horizontal_padding">
+
+                <TextView
+                    style="@style/TextAppearance_Title"
+                    android:text="@string/event_details_overview"/>
+
+                <TextView
+                    android:id="@+id/activity_event_details_statuscard_tv_description"
+                    style="@style/TextAppearance_Subhead"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/activity_event_details_cardview_features"
+                style="@style/LinearLayout_Vertical"
+                android:layout_marginBottom="@dimen/screen_vertical_margin"
+                android:layout_marginTop="@dimen/screen_vertical_margin"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/activity_event_details_featurescard_tv_features"
+                    style="@style/TextAppearance_Title"
+                    android:text="@string/event_details_features"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/activity_event_details_cardview_whatuget"
+                style="@style/LinearLayout_Vertical"
+                android:layout_marginBottom="@dimen/screen_vertical_margin"
+                android:layout_marginTop="@dimen/screen_vertical_margin">
+
+                <TextView
+                    android:id="@+id/activity_event_details_whatugetcard_tv_features"
+                    style="@style/TextAppearance_Title"
+                    android:text="@string/event_details_what_you_get"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/activity_event_details_cardview_schedule"
+                style="@style/LinearLayout_Vertical"
+                android:layout_marginBottom="@dimen/screen_vertical_margin"
+                android:layout_marginTop="@dimen/screen_vertical_margin"
+                android:background="@drawable/bg_rectangle_outline_teal"
+                android:paddingLeft="@dimen/horizontal_padding"
+                android:paddingRight="@dimen/horizontal_padding">
+
+                <TextView
+                    style="@style/TextAppearance_Title"
+                    android:text="@string/event_details_itinerary"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LinearLayout_Vertical"
+                android:layout_marginBottom="@dimen/screen_vertical_margin"
+                android:layout_marginTop="@dimen/screen_vertical_margin"
+                android:background="@drawable/bg_rectangle_outline_teal">
+
+                <LinearLayout
+                    android:id="@+id/activity_event_details_cardview_faq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/horizontal_padding"
+                    android:paddingRight="@dimen/horizontal_padding">
+
+                    <TextView
+                        style="@style/TextAppearance_Title"
+                        android:text="@string/event_details_faq"/>
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/TextAppearance_Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/screen_vertical_margin"
+                    android:layout_marginTop="@dimen/screen_vertical_margin"
+                    android:paddingLeft="@dimen/horizontal_padding"
+                    android:paddingRight="@dimen/horizontal_padding"
+                    android:text="@string/event_details_queries"
+                    android:textColor="@color/colorAccent"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

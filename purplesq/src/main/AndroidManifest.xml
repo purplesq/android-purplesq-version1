@@ -59,7 +59,8 @@
             android:name=".activities.HomeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -71,7 +72,36 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_event_details"
             android:parentActivityName=".activities.HomeActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.purplesq.purplesq.activities.HomeActivity"/>
+        </activity>
+        <activity
+            android:name=".activities.ParticipantsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_participants"
+            android:parentActivityName=".activities.EventDetailsActivity"
             android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.purplesq.purplesq.activities.EventDetailsActivity"/>
+        </activity>
+        <activity
+            android:name=".activities.PaymentActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_payment"
+            android:parentActivityName=".activities.ParticipantsActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.purplesq.purplesq.activities.ParticipantsActivity"/>
+        </activity>
+        <activity
+            android:name=".activities.PaymentStatusActivity"
+            android:label="@string/title_activity_payment_status"
+            android:parentActivityName=".activities.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.purplesq.purplesq.activities.HomeActivity"/>
@@ -109,34 +139,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.purplesq.purplesq.activities.LoginActivity"/>
         </activity>
-        <activity
-            android:name=".activities.ParticipantsActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/title_activity_participants"
-            android:parentActivityName=".activities.EventDetailsActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.purplesq.purplesq.activities.EventDetailsActivity"/>
-        </activity>
-        <activity
-            android:name=".activities.PaymentActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/title_activity_payment"
-            android:parentActivityName=".activities.ParticipantsActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.purplesq.purplesq.activities.ParticipantsActivity"/>
-        </activity>
-        <activity
-            android:name=".activities.PaymentStatusActivity"
-            android:label="@string/title_activity_payment_status"
-            android:parentActivityName=".activities.HomeActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.purplesq.purplesq.activities.HomeActivity"/>
-        </activity>
+
 
 
         <activity

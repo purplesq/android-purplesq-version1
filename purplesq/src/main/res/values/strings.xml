@@ -44,5 +44,12 @@
     <string name="error_incorrect_password">This password is incorrect </string>
     <string name="error_password_does_not_match">Passwords do not match each other </string>
     <string name="error_field_required">This field is required </string>
+    <string name="event_details_overview">Overview</string>
+    <string name="event_details_features">Features</string>
+    <string name="event_details_itinerary">Itinerary</string>
+    <string name="event_details_what_you_get">What you get</string>
+    <string name="event_details_partners">Partners</string>
+    <string name="event_details_faq">FAQ</string>
+    <string name="event_details_queries">QUERIES? CALL US!</string>
 
 </resources>

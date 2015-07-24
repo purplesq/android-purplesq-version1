@@ -19,7 +19,6 @@
 
 
         <!-- Views specific -->
-        <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_light_purplesq</item>
         <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewPurpleSQ</item>
         <item name="android:buttonStyle">@style/ButtonPurpleSQ</item>
         <item name="android:buttonStyleToggle">@style/TogglePurpleSQ</item>
@@ -34,7 +33,7 @@
         <item name="android:popupMenuStyle">@style/PopupMenu.Purplesq</item>
         <item name="android:progressBarStyleHorizontal">@style/ProgressBarPurpleSQ</item>
         <item name="android:seekBarStyle">@style/SeekBarPurpleSQ</item>
-        <item name="android:textColor">@color/purplesq_color</item>
+        <item name="android:textColor">@color/grey800</item>
         <item name="android:textColorHighlight">#995d2f90</item>
         <item name="android:textSelectHandleLeft">@drawable/text_select_handle_left</item>
         <item name="android:textSelectHandleRight">@drawable/text_select_handle_right</item>

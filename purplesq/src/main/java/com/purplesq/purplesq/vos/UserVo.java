@@ -16,6 +16,7 @@ public class UserVo {
     String lname;
     String email;
     String dob;
+    //TODO : DoB to long
     List<String> qualifications;
     String phone;
     String gender;

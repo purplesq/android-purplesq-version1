@@ -1,292 +1,205 @@
-<com.purplesq.purplesq.customviews.ObservableScrollView
-    android:id="@+id/fragment_event_details_scrollview"
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DDDDDD"
-    tools:context="com.purplesq.purplesq.activities.EventDetailsActivity">
+    android:background="@color/white"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/screen_horizontal_margin"
+        android:layout_marginLeft="@dimen/screen_horizontal_margin"
+        android:layout_marginRight="@dimen/screen_horizontal_margin"
+        android:layout_marginStart="@dimen/screen_horizontal_margin"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/screen_vertical_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/activity_event_details_tv_headline"
+                style="@style/TextAppearance_Headline"
+                android:text="How did Bisleri become synonumous with water?"/>
 
-            <ImageView
-                android:id="@+id/fragment_event_details_topcard_iv_banner"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/ab_background_textured_purplesq"
-                android:contentDescription="Image"
-                android:scaleType="fitXY"/>
-
-            <View
-                android:id="@+id/fragment_event_details_cardview_placeholder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-
-            <LinearLayout
-                android:id="@+id/fragment_event_details_cardview_staus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@android:color/white"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/fragment_event_details_statuscard_tv_eligibility"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"/>
-
-                <TextView
-                    android:id="@+id/fragment_event_details_statuscard_tv_availability"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"/>
-
-                <TextView
-                    android:id="@+id/fragment_event_details_statuscard_tv_disclaimer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:text="Overview"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-                <TextView
-                    android:id="@+id/fragment_event_details_statuscard_tv_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/fragment_event_details_cardview_features"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/transparent"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/fragment_event_details_featurescard_tv_features"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:text="Features"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/fragment_event_details_cardview_schedule"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/white"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:text="Schedule"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/fragment_event_details_cardview_whatuget"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/transparent"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/fragment_event_details_whatugetcard_tv_features"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:text="What you get"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/fragment_event_details_cardview_partners"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/white"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:text="Partners"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-                <GridLayout
-                    android:id="@+id/fragment_event_details_partnerscard_gridlayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="3"
-                    android:orientation="horizontal"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/fragment_event_details_cardview_faq"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/transparent"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_vertical"
-                    android:text="FAQ"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/fragment_event_details_cardview_contactus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/white"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="Questions?"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-                <Button
-                    android:id="@+id/fragment_event_details_contactuscard_btn_contactus"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:text="Contact Us"/>
-            </LinearLayout>
-
-
+            <TextView
+                android:id="@+id/activity_event_details_tv_event_date"
+                style="@style/TextAppearance_Medium"
+                android:text="Thu, 27th Aug | Rs. 550"/>
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/fragment_event_details_layout_top_sticky"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:padding="5dp"
-            android:visibility="visible">
+            android:layout_marginBottom="@dimen/screen_vertical_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin">
 
-            <TextView
-                android:id="@+id/fragment_event_details_topcard_tv_heading"
+            <Button
+                android:id="@+id/activity_event_details_btn_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/colorAccent"
+                android:minWidth="70dp"
+                android:text="Book"/>
+
+
+            <LinearLayout
+                android:id="@+id/activity_event_details_cardview_staus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:gravity="center"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"/>
-
-            <View
-                android:id="@+id/fragment_event_details_topcard_seperator"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/fragment_event_details_topcard_tv_heading"
-                android:background="@color/PaleGray"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fragment_event_details_topcard_seperator">
-
-                <Button
-                    android:id="@+id/fragment_event_details_topcard_btn_book"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="Book"/>
+                android:layout_toLeftOf="@id/activity_event_details_btn_book"
+                android:background="@color/white"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/fragment_event_details_topcard_tv_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"/>
+                    android:id="@+id/activity_event_details_statuscard_tv_eligibility"
+                    style="@style/TextAppearance_Caption"
+                    android:text="This ODI is open for all students."/>
 
                 <TextView
-                    android:id="@+id/fragment_event_details_topcard_tv_cost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_toLeftOf="@id/fragment_event_details_topcard_btn_book"
-                    android:gravity="center"/>
+                    android:id="@+id/activity_event_details_statuscard_tv_availability"
+                    style="@style/TextAppearance_Caption"
+                    android:text="Registrations ends on 2nd March"/>
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </RelativeLayout>
-    </FrameLayout>
 
-</com.purplesq.purplesq.customviews.ObservableScrollView>
+        <LinearLayout
+            style="@style/LinearLayout_Vertical"
+            android:layout_marginBottom="@dimen/screen_vertical_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:background="@drawable/bg_rectangle_outline_teal"
+            android:paddingLeft="@dimen/horizontal_padding"
+            android:paddingRight="@dimen/horizontal_padding">
+
+            <TextView
+                style="@style/TextAppearance_Title"
+                android:text="@string/event_details_overview"/>
+
+            <TextView
+                android:id="@+id/activity_event_details_statuscard_tv_description"
+                style="@style/TextAppearance_Subhead"
+                android:text="Learn the basics of photography and understand what essential photography terms mean in a fun and interesting workshop."/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activity_event_details_cardview_features"
+            style="@style/LinearLayout_Vertical"
+            android:layout_marginBottom="@dimen/screen_vertical_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:background="@color/white">
+
+            <TextView
+                android:id="@+id/activity_event_details_featurescard_tv_features"
+                style="@style/TextAppearance_Title"
+                android:text="@string/event_details_features"/>
+
+            <TextView
+                style="@style/TextAppearance_Subhead"
+                android:text="Basics of Photography - What entails a good photograph\nGothic influence in Mumbai's architecture"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activity_event_details_cardview_whatuget"
+            style="@style/LinearLayout_Vertical"
+            android:layout_marginBottom="@dimen/screen_vertical_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin">
+
+            <TextView
+                android:id="@+id/activity_event_details_whatugetcard_tv_features"
+                style="@style/TextAppearance_Title"
+                android:text="@string/event_details_what_you_get"/>
+
+            <TextView
+                style="@style/TextAppearance_Subhead"
+                android:text="Certificate \nMeals"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activity_event_details_cardview_schedule"
+            style="@style/LinearLayout_Vertical"
+            android:layout_marginBottom="@dimen/screen_vertical_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:background="@drawable/bg_rectangle_outline_teal"
+            android:paddingLeft="@dimen/horizontal_padding"
+            android:paddingRight="@dimen/horizontal_padding">
+
+            <TextView
+                style="@style/TextAppearance_Title"
+                android:text="@string/event_details_itinerary"/>
+
+            <include
+                layout="@layout/item_schedule"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LinearLayout_Vertical"
+            android:layout_marginBottom="@dimen/screen_vertical_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:background="@drawable/bg_rectangle_outline_teal">
+
+            <LinearLayout
+                android:id="@+id/activity_event_details_cardview_faq"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/horizontal_padding"
+                android:paddingRight="@dimen/horizontal_padding">
+
+                <TextView
+                    style="@style/TextAppearance_Title"
+                    android:text="@string/event_details_faq"/>
+
+                <include
+                    layout="@layout/item_faq"/>
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/TextAppearance_Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/screen_vertical_margin"
+                android:layout_marginTop="@dimen/screen_vertical_margin"
+                android:text="@string/event_details_queries"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/activity_event_details_cardview_partners"
+            style="@style/LinearLayout_Vertical"
+            android:layout_marginBottom="@dimen/screen_vertical_margin"
+            android:layout_marginTop="@dimen/screen_vertical_margin">
+
+            <TextView
+                style="@style/TextAppearance_Title"
+                android:text="@string/event_details_partners"/>
+
+            <GridLayout
+                android:id="@+id/activity_event_details_partnerscard_gridlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="3"
+                android:orientation="horizontal"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
