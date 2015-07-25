@@ -8,16 +8,16 @@ public class AuthVo {
     String token;
     UserVo user;
     long expiry;
-    long expiry_time;
+    long expiryTime;
 
     public AuthVo() {
     }
 
-    public AuthVo(String token, UserVo user, long expiry, long expiry_time) {
+    public AuthVo(String token, UserVo user, long expiry, long expiryTime) {
         this.token = token;
         this.user = user;
         this.expiry = expiry;
-        this.expiry_time = expiry_time;
+        this.expiryTime = expiryTime;
     }
 
     public String getToken() {
@@ -45,10 +45,10 @@ public class AuthVo {
     }
 
     public long getExpiryTime() {
-        return expiry_time;
+        return expiryTime;
     }
 
-    public void setExpiryTime(long expiry_time) {
-        this.expiry_time = expiry_time;
+    public void setExpiryTime(long expiryTime) {
+        this.expiryTime = expiryTime;
     }
 }

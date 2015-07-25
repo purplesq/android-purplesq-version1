@@ -41,7 +41,7 @@ public final class PsqContract {
         public static final String COL_INSTITUTE = "institute";
         public static final String COL_IMAGEURL = "imageUrl";
         public static final String COL_EXPIRY = "expiry";
-        public static final String COL_EXPIRY_TIME = "expiry_time";
+        public static final String COL_EXPIRY_TIME = "expiryTime";
 
     }
 
