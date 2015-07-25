@@ -2,18 +2,25 @@ package com.purplesq.purplesq.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,7 +40,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class EventDetailsActivity extends AppCompatActivity {
+public class EventDetailsActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
 
     private final String UNICODE_RUPEE = "\uf156";
     private final String UNICODE_CERTIFICATE = "\uf0a3";
@@ -49,10 +56,17 @@ public class EventDetailsActivity extends AppCompatActivity {
     int position = -1;
     private AppCompatActivity mActivity;
     private EventsVo mEventData;
-    private ImageView imageView;
     private CollapsingToolbarLayout mCollapsingToolbar;
-    private int imageColor;
-    private boolean isCollapsed = false;
+    private LinearLayout mBottomBar;
+    private Button mBtnBook;
+    private NestedScrollView mScrollView;
+    private CoordinatorLayout mCoordinatorLayout;
+
+    int scrimTriggerOffset;
+    int scrollRange;
+    int toolbarHeight;
+    int toolbarMinHeight;
+    boolean isToolbarCalculationDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +86,6 @@ public class EventDetailsActivity extends AppCompatActivity {
         setupToolBar();
 
         populateUI();
-
-        collapseToolbar();
-        expandHalfToolbar();
-
     }
 
     @Override
@@ -94,7 +104,7 @@ public class EventDetailsActivity extends AppCompatActivity {
      * Set up the {@link android.support.v7.widget.Toolbar}.
      */
     private void setupToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_event_details_toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.activity_event_details_toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             ActionBar actionBar = getSupportActionBar();
@@ -105,49 +115,90 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         ViewCompat.setTransitionName(findViewById(R.id.activity_event_details_appbarlayout), "EXTRA_IMAGE");
 
+        ImageView imageView = (ImageView) findViewById(R.id.activity_event_details_iv_header);
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.activity_event_details_coordinatorlayout);
         mCollapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.activity_event_details_collapsing_toolbar);
+
+
         mCollapsingToolbar.setExpandedTitleColor(Color.TRANSPARENT);
-
-        imageView = (ImageView) findViewById(R.id.activity_event_details_iv_header);
-
         mCollapsingToolbar.setTitle(mEventData.getName());
-        Log.i("Nish", "Thumbnail : " + mEventData.getThumbnail());
         ImageLoader.getInstance().displayImage(mEventData.getThumbnail(), imageView);
+
+        ((AppBarLayout) findViewById(R.id.activity_event_details_appbarlayout)).addOnOffsetChangedListener(this);
+
     }
 
-    public void expandToolbar() {
-        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.activity_event_details_coordinatorlayout);
+//    public void expandToolbar() {
+//        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.activity_event_details_appbarlayout);
+//        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+//        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+//        if (behavior != null) {
+//            behavior.setTopAndBottomOffset(0);
+//            behavior.onNestedPreScroll(mCoordinatorLayout, appBarLayout, null, 0, 1, new int[2]);
+//        }
+//    }
+
+//    public void collapseToolbar() {
+//        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.activity_event_details_appbarlayout);
+//        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+//        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+//        if (behavior != null) {
+//            behavior.onNestedFling(mCoordinatorLayout, appBarLayout, null, 0, 10000, true);
+//        }
+//    }
+
+    public void expandHalfToolbar() {
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.activity_event_details_appbarlayout);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
         AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
         if (behavior != null) {
-            behavior.setTopAndBottomOffset(0);
-            behavior.onNestedPreScroll(coordinatorLayout, appBarLayout, null, 0, 1, new int[2]);
-            isCollapsed = false;
-        }
-    }
-
-    public void expandHalfToolbar() {
-        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.activity_event_details_coordinatorlayout);
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.activity_event_details_appbarlayout);
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
-        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-        if(behavior!=null) {
             behavior.setTopAndBottomOffset(-100);
-            behavior.onNestedPreScroll(coordinatorLayout, appBarLayout, null, 0, 1, new int[2]);
-            isCollapsed = false;
+            behavior.onNestedPreScroll(mCoordinatorLayout, appBarLayout, null, 0, 1, new int[2]);
         }
     }
 
-    public void collapseToolbar() {
-        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.activity_event_details_coordinatorlayout);
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.activity_event_details_appbarlayout);
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
-        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-        if(behavior!=null) {
-            behavior.onNestedFling(coordinatorLayout, appBarLayout, null, 0, 10000, true);
-            isCollapsed = true;
+    private void setupBottomBar() {
+        mBottomBar = (LinearLayout) findViewById(R.id.activity_event_details_bottombar);
+
+        mScrollView = (NestedScrollView) findViewById(R.id.activity_event_details_scrollview);
+        mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                Rect scrollBounds = new Rect();
+                mScrollView.getHitRect(scrollBounds);
+
+                if (mBtnBook.getLocalVisibleRect(scrollBounds)) {
+                    mBottomBar.setVisibility(View.GONE);
+                } else {
+                    mBottomBar.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        int seatsRemaining = mEventData.getBatch_size() - mEventData.getConsumed();
+        String bottomText;
+        if (seatsRemaining > 1) {
+            bottomText = UNICODE_RUPEE + " " + mEventData.getCost().getTotal() + " | " + seatsRemaining + " seats left";
+        } else if (seatsRemaining == 1) {
+            bottomText = UNICODE_RUPEE + " " + mEventData.getCost().getTotal() + " | " + seatsRemaining + " seat left";
+        } else {
+            bottomText = "Event is sold out.";
         }
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome.ttf");
+        ((TextView) mBottomBar.findViewById(R.id.snackbar_text)).setTypeface(font);
+        ((TextView) mBottomBar.findViewById(R.id.snackbar_text)).setText(bottomText);
+
+        mBottomBar.findViewById(R.id.snackbar_text).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mActivity, ParticipantsActivity.class);
+                i.putExtra("event-id", mEventData.get_id());
+                i.putExtra("event-position", position);
+                mActivity.startActivity(i);
+            }
+        });
+
     }
 
     private void populateUI() {
@@ -158,6 +209,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         populateScheduleCard();
         populateWhatYouGetCard();
         populateFAQCard();
+
+        setupBottomBar();
     }
 
     private void populateTopCard() {
@@ -183,18 +236,14 @@ public class EventDetailsActivity extends AppCompatActivity {
 
     private void populateStatusCard() {
 
-        findViewById(R.id.activity_event_details_btn_book).setOnClickListener(new View.OnClickListener() {
+        mBtnBook = (Button) findViewById(R.id.activity_event_details_btn_book);
+        mBtnBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(mActivity, ParticipantsActivity.class);
-//                i.putExtra("event-id", mEventData.get_id());
-//                i.putExtra("event-position", position);
-//                mActivity.startActivity(i);
-                if (isCollapsed) {
-                    expandToolbar();
-                } else {
-                    collapseToolbar();
-                }
+                Intent i = new Intent(mActivity, ParticipantsActivity.class);
+                i.putExtra("event-id", mEventData.get_id());
+                i.putExtra("event-position", position);
+                mActivity.startActivity(i);
             }
         });
 
@@ -303,6 +352,88 @@ public class EventDetailsActivity extends AppCompatActivity {
             ((TextView) faqItemLayout.findViewById(R.id.item_faq_answer)).setText(faq.getFaqAns());
 
             faqsLayout.addView(faqItemLayout);
+        }
+
+        findViewById(R.id.activity_event_details_tv_queries).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar snackbar = Snackbar.make(mCoordinatorLayout, "Comming Soon!!!", Snackbar.LENGTH_LONG);
+                View snackbarView = snackbar.getView();
+                TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.YELLOW);
+                snackbar.show();
+            }
+        });
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_event_details, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+
+        if (!isToolbarCalculationDone) {
+            if (toolbarHeight <= 0) {
+                scrollRange = ((AppBarLayout) findViewById(R.id.activity_event_details_appbarlayout)).getTotalScrollRange();
+                toolbarHeight = mCollapsingToolbar.getHeight();
+                toolbarMinHeight = ViewCompat.getMinimumHeight(mCollapsingToolbar);
+                scrimTriggerOffset = (int) (2 * ViewCompat.getMinimumHeight(mCollapsingToolbar));
+                isToolbarCalculationDone = true;
+
+                Log.i("Nish", "************ " + isToolbarCalculationDone + " *************");
+                Log.i("Nish", " scrollRange : " + scrollRange);
+                Log.i("Nish", " toolbarHeight : " + toolbarHeight);
+                Log.i("Nish", " toolbarMinHeight : " + toolbarMinHeight);
+                Log.i("Nish", " scrimTriggerOffset : " + scrimTriggerOffset);
+                Log.i("Nish", "**********************************");
+            }
+        }
+
+        if (isToolbarCalculationDone) {
+            if (mCollapsingToolbar.getContentScrim() != null || mCollapsingToolbar.getStatusBarScrim() != null) {
+
+                if (verticalOffset == 0) {
+                    Log.i("Nish", "* Expanded _____________________: " + verticalOffset);
+                } else if (Math.abs(verticalOffset) == scrollRange) {
+                    Log.i("Nish", "_____________________Collapsed *: " + verticalOffset);
+                    mCollapsingToolbar.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
+                } else if ((toolbarHeight + verticalOffset) < scrimTriggerOffset) {
+                    Log.i("Nish", "_______In Motion-INSIDE_______ *: " + verticalOffset);
+                    int alphaRange = scrimTriggerOffset - toolbarMinHeight;
+                    int currentAlphaAbs = scrimTriggerOffset - ((toolbarHeight + verticalOffset));
+                    int currentAlphaRelative = (int) (((float) currentAlphaAbs / (float) alphaRange) * 255);
+                    String hex = Integer.toHexString(currentAlphaRelative).toUpperCase();
+                    if (hex.length() == 1) {
+                        hex = "0" + hex;
+                    }
+                    String hexColor = String.format("%06X", (0xFFFFFF & getResources().getColor(R.color.colorPrimary)));
+                    String color = "#" + hex + hexColor;
+                    mCollapsingToolbar.setContentScrimColor(Color.parseColor(color));
+
+                } else {
+                    Log.i("Nish", "_______In Motion-OUTSIDE______ *: " + verticalOffset);
+                    mCollapsingToolbar.setContentScrimColor(getResources().getColor(R.color.transparent));
+                }
+            }
+        } else {
+            Log.i("Nish", " offset : " + verticalOffset);
+            mCollapsingToolbar.setContentScrimColor(getResources().getColor(R.color.transparent));
         }
     }
 

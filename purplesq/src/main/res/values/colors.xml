@@ -1,13 +1,13 @@
 <resources>
 
-    <color name="colorPrimary">#00796B</color>
-    <color name="colorPrimaryDark">#00796B</color>
-    <color name="colorAccent">#EF6C00</color>
+    <color name="colorPrimary">@color/teal700</color>
+    <color name="colorPrimaryDark">@color/tealA700</color>
+    <color name="colorAccent">@color/orange800</color>
 
     //Teal Palette
     <color name="teal500">#009688</color>
     <color name="teal700">#00796B</color>
-    <color name="tealA700">#00796B</color>
+    <color name="tealA700">#00BFA5</color>
 
     //Orange Palette
     <color name="orange800">#EF6C00</color>

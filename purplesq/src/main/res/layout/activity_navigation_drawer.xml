@@ -24,11 +24,11 @@
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
+        style="@style/Widget.Design.NavigationView"
         android:id="@+id/navigation_drawer_navigationview"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/colorPrimary"
         app:headerLayout="@layout/view_drawer_user_profile"
         app:menu="@menu/menu_drawer_items"/>
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_gravity="bottom"
+    android:background="@color/snackbar_background_color"
+    android:elevation="@dimen/snackbar_elevation"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/snackbar_padding_horizontal"
+    android:paddingRight="@dimen/snackbar_padding_horizontal"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:visibility="gone">
+
+    <TextView
+        android:id="@+id/snackbar_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|left|start"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="@integer/snackbar_text_max_lines"
+        android:paddingBottom="@dimen/snackbar_padding_vertical"
+        android:paddingLeft="@dimen/snackbar_padding_horizontal"
+        android:paddingRight="@dimen/snackbar_padding_horizontal"
+        android:paddingTop="@dimen/snackbar_padding_vertical"
+        android:text="\uf156 550 | 28 seats left"
+        android:textAppearance="@style/TextAppearance.Design.Snackbar.Message"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/snackbar_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|right|end"
+        android:layout_marginLeft="@dimen/snackbar_extra_spacing_horizontal"
+        android:layout_marginStart="@dimen/snackbar_extra_spacing_horizontal"
+        android:background="?attr/selectableItemBackground"
+        android:paddingBottom="@dimen/snackbar_padding_vertical"
+        android:paddingLeft="@dimen/snackbar_padding_horizontal"
+        android:paddingRight="@dimen/snackbar_padding_horizontal"
+        android:paddingTop="@dimen/snackbar_padding_vertical"
+        android:text="Book"
+        android:textAppearance="@style/TextAppearance.Design.Snackbar.Action"
+        android:textColor="@color/colorAccent"/>
+
+
+</LinearLayout>

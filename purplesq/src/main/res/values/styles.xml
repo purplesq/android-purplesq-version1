@@ -12,11 +12,11 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="PopupMenu.Purplesq" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
+    <style name="PopupMenu.Purplesq" parent="Widget.AppCompat.Light.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel_purplesq</item>
     </style>
 
-    <style name="DropDownListView.Purplesq" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+    <style name="DropDownListView.Purplesq" parent="Widget.AppCompat.Light.ListView.DropDown">
         <item name="android:listSelector">@drawable/selectable_background_purplesq</item>
     </style>
 
