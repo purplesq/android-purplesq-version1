@@ -12,7 +12,7 @@
     <string name="title_activity_payment">PaymentActivity</string>
     <string name="title_activity_payment_status">PaymentStatusActivity</string>
 
-    <string name="title_leftdrawer_home">Home</string>
+    <string name="title_leftdrawer_home">Purple Squirrel</string>
     <string name="title_leftdrawer_login">Login</string>
     <string name="title_leftdrawer_logout">Log Out</string>
     <string name="title_leftdrawer_settings">Settings</string>
