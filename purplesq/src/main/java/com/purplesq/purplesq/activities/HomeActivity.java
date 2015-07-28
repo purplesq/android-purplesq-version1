@@ -1,15 +1,13 @@
 package com.purplesq.purplesq.activities;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.purplesq.purplesq.R;
-import com.purplesq.purplesq.fragments.HomeFragment;
 
 
-public class HomeActivity extends NavigationDrawerActivity implements HomeFragment.OnFragmentInteractionListener {
+public class HomeActivity extends NavigationDrawerActivity {
 
     private CharSequence mTitle;
 
@@ -37,11 +35,5 @@ public class HomeActivity extends NavigationDrawerActivity implements HomeFragme
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 }
