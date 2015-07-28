@@ -71,6 +71,8 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
 
         tvHeading.setText(mEventData.getName());
         tvSubText.setText(mEventData.getSummary());
+        tvSubText.setVisibility(View.VISIBLE);
+
         ImageLoader.getInstance().displayImage(mEventData.getThumbnail(), image);
 
         for (int i = 0; i < mPaticipantsNames.size(); i++) {

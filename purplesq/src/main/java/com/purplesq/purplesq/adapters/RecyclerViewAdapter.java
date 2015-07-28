@@ -33,7 +33,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // and you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
-        private TextView mTextViewHeading, mTextViewSubText;
+        private TextView mTextViewHeading;
         private ImageView mImage;
         private Button mBtnBook;
         private int position;
@@ -43,7 +43,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             mImage = (ImageView) v.findViewById(R.id.item_cardlayout_imageview);
             mBtnBook = (Button) v.findViewById(R.id.item_cardlayout_btn_book);
             mTextViewHeading = (TextView) v.findViewById(R.id.item_cardlayout_textview_heading);
-            mTextViewSubText = (TextView) v.findViewById(R.id.item_cardlayout_textview_subheading);
             v.setOnClickListener(this);
             mBtnBook.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -63,7 +62,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // Create new views (invoked by the layout manager)
     @Override
     public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardview, parent, false);
 
         // set the view's size, margins, paddings and layout parameters
@@ -79,7 +77,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // - replace the contents of the view with that element
         holder.position = position;
         holder.mTextViewHeading.setText(item.getName());
-        holder.mTextViewSubText.setText(item.getSummary());
         ImageLoader.getInstance().displayImage(item.getThumbnail(), holder.mImage);
     }
 
