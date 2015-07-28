@@ -146,7 +146,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         switch (itemId) {
             case R.id.menu_navigation_home:
                 fragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment.newInstance()).commit();
-                mTitle = getString(R.string.title_leftdrawer_home);
+                mTitle = getString(R.string.title_activity_Home);
                 break;
             case R.id.menu_navigation_login:
                 Intent i = new Intent(this, LoginActivity.class);
