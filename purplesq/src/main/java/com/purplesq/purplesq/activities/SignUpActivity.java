@@ -2,13 +2,13 @@ package com.purplesq.purplesq.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -37,7 +37,6 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     private EditText mFirstNameView, mLastNameView, mPasswordView, mConfirmPasswordView;
     private View mProgressView;
     private ImageView mUserImageView;
-    private Toolbar mToolbar;
 
     private UserRegisterTask mRegisterTask = null;
 
@@ -78,16 +77,16 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     }
 
     private void populateAutoComplete() {
-        getLoaderManager().initLoader(0, null, this);
+        getSupportLoaderManager().initLoader(0, null, this);
     }
 
     /**
      * Set up the {@link android.support.v7.widget.Toolbar}.
      */
     private void setupToolBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
@@ -241,7 +240,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         List<String> emails = new ArrayList<>();
         List<String> phones = new ArrayList<>();
         Uri photo = Uri.EMPTY;

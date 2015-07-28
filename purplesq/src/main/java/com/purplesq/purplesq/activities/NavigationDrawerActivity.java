@@ -3,23 +3,33 @@ package com.purplesq.purplesq.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.purplesq.purplesq.R;
+import com.purplesq.purplesq.datamanagers.UserProfileDataManager;
 import com.purplesq.purplesq.fragments.HomeFragment;
+import com.purplesq.purplesq.vos.UserVo;
 
 /**
  * Created by nishant on 11/05/15.
@@ -89,9 +99,9 @@ public class NavigationDrawerActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                 //Checking if the item is in checked state or not, if not make it in checked state
-                if(menuItem.isChecked()) {
+                if (menuItem.isChecked()) {
                     menuItem.setChecked(false);
-                }  else menuItem.setChecked(true);
+                } else menuItem.setChecked(true);
 
                 mDrawerLayout.closeDrawers();
                 selectItem(menuItem.getItemId());
@@ -139,6 +149,68 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
         selectItem(R.id.menu_navigation_home);
+
+        loadUserDetailsInDrawer();
+
+    }
+
+    private void loadUserDetailsInDrawer() {
+
+        UserVo user = UserProfileDataManager.getUserBacisProfile(this);
+
+        if (user != null) {
+            String userName = user.getFirstName() + " " + user.getLastName();
+            String email = user.getEmail();
+            String userUrl = user.getImageurl();
+
+            if (!TextUtils.isEmpty(userName)) {
+                ((TextView) mDrawerLayout.findViewById(R.id.drawer_user_profile_tv_name)).setText(userName);
+            } else {
+                ((TextView) mDrawerLayout.findViewById(R.id.drawer_user_profile_tv_name)).setText("Welcome");
+            }
+
+            if (!TextUtils.isEmpty(email)) {
+                ((TextView) mDrawerLayout.findViewById(R.id.drawer_user_profile_tv_email)).setText(email);
+            } else {
+                ((TextView) mDrawerLayout.findViewById(R.id.drawer_user_profile_tv_email)).setText("Please update your profile.");
+            }
+
+            if (!TextUtils.isEmpty(userUrl)) {
+                ImageLoader.getInstance().displayImage(userUrl, ((de.hdodenhof.circleimageview.CircleImageView) mDrawerLayout.findViewById(R.id.drawer_user_profile_circleView)));
+            } else {
+                getSupportLoaderManager().initLoader(0, null, new LoaderManager.LoaderCallbacks<Cursor>() {
+                    @Override
+                    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+                        return new android.support.v4.content.CursorLoader(
+                                NavigationDrawerActivity.this,
+                                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI, ContactsContract.Contacts.Data.CONTENT_DIRECTORY),
+                                new String[]{ContactsContract.CommonDataKinds.Photo.PHOTO_URI},
+                                ContactsContract.Contacts.Data.MIMETYPE + "=?",
+                                new String[]{ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE},
+                                null);
+                    }
+
+                    @Override
+                    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+                        Uri photo = Uri.EMPTY;
+                        while (cursor.moveToNext()) {
+                            photo = Uri.parse(cursor.getString(0));
+                        }
+                        cursor.close();
+
+                        if (!TextUtils.isEmpty(photo.toString())) {
+                            ((de.hdodenhof.circleimageview.CircleImageView) mDrawerLayout.findViewById(R.id.drawer_user_profile_circleView)).setImageURI(photo);
+                        }
+                    }
+
+                    @Override
+                    public void onLoaderReset(Loader<Cursor> loader) {
+
+                    }
+                });
+            }
+        }
+
     }
 
     private void selectItem(int itemId) {
