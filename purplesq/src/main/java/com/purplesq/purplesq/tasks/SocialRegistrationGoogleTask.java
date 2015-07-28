@@ -1,9 +1,11 @@
 package com.purplesq.purplesq.tasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
@@ -29,8 +31,10 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
     private GenericAsyncTaskListener mListener;
     private final OkHttpClient okHttpClient = new OkHttpClient();
     public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private Context mContext;
 
-    public SocialRegistrationGoogleTask(String googleJson, GenericAsyncTaskListener listener) {
+    public SocialRegistrationGoogleTask(Context context, String googleJson, GenericAsyncTaskListener listener) {
+        mContext = context;
         mJsonGoogleUser = googleJson;
         mListener = listener;
     }
@@ -41,7 +45,9 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
         JSONObject jsonUser = new JSONObject();
         try {
             JSONObject jsonGoogle = new JSONObject(mJsonGoogleUser);
+            String email = jsonGoogle.getJSONArray("emails").getJSONObject(0).getString("value");
             jsonUser.put("profile", jsonGoogle);
+            jsonUser.put("device", Utils.getDeviceHash(mContext, email));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -54,6 +60,10 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
                     .header("platform", "android")
                     .post(body)
                     .build();
+
+            Log.i("Nish", "Request : " +request.toString());
+            Log.i("Nish", "Headers : " +request.headers());
+            Log.i("Nish", "Body : " + Utils.bodyToString(request));
 
             Response response = okHttpClient.newCall(request).execute();
 

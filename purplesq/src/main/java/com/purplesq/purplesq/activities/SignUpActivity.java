@@ -186,7 +186,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mRegisterTask = new UserRegisterTask(firstName, lastName, email, password, phoneno, this);
+            mRegisterTask = new UserRegisterTask(this, firstName, lastName, email, password, phoneno, this);
             mRegisterTask.execute((Void) null);
         }
     }

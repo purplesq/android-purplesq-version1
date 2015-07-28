@@ -4,10 +4,12 @@ package com.purplesq.purplesq.tasks;
  * Created by nishant on 17/06/15.
  */
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
@@ -31,8 +33,10 @@ public class UserLoginTask extends AsyncTask<Void, Void, String> {
     private GenericAsyncTaskListener mListener;
     private final OkHttpClient okHttpClient = new OkHttpClient();
     public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private Context mContext;
 
-    public UserLoginTask(String email, String password, GenericAsyncTaskListener listener) {
+    public UserLoginTask(Context context, String email, String password, GenericAsyncTaskListener listener) {
+        this.mContext = context;
         mEmail = email;
         mPassword = password;
         mListener = listener;
@@ -55,6 +59,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, String> {
 //            {"email" : "testUser@purplesq.com", "password" : "psq1234"}
             jsonUser.put("email", mEmail);
             jsonUser.put("password", mPassword);
+            jsonUser.put("device", Utils.getDeviceHash(mContext, mEmail));
         } catch (JSONException e) {
             e.printStackTrace();
         }

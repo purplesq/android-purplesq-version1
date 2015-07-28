@@ -335,7 +335,7 @@ public abstract class SocialLoginBaseActivity extends AppCompatActivity
                         updateDataOnConnected(" \n" + userJson.toString());
                         Log.i("Nish", "FB Token : " + loginResult.getAccessToken().getToken());
                         Log.i("Nish", "FB user JSON : " + userJson.toString());
-                        SocialRegistrationFacebookTask mSocialRegistrationFacebookTask = new SocialRegistrationFacebookTask(userJson.toString(), SocialLoginBaseActivity.this);
+                        SocialRegistrationFacebookTask mSocialRegistrationFacebookTask = new SocialRegistrationFacebookTask(SocialLoginBaseActivity.this, userJson.toString(), SocialLoginBaseActivity.this);
                         mSocialRegistrationFacebookTask.execute((Void) null);
                     }
                 });

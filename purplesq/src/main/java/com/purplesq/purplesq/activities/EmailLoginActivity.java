@@ -165,7 +165,7 @@ public class EmailLoginActivity extends AppCompatActivity implements LoaderCallb
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password, this);
+            mAuthTask = new UserLoginTask(EmailLoginActivity.this, email, password, this);
             mAuthTask.execute((Void) null);
         }
     }

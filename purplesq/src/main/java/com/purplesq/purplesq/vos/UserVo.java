@@ -15,12 +15,12 @@ public class UserVo {
     String fname;
     String lname;
     String email;
-    String dob;
+    long dob;
     //TODO : DoB to long
-    List<String> qualifications;
     String phone;
     String gender;
     String imageurl;
+//    String social_logins;
     List<UserRolesVo> roles;
     UserStatusVo status;
     String institute;
@@ -147,20 +147,12 @@ public class UserVo {
         this.institute = institute;
     }
 
-    public String getDob() {
+    public long getDob() {
         return dob;
     }
 
-    public void setDob(String dob) {
+    public void setDob(long dob) {
         this.dob = dob;
-    }
-
-    public List<String> getQualifications() {
-        return qualifications;
-    }
-
-    public void setQualifications(List<String> qualifications) {
-        this.qualifications = qualifications;
     }
 
     public List<UserRolesVo> getRoles() {
@@ -194,4 +186,12 @@ public class UserVo {
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
     }
+
+//    public String getSocial_logins() {
+//        return social_logins;
+//    }
+//
+//    public void setSocial_logins(String social_logins) {
+//        this.social_logins = social_logins;
+//    }
 }

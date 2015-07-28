@@ -30,10 +30,11 @@ public class DBHelper extends SQLiteOpenHelper {
                     UserProfileTable.COL_FIRSTNAME + TEXT_TYPE + COMMA_SEP +
                     UserProfileTable.COL_LASTNAME + TEXT_TYPE + COMMA_SEP +
                     UserProfileTable.COL_PHONE + TEXT_TYPE + COMMA_SEP +
-                    UserProfileTable.COL_DOB + TEXT_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_DOB + LONG_TYPE + COMMA_SEP +
                     UserProfileTable.COL_GENDER + TEXT_TYPE + COMMA_SEP +
                     UserProfileTable.COL_INSTITUTE + TEXT_TYPE + COMMA_SEP +
                     UserProfileTable.COL_IMAGEURL + TEXT_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_SOCIAL_LOGINS + TEXT_TYPE + COMMA_SEP +
                     UserProfileTable.COL_ROLE + TEXT_TYPE + COMMA_SEP +
                     UserProfileTable.COL_STATUS_ACCOUNT + TEXT_TYPE + COMMA_SEP +
                     UserProfileTable.COL_STATUS_EMAIL + TEXT_TYPE + COMMA_SEP +

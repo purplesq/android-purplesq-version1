@@ -162,40 +162,42 @@ public class PsqContentProvider extends ContentProvider {
         final int match = matcher.match(uri);
         int rowsAffected = 0;
         SQLiteDatabase sqlDB = dbHelper.getWritableDatabase();
+        String tableName = getTable(uri);
+
         switch (match) {
 
             case USER_PROFILE_ID:
                 String userProfileId = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(where)) {
-                    rowsAffected = sqlDB.delete(UserProfileTable.TABLE_NAME, UserProfileTable._ID + "=" + userProfileId, null);
+                    rowsAffected = sqlDB.delete(tableName, UserProfileTable._ID + "=" + userProfileId, null);
                 } else {
-                    rowsAffected = sqlDB.delete(UserProfileTable.TABLE_NAME, where + " AND " + UserProfileTable._ID + "=" + userProfileId, selectionArgs);
+                    rowsAffected = sqlDB.delete(tableName, where + " AND " + UserProfileTable._ID + "=" + userProfileId, selectionArgs);
                 }
                 break;
             case USER_PROFILE:
-                rowsAffected = sqlDB.delete(UserProfileTable.TABLE_NAME, where, selectionArgs);
+                rowsAffected = sqlDB.delete(tableName, where, selectionArgs);
                 break;
             case USER_AUTH_ID:
                 String userAuthId = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(where)) {
-                    rowsAffected = sqlDB.delete(UserProfileTable.TABLE_NAME, UserProfileTable._ID + "=" + userAuthId, null);
+                    rowsAffected = sqlDB.delete(tableName, UserProfileTable._ID + "=" + userAuthId, null);
                 } else {
-                    rowsAffected = sqlDB.delete(UserProfileTable.TABLE_NAME, where + " AND " + UserProfileTable._ID + "=" + userAuthId, selectionArgs);
+                    rowsAffected = sqlDB.delete(tableName, where + " AND " + UserProfileTable._ID + "=" + userAuthId, selectionArgs);
                 }
                 break;
             case USER_AUTH:
-                rowsAffected = sqlDB.delete(UserProfileTable.TABLE_NAME, where, selectionArgs);
+                rowsAffected = sqlDB.delete(tableName, where, selectionArgs);
                 break;
             case PURCHASE_HISTORY_ID:
                 String purchaseHistoryId = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(where)) {
-                    rowsAffected = sqlDB.delete(UserProfileTable.TABLE_NAME, UserProfileTable._ID + "=" + purchaseHistoryId, null);
+                    rowsAffected = sqlDB.delete(tableName, UserProfileTable._ID + "=" + purchaseHistoryId, null);
                 } else {
-                    rowsAffected = sqlDB.delete(UserProfileTable.TABLE_NAME, where + " AND " + UserProfileTable._ID + "=" + purchaseHistoryId, selectionArgs);
+                    rowsAffected = sqlDB.delete(tableName, where + " AND " + UserProfileTable._ID + "=" + purchaseHistoryId, selectionArgs);
                 }
                 break;
             case PURCHASE_HISTORY:
-                rowsAffected = sqlDB.delete(UserProfileTable.TABLE_NAME, where, selectionArgs);
+                rowsAffected = sqlDB.delete(tableName, where, selectionArgs);
                 break;
 
             default:
@@ -210,6 +212,8 @@ public class PsqContentProvider extends ContentProvider {
         final int match = matcher.match(uri);
         SQLiteDatabase sqlDB = dbHelper.getWritableDatabase();
         int rowsAffected = 0;
+        String tableName = getTable(uri);
+
         switch (match) {
 
             case USER_PROFILE_ID:
@@ -218,32 +222,32 @@ public class PsqContentProvider extends ContentProvider {
                 if (!TextUtils.isEmpty(selection)) {
                     profileSelection.append(" AND " + selection);
                 }
-                rowsAffected = sqlDB.update(UserProfileTable.TABLE_NAME, values, profileSelection.toString(), null);
+                rowsAffected = sqlDB.update(tableName, values, profileSelection.toString(), null);
                 break;
             case USER_PROFILE:
-                rowsAffected = sqlDB.update(UserProfileTable.TABLE_NAME, values, selection, selectionArgs);
+                rowsAffected = sqlDB.update(tableName, values, selection, selectionArgs);
                 break;
             case USER_AUTH_ID:
                 String userAuthId = uri.getLastPathSegment();
-                StringBuilder userAuthSelection = new StringBuilder(UserProfileTable._ID + "=" + userAuthId);
+                StringBuilder userAuthSelection = new StringBuilder(UserAuthTable._ID + "=" + userAuthId);
                 if (!TextUtils.isEmpty(selection)) {
                     userAuthSelection.append(" AND " + selection);
                 }
-                rowsAffected = sqlDB.update(UserProfileTable.TABLE_NAME, values, userAuthSelection.toString(), null);
+                rowsAffected = sqlDB.update(tableName, values, userAuthSelection.toString(), null);
                 break;
             case USER_AUTH:
-                rowsAffected = sqlDB.update(UserProfileTable.TABLE_NAME, values, selection, selectionArgs);
+                rowsAffected = sqlDB.update(tableName, values, selection, selectionArgs);
                 break;
             case PURCHASE_HISTORY_ID:
                 String purchaseHistoryId = uri.getLastPathSegment();
-                StringBuilder purchaseHistorySelection = new StringBuilder(UserProfileTable._ID + "=" + purchaseHistoryId);
+                StringBuilder purchaseHistorySelection = new StringBuilder(PurchaseHistoryTable._ID + "=" + purchaseHistoryId);
                 if (!TextUtils.isEmpty(selection)) {
                     purchaseHistorySelection.append(" AND " + selection);
                 }
-                rowsAffected = sqlDB.update(UserProfileTable.TABLE_NAME, values, purchaseHistorySelection.toString(), null);
+                rowsAffected = sqlDB.update(tableName, values, purchaseHistorySelection.toString(), null);
                 break;
             case PURCHASE_HISTORY:
-                rowsAffected = sqlDB.update(UserProfileTable.TABLE_NAME, values, selection, selectionArgs);
+                rowsAffected = sqlDB.update(tableName, values, selection, selectionArgs);
                 break;
 
 

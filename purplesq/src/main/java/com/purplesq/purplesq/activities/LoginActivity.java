@@ -34,8 +34,6 @@ import java.util.Arrays;
  */
 public class LoginActivity extends SocialLoginBaseActivity implements GenericAsyncTaskListener {
 
-    private Toolbar mToolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,9 +90,9 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
      * Set up the {@link android.support.v7.widget.Toolbar}.
      */
     private void setupToolBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
@@ -123,7 +121,7 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
     public void genericAsyncTaskOnSuccess(Object obj) {
         if (obj instanceof String) {
             isInfoReceived = true;
-            SocialRegistrationGoogleTask mSocialRegistrationGoogleTask = new SocialRegistrationGoogleTask((String) obj, this);
+            SocialRegistrationGoogleTask mSocialRegistrationGoogleTask = new SocialRegistrationGoogleTask(LoginActivity.this, (String) obj, this);
             mSocialRegistrationGoogleTask.execute((Void) null);
         }
         if (obj instanceof JSONObject) {
