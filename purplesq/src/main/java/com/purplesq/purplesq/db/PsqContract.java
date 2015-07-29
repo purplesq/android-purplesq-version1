@@ -22,7 +22,6 @@ public final class PsqContract {
         public static final String COL_INSTITUTE = "institute";
         public static final String COL_IMAGEURL = "imageUrl";
         public static final String COL_SOCIAL_LOGINS = "social_logins";
-        public static final String COL_ROLE = "role";
         public static final String COL_STATUS_ACCOUNT = "statusAccount";
         public static final String COL_STATUS_EMAIL = "statusEmail";
         public static final String COL_STATUS_PHONE = "statusPhone";

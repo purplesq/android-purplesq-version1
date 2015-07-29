@@ -8,11 +8,7 @@ import android.database.Cursor;
 import com.purplesq.purplesq.db.PsqContentProvider;
 import com.purplesq.purplesq.db.PsqContract.UserProfileTable;
 import com.purplesq.purplesq.vos.UserVo;
-import com.purplesq.purplesq.vos.UserVo.UserRolesVo;
 import com.purplesq.purplesq.vos.UserVo.UserStatusVo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by nishant on 15/07/15.
@@ -29,10 +25,10 @@ public class UserProfileDataManager {
     public static final int GET_DOB = 7;
     public static final int GET_GENDER = 8;
     public static final int GET_SOCIAL_LOGINS = 9;
-    public static final int GET_ROLE = 10;
-    public static final int GET_STATUS_ACCOUNT = 11;
-    public static final int GET_STATUS_EMAIL = 12;
-    public static final int GET_STATUS_PHONE = 13;
+    public static final int GET_STATUS_ACCOUNT = 10;
+    public static final int GET_STATUS_EMAIL = 11;
+    public static final int GET_STATUS_PHONE = 12;
+
     private static final String[] GET_USER_PROFILE_PROJECTION = new String[]{
             UserProfileTable.COL_USER_ID,
             UserProfileTable.COL_EMAIL,
@@ -44,7 +40,6 @@ public class UserProfileDataManager {
             UserProfileTable.COL_DOB,
             UserProfileTable.COL_GENDER,
             UserProfileTable.COL_SOCIAL_LOGINS,
-            UserProfileTable.COL_ROLE,
             UserProfileTable.COL_STATUS_ACCOUNT,
             UserProfileTable.COL_STATUS_EMAIL,
             UserProfileTable.COL_STATUS_PHONE
@@ -72,8 +67,6 @@ public class UserProfileDataManager {
         values.put(UserProfileTable.COL_IMAGEURL, userVo.getImageurl());
         values.put(UserProfileTable.COL_DOB, userVo.getDob());
         values.put(UserProfileTable.COL_GENDER, userVo.getGender());
-//        values.put(UserProfileTable.COL_SOCIAL_LOGINS, userVo.getSocial_logins());
-        values.put(UserProfileTable.COL_ROLE, userVo.getRoles().get(0).getRole());
         values.put(UserProfileTable.COL_STATUS_ACCOUNT, userVo.getStatus().getAccount());
         values.put(UserProfileTable.COL_STATUS_EMAIL, userVo.getStatus().getEmail());
         values.put(UserProfileTable.COL_STATUS_PHONE, userVo.getStatus().getPhone());
@@ -113,9 +106,6 @@ public class UserProfileDataManager {
                 userVo.setGender(cur.getString(GET_GENDER));
                 userVo.setGender(cur.getString(GET_SOCIAL_LOGINS));
 
-                List<UserRolesVo> roles = new ArrayList<>();
-                userVo.setRoles(roles);
-                userVo.getRoles().add(userVo.new UserRolesVo("", cur.getString(GET_ROLE)));
                 UserStatusVo userStatusVo = userVo.new UserStatusVo(cur.getString(GET_STATUS_ACCOUNT), cur.getString(GET_STATUS_PHONE), cur.getString(GET_STATUS_EMAIL));
                 userVo.setStatus(userStatusVo);
 

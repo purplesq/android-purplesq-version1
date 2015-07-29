@@ -1,15 +1,9 @@
 package com.purplesq.purplesq.vos;
 
-import java.util.List;
-
 /**
  * Created by nishant on 25/06/15.
  */
 public class UserVo {
-
-//    "user": {"_id": "5589688ce372cf3202cbe71f","fname": "Nishant","lname": "Patil","email": "nishant@purplesq.com",
-//              "dob": null,"qualifications": [],"phone": "9975851484","roles": [{"_id": "553e0a9599cfc9064cf1d32e","role": "normal"}],
-//              "status": {"account": "Enabled","phone": "Unverified","email": "Unverified"}}
 
     String _id;
     String fname;
@@ -20,8 +14,6 @@ public class UserVo {
     String phone;
     String gender;
     String imageurl;
-    //    String social_logins;
-    List<UserRolesVo> roles;
     UserStatusVo status;
     String institute;
 
@@ -93,14 +85,6 @@ public class UserVo {
         this.dob = dob;
     }
 
-    public List<UserRolesVo> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<UserRolesVo> roles) {
-        this.roles = roles;
-    }
-
     public UserStatusVo getStatus() {
         return status;
     }
@@ -123,32 +107,6 @@ public class UserVo {
 
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
-    }
-
-    public class UserRolesVo {
-        String _id;
-        String role;
-
-        public UserRolesVo(String _id, String role) {
-            this._id = _id;
-            this.role = role;
-        }
-
-        public String get_id() {
-            return _id;
-        }
-
-        public void set_id(String _id) {
-            this._id = _id;
-        }
-
-        public String getRole() {
-            return role;
-        }
-
-        public void setRole(String role) {
-            this.role = role;
-        }
     }
 
     public class UserStatusVo {
@@ -186,12 +144,4 @@ public class UserVo {
             this.email = email;
         }
     }
-
-//    public String getSocial_logins() {
-//        return social_logins;
-//    }
-//
-//    public void setSocial_logins(String social_logins) {
-//        this.social_logins = social_logins;
-//    }
 }
