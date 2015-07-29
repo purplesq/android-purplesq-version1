@@ -93,11 +93,12 @@ public class UserLoginTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(final String response) {
-        if (TextUtils.isEmpty(response)) {
-            mListener.genericAsyncTaskOnSuccess(false);
-        } else {
+
+        if (!TextUtils.isEmpty(response)) {
             Log.i("Nish", "Response : " + response);
-            mListener.genericAsyncTaskOnSuccess(true);
+            mListener.genericAsyncTaskOnSuccess(response);
+        } else {
+            mListener.genericAsyncTaskOnSuccess(false);
         }
     }
 

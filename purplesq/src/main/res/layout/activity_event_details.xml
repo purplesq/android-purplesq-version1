@@ -62,18 +62,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/screen_vertical_margin"
-                android:layout_marginTop="@dimen/screen_vertical_margin"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/activity_event_details_tv_headline"
                     style="@style/TextAppearance_Headline"
+                    android:layout_marginBottom="@dimen/vertical_margin"
+                    android:layout_marginTop="@dimen/vertical_margin"
                     android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
 
                 <TextView
                     android:id="@+id/activity_event_details_tv_event_date"
-                    style="@style/TextAppearance_Medium"/>
+                    style="@style/TextAppearance_Medium"
+                    android:layout_marginBottom="@dimen/basic_margin"/>
             </LinearLayout>
 
             <RelativeLayout
@@ -91,7 +92,8 @@
                     android:layout_alignParentTop="true"
                     android:background="@color/colorAccent"
                     android:minWidth="70dp"
-                    android:text="Book"/>
+                    android:text="Book"
+                    android:textColor="@color/white"/>
 
 
                 <LinearLayout
@@ -100,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/activity_event_details_btn_book"
                     android:layout_toStartOf="@id/activity_event_details_btn_book"
                     android:background="@color/white"
@@ -120,11 +122,12 @@
 
             <LinearLayout
                 style="@style/LinearLayout_Vertical"
-                android:layout_marginBottom="@dimen/screen_vertical_margin"
-                android:layout_marginTop="@dimen/screen_vertical_margin"
+                android:layout_marginTop="@dimen/vertical_half_margin"
                 android:background="@drawable/bg_rectangle_outline_teal"
+                android:paddingBottom="@dimen/vertical_padding"
                 android:paddingLeft="@dimen/horizontal_padding"
-                android:paddingRight="@dimen/horizontal_padding">
+                android:paddingRight="@dimen/horizontal_padding"
+                android:paddingTop="@dimen/vertical_padding">
 
                 <TextView
                     style="@style/TextAppearance_Title"
@@ -132,19 +135,20 @@
 
                 <TextView
                     android:id="@+id/activity_event_details_statuscard_tv_description"
-                    style="@style/TextAppearance_Subhead"/>
+                    style="@style/TextAppearance_Subhead"
+                    android:layout_marginTop="@dimen/vertical_half_margin"/>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/activity_event_details_cardview_features"
                 style="@style/LinearLayout_Vertical"
-                android:layout_marginBottom="@dimen/screen_vertical_margin"
-                android:layout_marginTop="@dimen/screen_vertical_margin"
+                android:layout_marginTop="@dimen/vertical_margin"
                 android:background="@color/white">
 
                 <TextView
                     android:id="@+id/activity_event_details_featurescard_tv_features"
                     style="@style/TextAppearance_Title"
+                    android:layout_marginBottom="@dimen/vertical_half_margin"
                     android:text="@string/event_details_features"/>
 
             </LinearLayout>
@@ -152,12 +156,12 @@
             <LinearLayout
                 android:id="@+id/activity_event_details_cardview_whatuget"
                 style="@style/LinearLayout_Vertical"
-                android:layout_marginBottom="@dimen/screen_vertical_margin"
-                android:layout_marginTop="@dimen/screen_vertical_margin">
+                android:layout_marginTop="@dimen/vertical_margin">
 
                 <TextView
                     android:id="@+id/activity_event_details_whatugetcard_tv_features"
                     style="@style/TextAppearance_Title"
+                    android:layout_marginBottom="@dimen/vertical_half_margin"
                     android:text="@string/event_details_what_you_get"/>
 
             </LinearLayout>
@@ -165,49 +169,52 @@
             <LinearLayout
                 android:id="@+id/activity_event_details_cardview_schedule"
                 style="@style/LinearLayout_Vertical"
-                android:layout_marginBottom="@dimen/screen_vertical_margin"
-                android:layout_marginTop="@dimen/screen_vertical_margin"
+                android:layout_marginTop="@dimen/vertical_margin"
                 android:background="@drawable/bg_rectangle_outline_teal"
+                android:paddingBottom="@dimen/vertical_padding"
                 android:paddingLeft="@dimen/horizontal_padding"
-                android:paddingRight="@dimen/horizontal_padding">
+                android:paddingRight="@dimen/horizontal_padding"
+                android:paddingTop="@dimen/vertical_padding">
 
                 <TextView
                     style="@style/TextAppearance_Title"
+                    android:layout_marginBottom="@dimen/vertical_half_margin"
                     android:text="@string/event_details_itinerary"/>
 
             </LinearLayout>
 
             <LinearLayout
                 style="@style/LinearLayout_Vertical"
-                android:layout_marginBottom="@dimen/screen_vertical_margin"
-                android:layout_marginTop="@dimen/screen_vertical_margin"
-                android:background="@drawable/bg_rectangle_outline_teal">
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:background="@drawable/bg_rectangle_outline_teal"
+                android:paddingBottom="@dimen/vertical_padding"
+                android:paddingLeft="@dimen/horizontal_padding"
+                android:paddingRight="@dimen/horizontal_padding"
+                android:paddingTop="@dimen/vertical_padding">
 
                 <LinearLayout
                     android:id="@+id/activity_event_details_cardview_faq"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="@dimen/horizontal_padding"
-                    android:paddingRight="@dimen/horizontal_padding">
+                    android:orientation="vertical">
 
                     <TextView
                         style="@style/TextAppearance_Title"
+                        android:layout_marginBottom="@dimen/vertical_half_margin"
                         android:text="@string/event_details_faq"/>
 
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/activity_event_details_tv_queries"
-                    style="@style/TextAppearance_Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/screen_vertical_margin"
-                    android:layout_marginTop="@dimen/screen_vertical_margin"
-                    android:paddingLeft="@dimen/horizontal_padding"
-                    android:paddingRight="@dimen/horizontal_padding"
+                    android:layout_marginBottom="@dimen/vertical_margin"
+                    android:layout_marginTop="@dimen/vertical_margin"
                     android:text="@string/event_details_queries"
-                    android:textColor="@color/colorAccent"/>
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 

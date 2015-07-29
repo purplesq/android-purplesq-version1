@@ -12,9 +12,16 @@
 
     <!-- Default margin -->
     <dimen name="horizontal_margin">16dp</dimen>
-    <dimen name="vertical_margin">4dp</dimen>
+    <dimen name="vertical_margin">16dp</dimen>
+
+    <dimen name="vertical_half_padding">8dp</dimen>
+    <dimen name="vertical_half_margin">8dp</dimen>
 
     <dimen name="basic_margin">4dp</dimen>
+    <dimen name="basic_padding">4dp</dimen>
+
+    <dimen name="minimum_margin">2dp</dimen>
+    <dimen name="minimum_padding">2dp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp -->
     <dimen name="navigation_drawer_width">240dp</dimen>

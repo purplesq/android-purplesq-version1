@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -243,9 +244,13 @@ public class EmailLoginActivity extends AppCompatActivity implements LoaderCallb
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
-        if (obj instanceof Boolean) {
+        if (obj instanceof String) {
+            Intent intent = new Intent();
+            intent.putExtra("response", (String) obj);
+            setResult(AppCompatActivity.RESULT_OK, intent);
+            finish();//finishing activity
+        } else if (obj instanceof Boolean) {
             boolean success = (boolean) obj;
-
             mAuthTask = null;
             showProgress(false);
 

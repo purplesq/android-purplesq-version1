@@ -2,6 +2,7 @@ package com.purplesq.purplesq.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.SocialRegistrationGoogleTask;
 import com.purplesq.purplesq.vos.AuthVo;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -71,7 +73,7 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, EmailLoginActivity.class);
-                startActivity(i);
+                startActivityForResult(i, 100);
             }
         });
 
@@ -116,6 +118,22 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
         return GooglePlayServicesUtil.isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 100) {
+            if (resultCode == AppCompatActivity.RESULT_OK) {
+                if (data != null && data.hasExtra("response")) {
+                    try {
+                        String response = data.getStringExtra("response");
+                        JSONObject jsonResponse = new JSONObject(response);
+                        genericAsyncTaskOnSuccess(jsonResponse);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {

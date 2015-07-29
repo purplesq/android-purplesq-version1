@@ -3,56 +3,41 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/screen_horizontal_margin"
-    android:layout_marginLeft="@dimen/screen_horizontal_margin"
-    android:layout_marginRight="@dimen/screen_horizontal_margin"
-    android:layout_marginStart="@dimen/screen_horizontal_margin"
-    android:paddingBottom="4dp"
-    android:paddingTop="4dp">
+    android:paddingBottom="@dimen/basic_padding"
+    android:paddingTop="@dimen/basic_padding">
 
     <TextView
         android:id="@+id/item_schedule_tv_time"
+        style="@style/TextAppearance_Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp"
-        android:gravity="center_vertical"
-        android:text="10:00 am"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/grey800"/>
+        android:layout_marginBottom="@dimen/minimum_margin"
+        android:layout_marginTop="@dimen/minimum_margin"/>
 
     <TextView
         android:id="@+id/item_schedule_tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/TextAppearance_Subhead_Teal"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/vertical_margin"
+        android:layout_marginBottom="@dimen/minimum_margin"
         android:layout_marginLeft="@dimen/horizontal_margin"
         android:layout_marginStart="@dimen/horizontal_margin"
-        android:layout_marginTop="@dimen/vertical_margin"
+        android:layout_marginTop="@dimen/minimum_margin"
         android:layout_toEndOf="@id/item_schedule_tv_time"
-        android:layout_toRightOf="@id/item_schedule_tv_time"
-        android:gravity="center_vertical"
-        android:text="Assemble"
-        android:textAppearance="@android:style/TextAppearance.Medium"
-        android:textColor="@color/teal500"/>
+        android:layout_toRightOf="@id/item_schedule_tv_time"/>
 
     <TextView
         android:id="@+id/item_schedule_tv_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/TextAppearance_Subhead"
         android:layout_alignEnd="@id/item_schedule_tv_title"
         android:layout_alignLeft="@id/item_schedule_tv_title"
         android:layout_alignRight="@id/item_schedule_tv_title"
         android:layout_alignStart="@id/item_schedule_tv_title"
         android:layout_below="@id/item_schedule_tv_title"
-        android:layout_marginBottom="@dimen/vertical_margin"
-        android:layout_marginTop="@dimen/vertical_margin"
-        android:gravity="center_vertical"
-        android:textColor="@color/grey600"
-        android:text="Assemble at Hotel Bangalore Gate, Kempe Gowda Road, Chikpete"/>
+        android:layout_marginBottom="@dimen/minimum_margin"
+        android:layout_marginTop="@dimen/minimum_margin"
+        android:textColor="@color/grey600"/>
 
 </RelativeLayout>

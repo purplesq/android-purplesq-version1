@@ -1,10 +1,9 @@
 <android.support.v4.widget.NestedScrollView
+    android:id="@+id/activity_event_details_scrollview"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,19 +17,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/screen_vertical_margin"
-            android:layout_marginTop="@dimen/screen_vertical_margin"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/activity_event_details_tv_headline"
                 style="@style/TextAppearance_Headline"
-                android:text="How did Bisleri become synonumous with water?"/>
+                android:layout_marginBottom="@dimen/vertical_margin"
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
 
             <TextView
                 android:id="@+id/activity_event_details_tv_event_date"
                 style="@style/TextAppearance_Medium"
-                android:text="Thu, 27th Aug | Rs. 550"/>
+                android:layout_marginBottom="@dimen/basic_margin"/>
         </LinearLayout>
 
         <RelativeLayout
@@ -42,7 +41,7 @@
             <Button
                 android:id="@+id/activity_event_details_btn_book"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
@@ -52,25 +51,24 @@
 
 
             <LinearLayout
-                android:id="@+id/activity_event_details_cardview_staus"
+                android:id="@+id/activity_event_details_cardview_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/activity_event_details_btn_book"
+                android:layout_toStartOf="@id/activity_event_details_btn_book"
                 android:background="@color/white"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/activity_event_details_statuscard_tv_eligibility"
-                    style="@style/TextAppearance_Caption"
-                    android:text="This ODI is open for all students."/>
+                    style="@style/TextAppearance_Caption"/>
 
                 <TextView
                     android:id="@+id/activity_event_details_statuscard_tv_availability"
-                    style="@style/TextAppearance_Caption"
-                    android:text="Registrations ends on 2nd March"/>
+                    style="@style/TextAppearance_Caption"/>
 
             </LinearLayout>
 
@@ -78,11 +76,12 @@
 
         <LinearLayout
             style="@style/LinearLayout_Vertical"
-            android:layout_marginBottom="@dimen/screen_vertical_margin"
-            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:layout_marginTop="@dimen/vertical_half_margin"
             android:background="@drawable/bg_rectangle_outline_teal"
+            android:paddingBottom="@dimen/vertical_padding"
             android:paddingLeft="@dimen/horizontal_padding"
-            android:paddingRight="@dimen/horizontal_padding">
+            android:paddingRight="@dimen/horizontal_padding"
+            android:paddingTop="@dimen/vertical_padding">
 
             <TextView
                 style="@style/TextAppearance_Title"
@@ -91,115 +90,92 @@
             <TextView
                 android:id="@+id/activity_event_details_statuscard_tv_description"
                 style="@style/TextAppearance_Subhead"
-                android:text="Learn the basics of photography and understand what essential photography terms mean in a fun and interesting workshop."/>
+                android:layout_marginTop="@dimen/vertical_half_margin"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/activity_event_details_cardview_features"
             style="@style/LinearLayout_Vertical"
-            android:layout_marginBottom="@dimen/screen_vertical_margin"
-            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:layout_marginTop="@dimen/vertical_margin"
             android:background="@color/white">
 
             <TextView
                 android:id="@+id/activity_event_details_featurescard_tv_features"
                 style="@style/TextAppearance_Title"
+                android:layout_marginBottom="@dimen/vertical_half_margin"
                 android:text="@string/event_details_features"/>
-
-            <TextView
-                style="@style/TextAppearance_Subhead"
-                android:text="Basics of Photography - What entails a good photograph\nGothic influence in Mumbai's architecture"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/activity_event_details_cardview_whatuget"
             style="@style/LinearLayout_Vertical"
-            android:layout_marginBottom="@dimen/screen_vertical_margin"
-            android:layout_marginTop="@dimen/screen_vertical_margin">
+            android:layout_marginTop="@dimen/vertical_margin">
 
             <TextView
                 android:id="@+id/activity_event_details_whatugetcard_tv_features"
                 style="@style/TextAppearance_Title"
+                android:layout_marginBottom="@dimen/vertical_half_margin"
                 android:text="@string/event_details_what_you_get"/>
-
-            <TextView
-                style="@style/TextAppearance_Subhead"
-                android:text="Certificate \nMeals"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/activity_event_details_cardview_schedule"
             style="@style/LinearLayout_Vertical"
-            android:layout_marginBottom="@dimen/screen_vertical_margin"
-            android:layout_marginTop="@dimen/screen_vertical_margin"
+            android:layout_marginTop="@dimen/vertical_margin"
             android:background="@drawable/bg_rectangle_outline_teal"
+            android:paddingBottom="@dimen/vertical_padding"
             android:paddingLeft="@dimen/horizontal_padding"
-            android:paddingRight="@dimen/horizontal_padding">
+            android:paddingRight="@dimen/horizontal_padding"
+            android:paddingTop="@dimen/vertical_padding">
 
             <TextView
                 style="@style/TextAppearance_Title"
+                android:layout_marginBottom="@dimen/vertical_half_margin"
                 android:text="@string/event_details_itinerary"/>
-
-            <include
-                layout="@layout/item_schedule"/>
 
         </LinearLayout>
 
         <LinearLayout
             style="@style/LinearLayout_Vertical"
-            android:layout_marginBottom="@dimen/screen_vertical_margin"
-            android:layout_marginTop="@dimen/screen_vertical_margin"
-            android:background="@drawable/bg_rectangle_outline_teal">
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:background="@drawable/bg_rectangle_outline_teal"
+            android:paddingBottom="@dimen/vertical_padding"
+            android:paddingLeft="@dimen/horizontal_padding"
+            android:paddingRight="@dimen/horizontal_padding"
+            android:paddingTop="@dimen/vertical_padding">
 
             <LinearLayout
                 android:id="@+id/activity_event_details_cardview_faq"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/horizontal_padding"
-                android:paddingRight="@dimen/horizontal_padding">
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/TextAppearance_Title"
+                    android:layout_marginBottom="@dimen/vertical_half_margin"
                     android:text="@string/event_details_faq"/>
-
-                <include
-                    layout="@layout/item_faq"/>
 
             </LinearLayout>
 
             <TextView
-                style="@style/TextAppearance_Title"
+                android:id="@+id/activity_event_details_tv_queries"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/screen_vertical_margin"
-                android:layout_marginTop="@dimen/screen_vertical_margin"
-                android:text="@string/event_details_queries"/>
+                android:layout_marginBottom="@dimen/vertical_margin"
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:text="@string/event_details_queries"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:id="@+id/activity_event_details_cardview_partners"
-            style="@style/LinearLayout_Vertical"
-            android:layout_marginBottom="@dimen/screen_vertical_margin"
-            android:layout_marginTop="@dimen/screen_vertical_margin">
-
-            <TextView
-                style="@style/TextAppearance_Title"
-                android:text="@string/event_details_partners"/>
-
-            <GridLayout
-                android:id="@+id/activity_event_details_partnerscard_gridlayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="3"
-                android:orientation="horizontal"/>
-
-        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/transparent"/>
 
     </LinearLayout>
-
 </android.support.v4.widget.NestedScrollView>

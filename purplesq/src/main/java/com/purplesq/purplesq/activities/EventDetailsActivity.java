@@ -189,7 +189,7 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
         ((TextView) mBottomBar.findViewById(R.id.snackbar_text)).setTypeface(font);
         ((TextView) mBottomBar.findViewById(R.id.snackbar_text)).setText(bottomText);
 
-        mBottomBar.findViewById(R.id.snackbar_text).setOnClickListener(new View.OnClickListener() {
+        mBottomBar.findViewById(R.id.snackbar_action).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mActivity, ParticipantsActivity.class);
@@ -347,9 +347,9 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
         LinearLayout faqsLayout = (LinearLayout) findViewById(R.id.activity_event_details_cardview_faq);
 
         for (EventFaqsVo faq : mEventData.getFaqs()) {
-            GridLayout faqItemLayout = (GridLayout) getLayoutInflater().inflate(R.layout.item_faq, null);
-            ((TextView) faqItemLayout.findViewById(R.id.item_faq_question)).setText(faq.getFaqQue());
-            ((TextView) faqItemLayout.findViewById(R.id.item_faq_answer)).setText(faq.getFaqAns());
+            LinearLayout faqItemLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.item_faq, null);
+            ((TextView) faqItemLayout.findViewById(R.id.item_faq_tv_question)).setText(faq.getFaqQue());
+            ((TextView) faqItemLayout.findViewById(R.id.item_faq_tv_answer)).setText(faq.getFaqAns());
 
             faqsLayout.addView(faqItemLayout);
         }

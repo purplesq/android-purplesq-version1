@@ -2,6 +2,7 @@ package com.purplesq.purplesq.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -361,7 +362,12 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
-        if (obj instanceof Boolean) {
+        if (obj instanceof String) {
+            Intent intent = new Intent();
+            intent.putExtra("response", (String) obj);
+            setResult(AppCompatActivity.RESULT_OK, intent);
+            finish();
+        } else if (obj instanceof Boolean) {
             boolean success = (boolean) obj;
 
             mRegisterTask = null;
