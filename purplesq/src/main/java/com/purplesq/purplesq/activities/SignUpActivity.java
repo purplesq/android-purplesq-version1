@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.UserRegisterTask;
+import com.purplesq.purplesq.vos.ErrorVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -301,24 +302,6 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
 
     }
 
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Phone.NUMBER,
-                ContactsContract.CommonDataKinds.Photo.PHOTO_URI,
-                ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
-                ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
-                ContactsContract.Contacts.Data.MIMETYPE
-        };
-
-        int ADDRESS = 0;
-        int NUMBER = 1;
-        int PHOTO_URI = 2;
-        int GIVEN_NAME = 3;
-        int FAMILY_NAME = 4;
-        int MIME_TYPE = 5;
-    }
-
     private void applyPhoto(Uri photo) {
         if (!TextUtils.isEmpty(photo.toString())) {
             mUserImageView.setImageURI(photo);
@@ -359,7 +342,6 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         }
     }
 
-
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
         if (obj instanceof String) {
@@ -384,7 +366,12 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
-
+        if (obj instanceof ErrorVo) {
+            ErrorVo errorVo = (ErrorVo) obj;
+            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
+            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
+            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
+        }
     }
 
     @Override
@@ -396,5 +383,23 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     public void genericAsyncTaskOnCancelled(Object obj) {
         mRegisterTask = null;
         showProgress(false);
+    }
+
+    private interface ProfileQuery {
+        String[] PROJECTION = {
+                ContactsContract.CommonDataKinds.Email.ADDRESS,
+                ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.CommonDataKinds.Photo.PHOTO_URI,
+                ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
+                ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME,
+                ContactsContract.Contacts.Data.MIMETYPE
+        };
+
+        int ADDRESS = 0;
+        int NUMBER = 1;
+        int PHOTO_URI = 2;
+        int GIVEN_NAME = 3;
+        int FAMILY_NAME = 4;
+        int MIME_TYPE = 5;
     }
 }

@@ -1,9 +1,11 @@
 package com.purplesq.purplesq.tasks;
 
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.vos.ErrorVo;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -21,6 +23,7 @@ public class GetAllCitiesTask extends AsyncTask<Void, Void, String> {
     private final OkHttpClient okHttpClient = new OkHttpClient();
     private final Gson gson = new Gson();
     private GenericAsyncTaskListener mListener;
+    private ErrorVo mErrorVo;
 
     public GetAllCitiesTask(GenericAsyncTaskListener listener) {
         mListener = listener;
@@ -39,6 +42,10 @@ public class GetAllCitiesTask extends AsyncTask<Void, Void, String> {
             Response response = okHttpClient.newCall(request).execute();
 
             if (!response.isSuccessful()) {
+                mErrorVo = new ErrorVo();
+                mErrorVo.setCode(response.code());
+                mErrorVo.setMessage(response.message());
+                mErrorVo.setBody(response.body().string());
                 return null;
             }
 
@@ -52,19 +59,20 @@ public class GetAllCitiesTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String result) {
 
-        try {
-            JSONArray jsonArray = new JSONArray(result);
-            if (jsonArray.length() > 0) {
-                if (mListener != null) {
+        if (!TextUtils.isEmpty(result)) {
+            try {
+                JSONArray jsonArray = new JSONArray(result);
+                if (jsonArray.length() > 0) {
                     mListener.genericAsyncTaskOnSuccess(jsonArray);
+                } else {
+                    mListener.genericAsyncTaskOnError(mErrorVo);
                 }
-            } else {
-                if (mListener != null) {
-                    mListener.genericAsyncTaskOnSuccess(null);
-                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                mListener.genericAsyncTaskOnError(mErrorVo);
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } else {
+            mListener.genericAsyncTaskOnError(mErrorVo);
         }
 
 

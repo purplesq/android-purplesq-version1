@@ -1,4 +1,3 @@
-
 package com.purplesq.purplesq.vos;
 
 import java.util.List;

@@ -20,13 +20,40 @@ import java.util.List;
  * Created by nishant on 11/05/15.
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private List<EventsVo> mDataset;
     private static RecyclerViewItemClickListener mRecyclerViewItemClickListener;
+    private List<EventsVo> mDataset;
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public RecyclerViewAdapter(List<EventsVo> items, RecyclerViewItemClickListener listener) {
         mDataset = items;
         mRecyclerViewItemClickListener = listener;
+    }
+
+    // Create new views (invoked by the layout manager)
+    @Override
+    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardview, parent, false);
+
+        // set the view's size, margins, paddings and layout parameters
+        return new ViewHolder(itemView);
+    }
+
+    // Replace the contents of a view (invoked by the layout manager)
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        // - get element from your dataset at this position
+        EventsVo item = mDataset.get(position);
+
+        // - replace the contents of the view with that element
+        holder.position = position;
+        holder.mTextViewHeading.setText(item.getName());
+        ImageLoader.getInstance().displayImage(item.getThumbnail(), holder.mImage);
+    }
+
+    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemCount() {
+        return mDataset.size();
     }
 
     // Provide a reference to the views for each data item. Complex data items may need more than one view per item,
@@ -57,32 +84,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             Log.i("Nish", "Click detected at : " + position);
             mRecyclerViewItemClickListener.OnRecyclerViewItemClick(position);
         }
-    }
-
-    // Create new views (invoked by the layout manager)
-    @Override
-    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardview, parent, false);
-
-        // set the view's size, margins, paddings and layout parameters
-        return new ViewHolder(itemView);
-    }
-
-    // Replace the contents of a view (invoked by the layout manager)
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        EventsVo item = mDataset.get(position);
-
-        // - replace the contents of the view with that element
-        holder.position = position;
-        holder.mTextViewHeading.setText(item.getName());
-        ImageLoader.getInstance().displayImage(item.getThumbnail(), holder.mImage);
-    }
-
-    // Return the size of your dataset (invoked by the layout manager)
-    @Override
-    public int getItemCount() {
-        return mDataset.size();
     }
 }

@@ -20,72 +20,10 @@ public class UserVo {
     String phone;
     String gender;
     String imageurl;
-//    String social_logins;
+    //    String social_logins;
     List<UserRolesVo> roles;
     UserStatusVo status;
     String institute;
-
-    public class UserRolesVo {
-        String _id;
-        String role;
-
-        public UserRolesVo(String _id, String role) {
-            this._id = _id;
-            this.role = role;
-        }
-
-        public String get_id() {
-            return _id;
-        }
-
-        public void set_id(String _id) {
-            this._id = _id;
-        }
-
-        public String getRole() {
-            return role;
-        }
-
-        public void setRole(String role) {
-            this.role = role;
-        }
-    }
-
-    public class UserStatusVo {
-        String account;
-        String phone;
-        String email;
-
-        public UserStatusVo(String account, String phone, String email) {
-            this.account = account;
-            this.phone = phone;
-            this.email = email;
-        }
-
-        public String getAccount() {
-            return account;
-        }
-
-        public void setAccount(String account) {
-            this.account = account;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-    }
 
     public UserVo() {
     }
@@ -185,6 +123,68 @@ public class UserVo {
 
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
+    }
+
+    public class UserRolesVo {
+        String _id;
+        String role;
+
+        public UserRolesVo(String _id, String role) {
+            this._id = _id;
+            this.role = role;
+        }
+
+        public String get_id() {
+            return _id;
+        }
+
+        public void set_id(String _id) {
+            this._id = _id;
+        }
+
+        public String getRole() {
+            return role;
+        }
+
+        public void setRole(String role) {
+            this.role = role;
+        }
+    }
+
+    public class UserStatusVo {
+        String account;
+        String phone;
+        String email;
+
+        public UserStatusVo(String account, String phone, String email) {
+            this.account = account;
+            this.phone = phone;
+            this.email = email;
+        }
+
+        public String getAccount() {
+            return account;
+        }
+
+        public void setAccount(String account) {
+            this.account = account;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
     }
 
 //    public String getSocial_logins() {

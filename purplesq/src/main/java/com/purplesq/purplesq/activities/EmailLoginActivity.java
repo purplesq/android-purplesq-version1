@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.UserLoginTask;
+import com.purplesq.purplesq.vos.ErrorVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -265,7 +266,12 @@ public class EmailLoginActivity extends AppCompatActivity implements LoaderCallb
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
-
+        if (obj instanceof ErrorVo) {
+            ErrorVo errorVo = (ErrorVo) obj;
+            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
+            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
+            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
+        }
     }
 
     @Override
@@ -279,6 +285,15 @@ public class EmailLoginActivity extends AppCompatActivity implements LoaderCallb
         showProgress(false);
     }
 
+    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+        ArrayAdapter<String> adapter
+                = new ArrayAdapter<String>(EmailLoginActivity.this, android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+
+        mEmailView.setAdapter(adapter);
+    }
+
+
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -287,15 +302,6 @@ public class EmailLoginActivity extends AppCompatActivity implements LoaderCallb
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
-
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter
-                = new ArrayAdapter<String>(EmailLoginActivity.this, android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
     }
 }
 

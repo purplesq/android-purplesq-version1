@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.vos.ErrorVo;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -27,11 +28,12 @@ import java.io.IOException;
  */
 public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String> {
 
-    private final String mJsonFBUser;
-    private GenericAsyncTaskListener mListener;
-    private final OkHttpClient okHttpClient = new OkHttpClient();
     public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private final String mJsonFBUser;
+    private final OkHttpClient okHttpClient = new OkHttpClient();
+    private GenericAsyncTaskListener mListener;
     private Context mContext;
+    private ErrorVo mErrorVo;
 
     public SocialRegistrationFacebookTask(Context context, String facebookJson, GenericAsyncTaskListener listener) {
         mContext = context;
@@ -70,8 +72,10 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
             Response response = okHttpClient.newCall(request).execute();
 
             if (!response.isSuccessful()) {
-                Log.i("Nish", "Response failed Message : " + response.message());
-                Log.i("Nish", "Response failed Body : " + response.body().string());
+                mErrorVo = new ErrorVo();
+                mErrorVo.setCode(response.code());
+                mErrorVo.setMessage(response.message());
+                mErrorVo.setBody(response.body().string());
                 return null;
             }
 
@@ -84,21 +88,22 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
 
     @Override
     protected void onPostExecute(final String response) {
-        if (TextUtils.isEmpty(response)) {
-            mListener.genericAsyncTaskOnSuccess(null);
-        } else {
+        if (!TextUtils.isEmpty(response)) {
             Log.i("Nish", "FBReg Response : " + response);
             try {
                 JSONObject jsonResponse = new JSONObject(response);
                 mListener.genericAsyncTaskOnSuccess(jsonResponse);
             } catch (JSONException e) {
                 e.printStackTrace();
+                mListener.genericAsyncTaskOnSuccess(mErrorVo);
             }
+        } else {
+            mListener.genericAsyncTaskOnSuccess(mErrorVo);
         }
     }
 
     @Override
     protected void onCancelled() {
-        mListener.genericAsyncTaskOnCancelled(null);
+        mListener.genericAsyncTaskOnCancelled(mErrorVo);
     }
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.PaymentPayUVo;
 import com.purplesq.purplesq.vos.TransactionVo;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -24,9 +25,10 @@ public class PaymentTask extends AsyncTask<Void, Void, String> {
     private final OkHttpClient okHttpClient = new OkHttpClient();
     private final Gson gson = new Gson();
 
-    GenericAsyncTaskListener mListener;
-    String mToken;
-    TransactionVo mTransactionVo;
+    private GenericAsyncTaskListener mListener;
+    private String mToken;
+    private TransactionVo mTransactionVo;
+    private ErrorVo mErrorVo;
 
     public PaymentTask(String token, TransactionVo transactionVo, GenericAsyncTaskListener listener) {
         this.mToken = token;
@@ -36,14 +38,6 @@ public class PaymentTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-
-        try {
-            // Simulate network access.
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            return null;
-        }
-
         try {
 
             RequestBody formBody = new FormEncodingBuilder()
@@ -66,8 +60,10 @@ public class PaymentTask extends AsyncTask<Void, Void, String> {
             Response response = okHttpClient.newCall(request).execute();
 
             if (!response.isSuccessful()) {
-                Log.i("Nish", "Response failed Message : " + response.message());
-                Log.i("Nish", "Response failed Body : " + response.body().string());
+                mErrorVo = new ErrorVo();
+                mErrorVo.setCode(response.code());
+                mErrorVo.setMessage(response.message());
+                mErrorVo.setBody(response.body().string());
                 return null;
             }
 
@@ -82,16 +78,16 @@ public class PaymentTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(final String response) {
         if (!TextUtils.isEmpty(response)) {
+            Log.i("Nish", "Response : " + response);
             try {
                 PaymentPayUVo paymentPayUVo = gson.fromJson(response, PaymentPayUVo.class);
                 mListener.genericAsyncTaskOnSuccess(paymentPayUVo);
             } catch (Exception e) {
                 e.printStackTrace();
-                mListener.genericAsyncTaskOnSuccess(null);
+                mListener.genericAsyncTaskOnSuccess(mErrorVo);
             }
         } else {
-            Log.i("Nish", "Response : " + response);
-            mListener.genericAsyncTaskOnSuccess(null);
+            mListener.genericAsyncTaskOnSuccess(mErrorVo);
         }
     }
 

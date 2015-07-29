@@ -19,6 +19,20 @@ import java.util.List;
  */
 public class UserProfileDataManager {
 
+    public static final int GET_USER_ID = 0;
+    public static final int GET_EMAIL = 1;
+    public static final int GET_FIRSTNAME = 2;
+    public static final int GET_LASTNAME = 3;
+    public static final int GET_PHONE = 4;
+    public static final int GET_INSTITUTE = 5;
+    public static final int GET_IMAGEURL = 6;
+    public static final int GET_DOB = 7;
+    public static final int GET_GENDER = 8;
+    public static final int GET_SOCIAL_LOGINS = 9;
+    public static final int GET_ROLE = 10;
+    public static final int GET_STATUS_ACCOUNT = 11;
+    public static final int GET_STATUS_EMAIL = 12;
+    public static final int GET_STATUS_PHONE = 13;
     private static final String[] GET_USER_PROFILE_PROJECTION = new String[]{
             UserProfileTable.COL_USER_ID,
             UserProfileTable.COL_EMAIL,
@@ -35,7 +49,6 @@ public class UserProfileDataManager {
             UserProfileTable.COL_STATUS_EMAIL,
             UserProfileTable.COL_STATUS_PHONE
     };
-
     private static final String[] GET_USER_BASIC_PROFILE_PROJECTION = new String[]{
             UserProfileTable.COL_USER_ID,
             UserProfileTable.COL_EMAIL,
@@ -45,21 +58,6 @@ public class UserProfileDataManager {
             UserProfileTable.COL_INSTITUTE,
             UserProfileTable.COL_IMAGEURL,
     };
-
-    public static final int GET_USER_ID = 0;
-    public static final int GET_EMAIL = 1;
-    public static final int GET_FIRSTNAME = 2;
-    public static final int GET_LASTNAME = 3;
-    public static final int GET_PHONE = 4;
-    public static final int GET_INSTITUTE = 5;
-    public static final int GET_IMAGEURL = 6;
-    public static final int GET_DOB = 7;
-    public static final int GET_GENDER = 8;
-    public static final int GET_SOCIAL_LOGINS = 9;
-    public static final int GET_ROLE = 10;
-    public static final int GET_STATUS_ACCOUNT = 11;
-    public static final int GET_STATUS_EMAIL = 12;
-    public static final int GET_STATUS_PHONE = 13;
 
     public static void insertOrUpdateUserProfile(Context context, UserVo userVo) {
         // Add data to public stream table

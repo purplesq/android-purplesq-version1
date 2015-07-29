@@ -10,7 +10,6 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.purplesq.purplesq.vos.EventsVo;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,14 +48,14 @@ public class PurpleSQ extends Application {
         ImageLoader.getInstance().init(config);
     }
 
+    public List<EventsVo> getEventsData() {
+        return eventsData;
+    }
+
     public void setEventsData(List<EventsVo> events) {
         if (this.eventsData != null) {
             this.eventsData.clear();
         }
         this.eventsData = events;
-    }
-
-    public List<EventsVo> getEventsData() {
-            return eventsData;
     }
 }

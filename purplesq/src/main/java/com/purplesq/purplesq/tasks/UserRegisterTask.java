@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.vos.ErrorVo;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -28,15 +29,16 @@ import java.io.IOException;
  */
 public class UserRegisterTask extends AsyncTask<Void, Void, String> {
 
+    public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final String mFirstName;
     private final String mLastName;
     private final String mEmail;
     private final String mPassword;
     private final String mPhoneNo;
-    private GenericAsyncTaskListener mListener;
     private final OkHttpClient okHttpClient = new OkHttpClient();
-    public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private GenericAsyncTaskListener mListener;
     private Context mContext;
+    private ErrorVo mErrorVo;
 
     public UserRegisterTask(Context context, String firstname, String lastname, String email, String password, String phoneno, GenericAsyncTaskListener listener) {
         mContext = context;
@@ -86,8 +88,10 @@ public class UserRegisterTask extends AsyncTask<Void, Void, String> {
             Response response = okHttpClient.newCall(request).execute();
 
             if (!response.isSuccessful()) {
-                Log.i("Nish", "Response failed Message : " + response.message());
-                Log.i("Nish", "Response failed Body : " + response.body().string());
+                mErrorVo = new ErrorVo();
+                mErrorVo.setCode(response.code());
+                mErrorVo.setMessage(response.message());
+                mErrorVo.setBody(response.body().string());
                 return null;
             }
 
@@ -104,12 +108,12 @@ public class UserRegisterTask extends AsyncTask<Void, Void, String> {
             Log.i("Nish", "Response : " + response);
             mListener.genericAsyncTaskOnSuccess(response);
         } else {
-            mListener.genericAsyncTaskOnSuccess(false);
+            mListener.genericAsyncTaskOnSuccess(mErrorVo);
         }
     }
 
     @Override
     protected void onCancelled() {
-        mListener.genericAsyncTaskOnCancelled(null);
+        mListener.genericAsyncTaskOnCancelled(mErrorVo);
     }
 }

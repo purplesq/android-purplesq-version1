@@ -20,7 +20,7 @@ public class ParticipantVo {
         this.position = position;
     }
 
-    public ParticipantVo(int position,String name, String email, String phone, String institute) {
+    public ParticipantVo(int position, String name, String email, String phone, String institute) {
         this.position = position;
         this.name = name;
         this.email = email;

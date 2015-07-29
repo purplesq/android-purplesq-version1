@@ -25,6 +25,7 @@ import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.PayUTask;
 import com.purplesq.purplesq.tasks.PaymentTask;
 import com.purplesq.purplesq.vos.AuthVo;
+import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.EventsVo;
 import com.purplesq.purplesq.vos.PaymentPayUVo;
 import com.purplesq.purplesq.vos.TransactionVo;
@@ -152,7 +153,13 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
-
+        mPaymentTask = null;
+        if (obj instanceof ErrorVo) {
+            ErrorVo errorVo = (ErrorVo) obj;
+            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
+            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
+            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
+        }
     }
 
     @Override

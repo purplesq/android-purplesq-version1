@@ -15,6 +15,16 @@ import com.purplesq.purplesq.vos.UserVo;
  */
 public class AuthDataManager {
 
+    public static final int GET_AUTH_TOKEN = 0;
+    public static final int GET_AUTH_USER_ID = 1;
+    public static final int GET_AUTH_EMAIL = 2;
+    public static final int GET_AUTH_FIRSTNAME = 3;
+    public static final int GET_AUTH_LASTNAME = 4;
+    public static final int GET_AUTH_PHONE = 5;
+    public static final int GET_AUTH_INSTITUTE = 6;
+    public static final int GET_AUTH_IMAGEURL = 7;
+    public static final int GET_AUTH_EXPIRY = 8;
+    public static final int GET_AUTH_EXPIRY_TIME = 9;
     private static final String[] GET_AUTH_PROJECTION = new String[]{
             PsqContract.UserAuthTable.COL_TOKEN,
             PsqContract.UserAuthTable.COL_USER_ID,
@@ -27,17 +37,6 @@ public class AuthDataManager {
             PsqContract.UserAuthTable.COL_EXPIRY,
             PsqContract.UserAuthTable.COL_EXPIRY_TIME
     };
-
-    public static final int GET_TOKEN = 0;
-    public static final int GET_USER_ID = 1;
-    public static final int GET_EMAIL = 2;
-    public static final int GET_FIRSTNAME = 3;
-    public static final int GET_LASTNAME = 4;
-    public static final int GET_PHONE = 5;
-    public static final int GET_INSTITUTE = 6;
-    public static final int GET_IMAGEURL = 7;
-    public static final int GET_EXPIRY = 8;
-    public static final int GET_EXPIRY_TIME = 9;
 
     public static void insertOrUpdateAuthData(Context context, AuthVo authVo) {
         // Add data to public stream table
@@ -82,18 +81,18 @@ public class AuthDataManager {
             cur = context.getContentResolver().query(PsqContentProvider.URI_USER_AUTH, GET_AUTH_PROJECTION, null, null, null);
             if ((cur != null) && cur.moveToFirst()) {
                 UserVo userVo = new UserVo();
-                userVo.setId(cur.getString(GET_USER_ID));
-                userVo.setEmail(cur.getString(GET_EMAIL));
-                userVo.setFirstName(cur.getString(GET_FIRSTNAME));
-                userVo.setLastName(cur.getString(GET_LASTNAME));
-                userVo.setPhone(cur.getString(GET_PHONE));
-                userVo.setInstitute(cur.getString(GET_INSTITUTE));
-                userVo.setImageurl(cur.getString(GET_IMAGEURL));
+                userVo.setId(cur.getString(GET_AUTH_USER_ID));
+                userVo.setEmail(cur.getString(GET_AUTH_EMAIL));
+                userVo.setFirstName(cur.getString(GET_AUTH_FIRSTNAME));
+                userVo.setLastName(cur.getString(GET_AUTH_LASTNAME));
+                userVo.setPhone(cur.getString(GET_AUTH_PHONE));
+                userVo.setInstitute(cur.getString(GET_AUTH_INSTITUTE));
+                userVo.setImageurl(cur.getString(GET_AUTH_IMAGEURL));
 
-                authVo.setToken(cur.getString(GET_TOKEN));
+                authVo.setToken(cur.getString(GET_AUTH_TOKEN));
                 authVo.setUser(userVo);
-                authVo.setExpiry(cur.getLong(GET_EXPIRY));
-                authVo.setExpiryTime(cur.getLong(GET_EXPIRY_TIME));
+                authVo.setExpiry(cur.getLong(GET_AUTH_EXPIRY));
+                authVo.setExpiryTime(cur.getLong(GET_AUTH_EXPIRY_TIME));
 
                 return authVo;
             }

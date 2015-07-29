@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.EventsVo;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -24,6 +25,7 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
     private final Gson gson = new Gson();
     private GenericAsyncTaskListener mListener;
     private String mCity;
+    private ErrorVo mErrorVo;
 
     public GetAllEventsTask(GenericAsyncTaskListener listener, String city) {
         mListener = listener;
@@ -48,6 +50,10 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
             Response response = okHttpClient.newCall(request).execute();
 
             if (!response.isSuccessful()) {
+                mErrorVo = new ErrorVo();
+                mErrorVo.setCode(response.code());
+                mErrorVo.setMessage(response.message());
+                mErrorVo.setBody(response.body().string());
                 return null;
             }
 
@@ -60,16 +66,17 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        List<EventsVo> eventsVos = null;
+        if (!TextUtils.isEmpty(result)) {
+            List<EventsVo> eventsVos = null;
 
-        @SuppressWarnings("serial")
-        Type listType = new TypeToken<List<EventsVo>>() {
-        }.getType();
+            Type listType = new TypeToken<List<EventsVo>>() {
+            }.getType();
 
-        eventsVos = gson.fromJson(result, listType);
-
-        if (mListener != null) {
+            eventsVos = gson.fromJson(result, listType);
             mListener.genericAsyncTaskOnSuccess(eventsVos);
+
+        } else {
+            mListener.genericAsyncTaskOnError(mErrorVo);
         }
     }
 }

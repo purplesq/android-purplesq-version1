@@ -21,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -54,6 +53,11 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
     private final String STATE_SELECTED_POSITION = "selected_event_position";
 
     int position = -1;
+    int scrimTriggerOffset;
+    int scrollRange;
+    int toolbarHeight;
+    int toolbarMinHeight;
+    boolean isToolbarCalculationDone = false;
     private AppCompatActivity mActivity;
     private EventsVo mEventData;
     private CollapsingToolbarLayout mCollapsingToolbar;
@@ -61,12 +65,6 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
     private Button mBtnBook;
     private NestedScrollView mScrollView;
     private CoordinatorLayout mCoordinatorLayout;
-
-    int scrimTriggerOffset;
-    int scrollRange;
-    int toolbarHeight;
-    int toolbarMinHeight;
-    boolean isToolbarCalculationDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

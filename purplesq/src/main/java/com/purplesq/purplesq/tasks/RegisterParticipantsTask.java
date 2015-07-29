@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.ParticipantVo;
 import com.purplesq.purplesq.vos.TransactionVo;
 import com.squareup.okhttp.MediaType;
@@ -30,10 +31,11 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
     private final OkHttpClient okHttpClient = new OkHttpClient();
     private final Gson gson = new Gson();
 
-    GenericAsyncTaskListener mListener;
-    ArrayList<ParticipantVo> mParticipants = new ArrayList<>();
-    String mEventId;
-    String mToken;
+    private GenericAsyncTaskListener mListener;
+    private ArrayList<ParticipantVo> mParticipants = new ArrayList<>();
+    private String mEventId;
+    private String mToken;
+    private ErrorVo mErrorVo;
 
     public RegisterParticipantsTask(String event, String token, ArrayList<ParticipantVo> data, GenericAsyncTaskListener listener) {
         this.mEventId = event;
@@ -97,13 +99,15 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
             Response response = okHttpClient.newCall(request).execute();
 
             if (!response.isSuccessful()) {
-                Log.i("Nish", "Response failed Message : " + response.code());
-                Log.i("Nish", "Response failed Message : " + response.message());
-                Log.i("Nish", "Response failed Body : " + response.body().string());
+                mErrorVo = new ErrorVo();
+                mErrorVo.setCode(response.code());
+                mErrorVo.setMessage(response.message());
+                mErrorVo.setBody(response.body().string());
                 return null;
             }
 
             return response.body().string();
+
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -120,11 +124,10 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
                 mListener.genericAsyncTaskOnSuccess(transactionVo);
             } catch (Exception e) {
                 e.printStackTrace();
-                mListener.genericAsyncTaskOnSuccess(null);
+                mListener.genericAsyncTaskOnSuccess(mErrorVo);
             }
         } else {
-            Log.i("Nish", "Response : " + response);
-            mListener.genericAsyncTaskOnSuccess(null);
+            mListener.genericAsyncTaskOnSuccess(mErrorVo);
         }
     }
 

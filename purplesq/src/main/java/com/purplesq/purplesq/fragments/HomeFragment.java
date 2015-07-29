@@ -20,10 +20,14 @@ import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.activities.EventDetailsActivity;
 import com.purplesq.purplesq.adapters.RecyclerViewAdapter;
 import com.purplesq.purplesq.application.PurpleSQ;
+import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.interfces.RecyclerViewItemClickListener;
 import com.purplesq.purplesq.tasks.GetAllCitiesTask;
 import com.purplesq.purplesq.tasks.GetAllEventsTask;
+import com.purplesq.purplesq.tasks.RefreshTokenTask;
+import com.purplesq.purplesq.vos.AuthVo;
+import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.EventsVo;
 
 import org.json.JSONArray;
@@ -43,13 +47,13 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
     private GenericAsyncTaskListener mGenericAsyncTaskListener;
 
 
+    public HomeFragment() {
+        // Required empty public constructor
+    }
+
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         return fragment;
-    }
-
-    public HomeFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -71,6 +75,15 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
         mRecyclerViewLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mRecyclerViewLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        AuthVo authVo = AuthDataManager.getAuthData(getActivity());
+        if (authVo != null) {
+            long timeToFetchToken = authVo.getExpiryTime() - System.currentTimeMillis();
+
+            if (timeToFetchToken < (1000 * 60 * 60 * 24)) { //86400000
+                new RefreshTokenTask(getActivity(), authVo.getUser(), this).execute();
+            }
+        }
 
 
         new GetAllCitiesTask(this).execute();
@@ -114,7 +127,7 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
                     e.printStackTrace();
                 }
 
-            } else {
+            } else if (obj instanceof List) {
                 allEvents = (List<EventsVo>) obj;
 
                 // specify an adapter (see also next example)
@@ -128,7 +141,12 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
-
+        if (obj instanceof ErrorVo) {
+            ErrorVo errorVo = (ErrorVo) obj;
+            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
+            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
+            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
+        }
     }
 
     @Override

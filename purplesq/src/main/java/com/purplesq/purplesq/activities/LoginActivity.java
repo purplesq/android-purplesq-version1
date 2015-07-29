@@ -20,6 +20,7 @@ import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.SocialRegistrationGoogleTask;
 import com.purplesq.purplesq.vos.AuthVo;
+import com.purplesq.purplesq.vos.ErrorVo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,13 +102,6 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
         }
     }
 
-
-    @Override
-    protected void updateDataOnConnected(String data) {
-
-    }
-
-
     /**
      * Check if the device supports Google Play Services.  It's best
      * practice to check first rather than handling this as an error case.
@@ -145,7 +139,6 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
         if (obj instanceof JSONObject) {
             JSONObject jsonObject = (JSONObject) obj;
             if (jsonObject.has("token")) {
-                updateDataOnConnected("Registered : " + jsonObject.toString());
                 Log.i("Nish", "Login Successful Task : " + jsonObject.toString());
 
                 try {
@@ -167,7 +160,12 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
-
+        if (obj instanceof ErrorVo) {
+            ErrorVo errorVo = (ErrorVo) obj;
+            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
+            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
+            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
+        }
     }
 
     @Override

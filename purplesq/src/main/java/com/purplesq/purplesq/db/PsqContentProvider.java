@@ -31,11 +31,10 @@ public class PsqContentProvider extends ContentProvider {
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/");
 
     private static final String PATH_USER_PROFILE = "userProfile";
-    private static final String PATH_USER_AUTH = "userAuth";
-    private static final String PATH_PURCHASE_HISTORY = "purchaseHistory";
-
     public static final Uri URI_USER_PROFILE = Uri.parse("content://" + AUTHORITY + "/" + PATH_USER_PROFILE);
+    private static final String PATH_USER_AUTH = "userAuth";
     public static final Uri URI_USER_AUTH = Uri.parse("content://" + AUTHORITY + "/" + PATH_USER_AUTH);
+    private static final String PATH_PURCHASE_HISTORY = "purchaseHistory";
     public static final Uri URI_PURCHASE_HISTORY = Uri.parse("content://" + AUTHORITY + "/" + PATH_PURCHASE_HISTORY);
 
     private static final int USER_PROFILE = 1000;

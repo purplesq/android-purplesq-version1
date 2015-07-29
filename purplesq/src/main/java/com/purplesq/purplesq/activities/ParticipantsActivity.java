@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.RegisterParticipantsTask;
 import com.purplesq.purplesq.vos.AuthVo;
+import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.ParticipantVo;
 import com.purplesq.purplesq.vos.TransactionVo;
 import com.purplesq.purplesq.vos.UserVo;
@@ -338,6 +340,12 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
     @Override
     public void genericAsyncTaskOnError(Object obj) {
         mRegisterParticipantsTask = null;
+        if (obj instanceof ErrorVo) {
+            ErrorVo errorVo = (ErrorVo) obj;
+            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
+            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
+            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
+        }
     }
 
     @Override

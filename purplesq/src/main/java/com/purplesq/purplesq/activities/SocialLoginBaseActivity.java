@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -40,20 +39,17 @@ public abstract class SocialLoginBaseActivity extends AppCompatActivity
         implements ConnectionCallbacks, OnConnectionFailedListener,
         FacebookCallback<LoginResult>, GenericAsyncTaskListener {
 
+    /* Request code used to invoke sign in user interactions. */
+    public static final int RC_SIGN_IN = 0;
     private static final String TAG = SocialLoginBaseActivity.class.getSimpleName();
-
     private static final int STATE_DEFAULT = 0;
     private static final int STATE_SIGN_IN = 1;
     private static final int STATE_IN_PROGRESS = 2;
-
-    /* Request code used to invoke sign in user interactions. */
-    public static final int RC_SIGN_IN = 0;
-
     private static final String SAVED_PROGRESS = "sign_in_progress";
-
+    protected boolean isInfoReceived = false;
+    protected CallbackManager callbackManager;
     // This is the helper object that connects to Google Play Services.
     private GoogleApiClient mGoogleApiClient;
-
     // We use mSignInProgress to track whether user has clicked sign in.
     // mSignInProgress can be one of three values:
     //
@@ -70,27 +66,12 @@ public abstract class SocialLoginBaseActivity extends AppCompatActivity
     //                      resolve an error, and so we should not start further
     //                      intents until the current intent completes.
     private int mSignInProgress;
-
     // Used to store the PendingIntent most recently returned by Google Play
     // services until the user clicks 'sign in'.
     private PendingIntent mSignInIntent;
-
     // Used to store the error code most recently returned by Google Play services
     // until the user clicks 'sign in'.
     private int mSignInError;
-
-    /**
-     * Called when there is a change in connection state.  If you have "Sign in"/ "Connect",
-     * "Sign out"/ "Disconnect", or "Revoke access" buttons, this lets you know when their states
-     * need to be updated.
-     */
-    protected abstract void updateDataOnConnected(String data);
-
-
-    protected boolean isInfoReceived = false;
-
-    protected CallbackManager callbackManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -322,17 +303,12 @@ public abstract class SocialLoginBaseActivity extends AppCompatActivity
 
     @Override
     public void onSuccess(final LoginResult loginResult) {
-        updateDataOnConnected("\n------------ Facebook -------------");
-        updateDataOnConnected("FB userId : " + loginResult.getAccessToken().getUserId());
-
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         // Application code
                         JSONObject userJson = response.getJSONObject();
-                        updateDataOnConnected("FB user JSON :");
-                        updateDataOnConnected(" \n" + userJson.toString());
                         Log.i("Nish", "FB Token : " + loginResult.getAccessToken().getToken());
                         Log.i("Nish", "FB user JSON : " + userJson.toString());
                         SocialRegistrationFacebookTask mSocialRegistrationFacebookTask = new SocialRegistrationFacebookTask(SocialLoginBaseActivity.this, userJson.toString(), SocialLoginBaseActivity.this);
