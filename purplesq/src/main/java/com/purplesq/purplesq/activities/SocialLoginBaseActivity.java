@@ -46,39 +46,18 @@ public abstract class SocialLoginBaseActivity extends AppCompatActivity
     private static final int STATE_SIGN_IN = 1;
     private static final int STATE_IN_PROGRESS = 2;
     private static final String SAVED_PROGRESS = "sign_in_progress";
+
     protected boolean isInfoReceived = false;
     protected CallbackManager callbackManager;
-    // This is the helper object that connects to Google Play Services.
     private GoogleApiClient mGoogleApiClient;
-    // We use mSignInProgress to track whether user has clicked sign in.
-    // mSignInProgress can be one of three values:
-    //
-    //       STATE_DEFAULT: The default state of the application before the user
-    //                      has clicked 'sign in', or after they have clicked
-    //                      'sign out'.  In this state we will not attempt to
-    //                      resolve sign in errors and so will display our
-    //                      Activity in a signed out state.
-    //       STATE_SIGN_IN: This state indicates that the user has clicked 'sign
-    //                      in', so resolve successive errors preventing sign in
-    //                      until the user has successfully authorized an account
-    //                      for our app.
-    //   STATE_IN_PROGRESS: This state indicates that we have started an intent to
-    //                      resolve an error, and so we should not start further
-    //                      intents until the current intent completes.
     private int mSignInProgress;
-    // Used to store the PendingIntent most recently returned by Google Play
-    // services until the user clicks 'sign in'.
     private PendingIntent mSignInIntent;
-    // Used to store the error code most recently returned by Google Play services
-    // until the user clicks 'sign in'.
     private int mSignInError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize the PlusClient connection.
-        // Scopes indicate the information about the user your application will be able to access.
         mGoogleApiClient = buildGoogleApiClient();
 
         FacebookSdk.sdkInitialize(getApplicationContext());

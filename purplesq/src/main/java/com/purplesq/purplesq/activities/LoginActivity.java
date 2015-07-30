@@ -37,6 +37,8 @@ import java.util.Arrays;
  */
 public class LoginActivity extends SocialLoginBaseActivity implements GenericAsyncTaskListener {
 
+    private SignInButton mPlusSignInButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,21 +46,8 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
         setupToolBar();
 
         // Find the Google+ sign in button.
-        SignInButton mPlusSignInButton = (SignInButton) findViewById(R.id.activity_login_btn_plus_sign_in);
+        mPlusSignInButton = (SignInButton) findViewById(R.id.activity_login_btn_plus_sign_in);
         mPlusSignInButton.setSize(SignInButton.SIZE_WIDE);
-        if (supportsGooglePlayServices()) {
-            // Set a listener to connect the user when the G+ button is clicked.
-            mPlusSignInButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    goolePlusSignIn();
-                }
-            });
-        } else {
-            // Don't offer G+ sign in if the app's version is too low to support Google Play Services.
-            mPlusSignInButton.setVisibility(View.GONE);
-            return;
-        }
 
         LinearLayout mFBSignInButton = (LinearLayout) findViewById(R.id.activity_login_layout_fb_sign_in);
         mFBSignInButton.setOnClickListener(new OnClickListener() {
@@ -89,6 +78,23 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (supportsGooglePlayServices()) {
+            // Set a listener to connect the user when the G+ button is clicked.
+            mPlusSignInButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    goolePlusSignIn();
+                }
+            });
+        } else {
+            // Don't offer G+ sign in if the app's version is too low to support Google Play Services.
+            mPlusSignInButton.setVisibility(View.GONE);
+        }
+    }
+
     /**
      * Set up the {@link android.support.v7.widget.Toolbar}.
      */
@@ -109,7 +115,21 @@ public class LoginActivity extends SocialLoginBaseActivity implements GenericAsy
      * @return whether the device supports Google Play Services
      */
     private boolean supportsGooglePlayServices() {
-        return GooglePlayServicesUtil.isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS;
+        int serviceCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        switch (serviceCode) {
+            case 2:
+                try {
+                    GooglePlayServicesUtil.getErrorDialog(2, this, 0).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+                break;
+            case ConnectionResult.SUCCESS:
+                return true;
+        }
+        return true;
+//        return GooglePlayServicesUtil.isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS;
     }
 
     @Override
