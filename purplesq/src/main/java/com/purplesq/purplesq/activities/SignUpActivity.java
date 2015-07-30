@@ -140,14 +140,12 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(firstName)) {
             mFirstNameView.setError(getString(R.string.error_field_required));
             focusView = mFirstNameView;
             cancel = true;
         }
 
-        // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(lastName)) {
             mLastNameView.setError(getString(R.string.error_field_required));
             focusView = mLastNameView;
@@ -155,14 +153,14 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         }
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
         // Check for a valid confirmPassword, if the user entered one.
-        if (!TextUtils.isEmpty(confirmPassword) && (confirmPassword.compareTo(password) != 0)) {
+        if (TextUtils.isEmpty(confirmPassword) && (confirmPassword.compareTo(password) != 0)) {
             mConfirmPasswordView.setError(getString(R.string.error_password_does_not_match));
             focusView = mConfirmPasswordView;
             cancel = true;
@@ -199,7 +197,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 3;
     }
 
     /**
