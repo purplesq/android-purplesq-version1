@@ -8,7 +8,6 @@ import android.database.Cursor;
 import com.purplesq.purplesq.db.PsqContentProvider;
 import com.purplesq.purplesq.db.PsqContract.UserProfileTable;
 import com.purplesq.purplesq.vos.UserVo;
-import com.purplesq.purplesq.vos.UserVo.UserStatusVo;
 
 /**
  * Created by nishant on 15/07/15.
@@ -25,9 +24,6 @@ public class UserProfileDataManager {
     public static final int GET_DOB = 7;
     public static final int GET_GENDER = 8;
     public static final int GET_SOCIAL_LOGINS = 9;
-    public static final int GET_STATUS_ACCOUNT = 10;
-    public static final int GET_STATUS_EMAIL = 11;
-    public static final int GET_STATUS_PHONE = 12;
 
     private static final String[] GET_USER_PROFILE_PROJECTION = new String[]{
             UserProfileTable.COL_USER_ID,
@@ -39,10 +35,7 @@ public class UserProfileDataManager {
             UserProfileTable.COL_IMAGEURL,
             UserProfileTable.COL_DOB,
             UserProfileTable.COL_GENDER,
-            UserProfileTable.COL_SOCIAL_LOGINS,
-            UserProfileTable.COL_STATUS_ACCOUNT,
-            UserProfileTable.COL_STATUS_EMAIL,
-            UserProfileTable.COL_STATUS_PHONE
+            UserProfileTable.COL_SOCIAL_LOGINS
     };
     private static final String[] GET_USER_BASIC_PROFILE_PROJECTION = new String[]{
             UserProfileTable.COL_USER_ID,
@@ -67,9 +60,6 @@ public class UserProfileDataManager {
         values.put(UserProfileTable.COL_IMAGEURL, userVo.getImageurl());
         values.put(UserProfileTable.COL_DOB, userVo.getDob());
         values.put(UserProfileTable.COL_GENDER, userVo.getGender());
-        values.put(UserProfileTable.COL_STATUS_ACCOUNT, userVo.getStatus().getAccount());
-        values.put(UserProfileTable.COL_STATUS_EMAIL, userVo.getStatus().getEmail());
-        values.put(UserProfileTable.COL_STATUS_PHONE, userVo.getStatus().getPhone());
 
         ContentResolver resolver = context.getContentResolver();
 
@@ -105,9 +95,6 @@ public class UserProfileDataManager {
                 userVo.setDob(cur.getLong(GET_DOB));
                 userVo.setGender(cur.getString(GET_GENDER));
                 userVo.setGender(cur.getString(GET_SOCIAL_LOGINS));
-
-                UserStatusVo userStatusVo = userVo.new UserStatusVo(cur.getString(GET_STATUS_ACCOUNT), cur.getString(GET_STATUS_PHONE), cur.getString(GET_STATUS_EMAIL));
-                userVo.setStatus(userStatusVo);
 
                 return userVo;
             }

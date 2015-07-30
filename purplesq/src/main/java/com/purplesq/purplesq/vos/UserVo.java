@@ -14,7 +14,6 @@ public class UserVo {
     String phone;
     String gender;
     String imageurl;
-    UserStatusVo status;
     String institute;
 
     public UserVo() {
@@ -85,14 +84,6 @@ public class UserVo {
         this.dob = dob;
     }
 
-    public UserStatusVo getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserStatusVo status) {
-        this.status = status;
-    }
-
     public String getGender() {
         return gender;
     }
@@ -107,41 +98,5 @@ public class UserVo {
 
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
-    }
-
-    public class UserStatusVo {
-        String account;
-        String phone;
-        String email;
-
-        public UserStatusVo(String account, String phone, String email) {
-            this.account = account;
-            this.phone = phone;
-            this.email = email;
-        }
-
-        public String getAccount() {
-            return account;
-        }
-
-        public void setAccount(String account) {
-            this.account = account;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
     }
 }

@@ -34,11 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     UserProfileTable.COL_GENDER + TEXT_TYPE + COMMA_SEP +
                     UserProfileTable.COL_INSTITUTE + TEXT_TYPE + COMMA_SEP +
                     UserProfileTable.COL_IMAGEURL + TEXT_TYPE + COMMA_SEP +
-                    UserProfileTable.COL_SOCIAL_LOGINS + TEXT_TYPE + COMMA_SEP +
-                    UserProfileTable.COL_STATUS_ACCOUNT + TEXT_TYPE + COMMA_SEP +
-                    UserProfileTable.COL_STATUS_EMAIL + TEXT_TYPE + COMMA_SEP +
-                    UserProfileTable.COL_STATUS_PHONE + TEXT_TYPE +
-                    " )";
+                    UserProfileTable.COL_SOCIAL_LOGINS + TEXT_TYPE + " )";
 
     private static final String SQL_DELETE_USER_PROFILE =
             "DROP TABLE IF EXISTS " + UserProfileTable.TABLE_NAME;

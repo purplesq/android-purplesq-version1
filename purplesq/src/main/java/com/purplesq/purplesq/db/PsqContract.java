@@ -22,9 +22,6 @@ public final class PsqContract {
         public static final String COL_INSTITUTE = "institute";
         public static final String COL_IMAGEURL = "imageUrl";
         public static final String COL_SOCIAL_LOGINS = "social_logins";
-        public static final String COL_STATUS_ACCOUNT = "statusAccount";
-        public static final String COL_STATUS_EMAIL = "statusEmail";
-        public static final String COL_STATUS_PHONE = "statusPhone";
 
 //        "user":{"_id":"5589688ce372cf3202cbe71f", "fname":"Nishant", "lname":"Patil", "email":"nishant@purplesq.com", "dob":null, "qualifications":[],"phone":"9975851484", "roles":[{"_id":"553e0a9599cfc9064cf1d32e", "role":"normal"}],"status":{"account":"Enabled", "phone":"Unverified", "email":"Unverified"}}
 
