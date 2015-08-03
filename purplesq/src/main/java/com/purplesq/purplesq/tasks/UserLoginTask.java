@@ -100,9 +100,17 @@ public class UserLoginTask extends AsyncTask<Void, Void, String> {
 
         if (!TextUtils.isEmpty(response)) {
             Log.i("Nish", "Response : " + response);
-            mListener.genericAsyncTaskOnSuccess(response);
+            JSONObject jsonResponse;
+            try {
+                jsonResponse = new JSONObject(response);
+                mListener.genericAsyncTaskOnSuccess(jsonResponse);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                mListener.genericAsyncTaskOnError(mErrorVo);
+            }
+
         } else {
-            mListener.genericAsyncTaskOnSuccess(mErrorVo);
+            mListener.genericAsyncTaskOnError(mErrorVo);
         }
     }
 

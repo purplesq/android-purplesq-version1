@@ -21,22 +21,22 @@
 
             <TextView
                 android:id="@+id/activity_event_details_tv_headline"
-                style="@style/TextAppearance_Headline"
+                style="@style/TextAppearance_Headline_Grey800"
                 android:layout_marginBottom="@dimen/vertical_margin"
                 android:layout_marginTop="@dimen/vertical_margin"
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
 
             <TextView
                 android:id="@+id/activity_event_details_tv_event_date"
-                style="@style/TextAppearance_Medium"
+                style="@style/TextAppearance_Medium_Teal500"
                 android:layout_marginBottom="@dimen/basic_margin"/>
         </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/screen_vertical_margin"
-            android:layout_marginTop="@dimen/screen_vertical_margin">
+            android:layout_marginBottom="@dimen/basic_margin"
+            android:layout_marginTop="@dimen/basic_margin">
 
             <Button
                 android:id="@+id/activity_event_details_btn_book"
@@ -64,11 +64,11 @@
 
                 <TextView
                     android:id="@+id/activity_event_details_statuscard_tv_eligibility"
-                    style="@style/TextAppearance_Caption"/>
+                    style="@style/TextAppearance_Caption_Grey600"/>
 
                 <TextView
                     android:id="@+id/activity_event_details_statuscard_tv_availability"
-                    style="@style/TextAppearance_Caption"/>
+                    style="@style/TextAppearance_Caption_Grey600"/>
 
             </LinearLayout>
 
@@ -84,12 +84,12 @@
             android:paddingTop="@dimen/vertical_padding">
 
             <TextView
-                style="@style/TextAppearance_Title"
+                style="@style/TextAppearance_Title_Black"
                 android:text="@string/event_details_overview"/>
 
             <TextView
                 android:id="@+id/activity_event_details_statuscard_tv_description"
-                style="@style/TextAppearance_Subhead"
+                style="@style/TextAppearance_Subhead_Grey800"
                 android:layout_marginTop="@dimen/vertical_half_margin"/>
         </LinearLayout>
 
@@ -101,7 +101,7 @@
 
             <TextView
                 android:id="@+id/activity_event_details_featurescard_tv_features"
-                style="@style/TextAppearance_Title"
+                style="@style/TextAppearance_Title_Black"
                 android:layout_marginBottom="@dimen/vertical_half_margin"
                 android:text="@string/event_details_features"/>
 
@@ -114,7 +114,7 @@
 
             <TextView
                 android:id="@+id/activity_event_details_whatugetcard_tv_features"
-                style="@style/TextAppearance_Title"
+                style="@style/TextAppearance_Title_Black"
                 android:layout_marginBottom="@dimen/vertical_half_margin"
                 android:text="@string/event_details_what_you_get"/>
 
@@ -131,7 +131,7 @@
             android:paddingTop="@dimen/vertical_padding">
 
             <TextView
-                style="@style/TextAppearance_Title"
+                style="@style/TextAppearance_Title_Black"
                 android:layout_marginBottom="@dimen/vertical_half_margin"
                 android:text="@string/event_details_itinerary"/>
 
@@ -153,7 +153,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextAppearance_Title"
+                    style="@style/TextAppearance_Title_Black"
                     android:layout_marginBottom="@dimen/vertical_half_margin"
                     android:text="@string/event_details_faq"/>
 

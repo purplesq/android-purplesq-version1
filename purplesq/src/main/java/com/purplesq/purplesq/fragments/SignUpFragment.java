@@ -1,23 +1,22 @@
-package com.purplesq.purplesq.activities;
+package com.purplesq.purplesq.fragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.content.Intent;
+
+import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -26,40 +25,45 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.purplesq.purplesq.R;
-import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.activities.LoginActivity;
 import com.purplesq.purplesq.tasks.UserRegisterTask;
-import com.purplesq.purplesq.vos.ErrorVo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, GenericAsyncTaskListener {
+public class SignUpFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private AutoCompleteTextView mEmailView, mPhoneNoView;
     private EditText mFirstNameView, mLastNameView, mPasswordView, mConfirmPasswordView;
-    private View mProgressView;
     private ImageView mUserImageView;
+    private AppCompatActivity mActivity;
 
-    private UserRegisterTask mRegisterTask = null;
+    public static SignUpFragment newInstance() {
+        SignUpFragment fragment = new SignUpFragment();
+        return fragment;
+    }
+
+    public SignUpFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+    }
 
-        setupToolBar();
-
-        mFirstNameView = (EditText) findViewById(R.id.activity_signup_et_first_name);
-        mLastNameView = (EditText) findViewById(R.id.activity_signup_et_last_name);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_sign_up, container, false);
+        mFirstNameView = (EditText) rootView.findViewById(R.id.fragment_signup_et_firstname);
+        mLastNameView = (EditText) rootView.findViewById(R.id.fragment_signup_et_lastname);
 
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.activity_signup_autotv_email);
-        mPhoneNoView = (AutoCompleteTextView) findViewById(R.id.activity_signup_autotv_phoneno);
+        mEmailView = (AutoCompleteTextView) rootView.findViewById(R.id.fragment_signup_autotv_email);
+        mPhoneNoView = (AutoCompleteTextView) rootView.findViewById(R.id.fragment_signup_autotv_phoneno);
 
-        populateAutoComplete();
-
-        mPasswordView = (EditText) findViewById(R.id.activity_signup_et_password);
-        mConfirmPasswordView = (EditText) findViewById(R.id.activity_signup_et_confirm_password);
+        mPasswordView = (EditText) rootView.findViewById(R.id.fragment_signup_et_password);
+        mConfirmPasswordView = (EditText) rootView.findViewById(R.id.fragment_signup_et_confirm_password);
         mConfirmPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -73,47 +77,29 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
             }
         });
 
+        mUserImageView = (ImageView) rootView.findViewById(R.id.fragment_signup_imageView);
+        rootView.findViewById(R.id.fragment_signup_btn_signup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerUser();
+            }
+        });
 
-        mProgressView = findViewById(R.id.activity_signup_progress);
-        mUserImageView = (ImageView) findViewById(R.id.activity_signup_iv_image);
+        populateAutoComplete();
+
+        return rootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = (AppCompatActivity) activity;
     }
 
     private void populateAutoComplete() {
-        getSupportLoaderManager().initLoader(0, null, this);
+        mActivity.getSupportLoaderManager().initLoader(0, null, this);
     }
 
-    /**
-     * Set up the {@link android.support.v7.widget.Toolbar}.
-     */
-    private void setupToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            }
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_sign_up, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.menu_email_login_btn_ok) {
-            registerUser();
-            Log.i("Nish", "Done clicked.");
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     /**
      * Register the account specified by the login form.
@@ -121,10 +107,6 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
      * and no actual register attempt is made.
      */
     public void registerUser() {
-        if (mRegisterTask != null) {
-            return;
-        }
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -160,7 +142,14 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         }
 
         // Check for a valid confirmPassword, if the user entered one.
-        if (TextUtils.isEmpty(confirmPassword) && (confirmPassword.compareTo(password) != 0)) {
+        if (TextUtils.isEmpty(confirmPassword) || !isPasswordValid(confirmPassword)) {
+            mConfirmPasswordView.setError(getString(R.string.error_password_does_not_match));
+            focusView = mConfirmPasswordView;
+            cancel = true;
+        }
+
+        // Check for a valid confirmPassword, if the user entered one.
+        if (confirmPassword.compareTo(password) != 0) {
             mConfirmPasswordView.setError(getString(R.string.error_password_does_not_match));
             focusView = mConfirmPasswordView;
             cancel = true;
@@ -184,9 +173,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            mRegisterTask = new UserRegisterTask(this, firstName, lastName, email, password, phoneno, this);
-            mRegisterTask.execute((Void) null);
+            new UserRegisterTask(mActivity, firstName, lastName, email, password, phoneno, (LoginActivity) mActivity).execute((Void) null);
         }
     }
 
@@ -200,30 +187,10 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         return password.length() > 3;
     }
 
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressView.animate().setDuration(shortAnimTime).alpha(
-                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
-    }
-
-
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(
-                this,
+                mActivity,
                 Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI, ContactsContract.Contacts.Data.CONTENT_DIRECTORY),
                 ProfileQuery.PROJECTION,
                 ContactsContract.Contacts.Data.MIMETYPE + "=? OR "
@@ -322,7 +289,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         } else {
             //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
             ArrayAdapter<String> adapter
-                    = new ArrayAdapter<>(SignUpActivity.this, android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+                    = new ArrayAdapter<>(mActivity, android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
             mEmailView.setAdapter(adapter);
         }
@@ -334,53 +301,10 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         } else {
             //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
             ArrayAdapter<String> adapter
-                    = new ArrayAdapter<>(SignUpActivity.this, android.R.layout.simple_dropdown_item_1line, phoneNumberCollection);
+                    = new ArrayAdapter<>(mActivity, android.R.layout.simple_dropdown_item_1line, phoneNumberCollection);
 
             mPhoneNoView.setAdapter(adapter);
         }
-    }
-
-    @Override
-    public void genericAsyncTaskOnSuccess(Object obj) {
-        if (obj instanceof String) {
-            Intent intent = new Intent();
-            intent.putExtra("response", (String) obj);
-            setResult(AppCompatActivity.RESULT_OK, intent);
-            finish();
-        } else if (obj instanceof Boolean) {
-            boolean success = (boolean) obj;
-
-            mRegisterTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-    }
-
-    @Override
-    public void genericAsyncTaskOnError(Object obj) {
-        if (obj instanceof ErrorVo) {
-            ErrorVo errorVo = (ErrorVo) obj;
-            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
-            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
-            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
-        }
-    }
-
-    @Override
-    public void genericAsyncTaskOnProgress(Object obj) {
-
-    }
-
-    @Override
-    public void genericAsyncTaskOnCancelled(Object obj) {
-        mRegisterTask = null;
-        showProgress(false);
     }
 
     private interface ProfileQuery {
@@ -400,4 +324,6 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         int FAMILY_NAME = 4;
         int MIME_TYPE = 5;
     }
+
+
 }

@@ -84,10 +84,10 @@ public class PaymentTask extends AsyncTask<Void, Void, String> {
                 mListener.genericAsyncTaskOnSuccess(paymentPayUVo);
             } catch (Exception e) {
                 e.printStackTrace();
-                mListener.genericAsyncTaskOnSuccess(mErrorVo);
+                mListener.genericAsyncTaskOnError(mErrorVo);
             }
         } else {
-            mListener.genericAsyncTaskOnSuccess(mErrorVo);
+            mListener.genericAsyncTaskOnError(mErrorVo);
         }
     }
 

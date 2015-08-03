@@ -57,20 +57,12 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
 
         JSONObject jsonParticipants = new JSONObject();
         try {
-//            {"students":[{"fname":"xyz","lname":"xyz","email":"xyz@purplesq.com","phone":"9999999999","institute":"XYZ"},{"fname":"xyz","lname":"xyz","email":"xyz@purplesq.com","phone":"9999999999","institute":"XYZ"}]}
-
             JSONArray jsonArrayStudents = new JSONArray();
             for (ParticipantVo participantVo : mParticipants) {
                 JSONObject participant = new JSONObject();
-                String fname = "", lname = "";
-                if (participantVo.getName().contains(" ")) {
-                    fname = participantVo.getName().substring(0, participantVo.getName().indexOf(" "));
-                    lname = participantVo.getName().substring(participantVo.getName().lastIndexOf(" "));
-                } else {
-                    fname = participantVo.getName();
-                }
-                participant.put("fname", fname);
-                participant.put("lname", lname);
+
+                participant.put("fname", participantVo.getFirstname());
+                participant.put("lname", participantVo.getLastname());
                 participant.put("email", participantVo.getEmail());
                 participant.put("phone", participantVo.getPhone());
                 participant.put("institute", participantVo.getInstitute());
@@ -124,10 +116,10 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
                 mListener.genericAsyncTaskOnSuccess(transactionVo);
             } catch (Exception e) {
                 e.printStackTrace();
-                mListener.genericAsyncTaskOnSuccess(mErrorVo);
+                mListener.genericAsyncTaskOnError(mErrorVo);
             }
         } else {
-            mListener.genericAsyncTaskOnSuccess(mErrorVo);
+            mListener.genericAsyncTaskOnError(mErrorVo);
         }
     }
 

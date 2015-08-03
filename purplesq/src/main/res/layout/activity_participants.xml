@@ -1,4 +1,4 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,47 +8,28 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
-
-    <TextView
-        android:id="@+id/activity_participants_tv_label"
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:padding="4dp"
-        android:text="Participants :"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:layout_alignParentTop="true"/>
 
-    <ScrollView
-        android:id="@+id/activity_participants_scrollView"
+    <Button
+        android:id="@+id/activity_participants_btn_proceed"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/basic_margin"
+        android:background="@color/orange500"
+        android:text="PROCEED TO PAYMENTS"
+        android:textColor="@color/white"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/activity_participants_recycler_view_participants"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/activity_participants_btn_proceed"
+        android:layout_below="@id/toolbar"
+        android:background="@color/white"
+        android:scrollbars="vertical"/>
 
-            <LinearLayout
-                android:id="@+id/activity_participants_layout_participants"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/activity_participants_tv_add_participants"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:drawableLeft="@drawable/ic_add_black_48dp"
-                android:drawableStart="@drawable/ic_add_black_48dp"
-                android:drawablePadding="4dp"
-                android:gravity="center"
-                android:text="Add another"
-                android:textAppearance="?android:attr/textAppearanceLarge"/>
-
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+</RelativeLayout>

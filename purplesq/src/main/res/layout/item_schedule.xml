@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/item_schedule_tv_time"
-        style="@style/TextAppearance_Subhead"
+        style="@style/TextAppearance_Subhead_Grey800"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/item_schedule_tv_title"
-        style="@style/TextAppearance_Subhead_Teal"
+        style="@style/TextAppearance_Subhead_Teal500"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/minimum_margin"
@@ -30,7 +30,7 @@
 
     <TextView
         android:id="@+id/item_schedule_tv_detail"
-        style="@style/TextAppearance_Subhead"
+        style="@style/TextAppearance_Subhead_Grey800"
         android:layout_alignEnd="@id/item_schedule_tv_title"
         android:layout_alignLeft="@id/item_schedule_tv_title"
         android:layout_alignRight="@id/item_schedule_tv_title"

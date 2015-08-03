@@ -5,7 +5,8 @@ package com.purplesq.purplesq.vos;
  */
 public class ParticipantVo {
 
-    private String name;
+    private String firstname;
+    private String lastname;
     private String email;
     private String phone;
     private String institute;
@@ -20,20 +21,29 @@ public class ParticipantVo {
         this.position = position;
     }
 
-    public ParticipantVo(int position, String name, String email, String phone, String institute) {
+    public ParticipantVo(int position, String firstname, String lastname, String email, String phone, String institute) {
         this.position = position;
-        this.name = name;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
         this.phone = phone;
         this.institute = institute;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail() {

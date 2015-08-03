@@ -16,10 +16,10 @@
             android:title="@string/title_leftdrawer_login"/>
 
         <item
-            android:id="@+id/menu_navigation_logout"
+            android:id="@+id/menu_navigation_profile"
             android:checked="false"
             android:icon="@drawable/ic_person_black_24dp"
-            android:title="@string/title_leftdrawer_logout"/>
+            android:title="@string/title_leftdrawer_profile"/>
 
         <item
             android:id="@+id/menu_navigation_settings"

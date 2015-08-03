@@ -3,79 +3,251 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="8dp">
+    android:background="@color/white">
 
     <TextView
-        android:id="@+id/item_participants_tv_no"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:id="@+id/item_participants_tv_label"
+        style="@style/TextAppearance_Small_Grey700"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="5dp"
-        android:padding="5dp"
-        android:text="No."
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:layout_marginBottom="@dimen/half_margin"
+        android:layout_marginEnd="@dimen/horizontal_margin"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:layout_marginRight="@dimen/horizontal_margin"
+        android:layout_marginStart="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/half_margin"
+        android:text="Please check names as you enter, they will be printed on certificates as is, "
+        android:visibility="gone"/>
 
     <LinearLayout
+        android:id="@+id/item_participants_layout_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@id/item_participants_tv_no"
-        android:layout_toRightOf="@id/item_participants_tv_no"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:layout_below="@id/item_participants_tv_label"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/item_participants_card_view_edit"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            card_view:cardCornerRadius="2dp"
+            card_view:contentPadding="@dimen/vertical_half_padding">
 
-            <EditText
-                android:id="@+id/item_participants_et_name"
+            <RelativeLayout
+
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Name"
-                android:inputType="textPersonName"
-                android:maxLines="1"/>
+                android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/item_participants_btn_remove"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/ic_clear_black_48dp"/>
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/item_participants_tv_no"
+                    style="@style/TextAppearance_Headline_Grey900"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:padding="5dp"
+                    android:text="1"
+                    android:textAppearance="?android:attr/textAppearanceLarge"/>
 
-        <EditText
-            android:id="@+id/item_participants_et_email"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@id/item_participants_tv_no"
+                    android:layout_toRightOf="@id/item_participants_tv_no"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/item_participants_et_firstname"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="First Name"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"/>
+
+                        <EditText
+                            android:id="@+id/item_participants_et_lastname"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="Last Name"
+                            android:inputType="textPersonName"
+                            android:maxLines="1"/>
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/item_participants_et_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ems="10"
+                        android:hint="e-mail"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"/>
+
+                    <EditText
+                        android:id="@+id/item_participants_et_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:ems="10"
+                        android:hint="Phone number"
+                        android:inputType="phone"
+                        android:maxLines="1"/>
+
+                    <EditText
+                        android:id="@+id/item_participants_et_insitute"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="Name of college"
+                        android:maxLines="1"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/vertical_half_margin"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/item_participants_tv_save"
+                            style="@style/TextAppearance_Caption_Teal500"
+                            android:layout_width="60dp"
+                            android:layout_height="48dp"
+                            android:gravity="center_vertical"
+                            android:text="SAVE"
+                            android:textColor="@color/teal500"/>
+
+                        <TextView
+                            android:id="@+id/item_participants_tv_cancel"
+                            style="@style/TextAppearance_Caption_Grey700"
+                            android:layout_width="60dp"
+                            android:layout_height="48dp"
+                            android:layout_marginLeft="@dimen/horizontal_margin"
+                            android:layout_marginStart="@dimen/horizontal_margin"
+                            android:text="CANCEL"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/item_participants_card_view"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"/>
+            android:background="@color/white"
+            android:stateListAnimator="@anim/elevation"
+            card_view:cardCornerRadius="2dp"
+            card_view:contentPadding="@dimen/vertical_half_padding">
 
-        <EditText
-            android:id="@+id/item_participants_et_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="Phone No."
-            android:inputType="phone"
-            android:maxLines="1"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/item_participants_et_insitute"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Institute Name"
-            android:maxLines="1"/>
+                <TextView
+                    android:id="@+id/item_participants_tv_number"
+                    style="@style/TextAppearance_Headline_Grey900"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:text="1"
+                    android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@id/item_participants_tv_number"
+                    android:layout_toRightOf="@id/item_participants_tv_number"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/item_participants_tv_name"
+                        style="@style/TextAppearance_Subhead_Grey900"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:text="First Name"/>
+
+
+                    <TextView
+                        android:id="@+id/item_participants_tv_insitute"
+                        style="@style/TextAppearance_Caption_Grey900"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:text="Name of college"/>
+
+                    <LinearLayout
+                        android:id="@+id/item_participants_layout_edit_delete"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/vertical_half_margin"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/item_participants_tv_edit"
+                            style="@style/TextAppearance_Caption_Teal500"
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            android:gravity="center_vertical"
+                            android:text="EDIT"
+                            android:textColor="@color/teal500"/>
+
+                        <TextView
+                            android:id="@+id/item_participants_tv_delete"
+                            style="@style/TextAppearance_Caption_Orange500"
+                            android:layout_width="60dp"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="@dimen/horizontal_margin"
+                            android:layout_marginStart="@dimen/horizontal_margin"
+                            android:gravity="center_vertical"
+                            android:text="DELETE"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/item_participants_tv_add_participants"
+        style="@style/TextAppearance_Caption_Teal500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_participants_layout_container"
+        android:layout_marginLeft="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="@dimen/basic_margin"
+        android:gravity="left|center_vertical"
+        android:minHeight="40dp"
+        android:minWidth="100dp"
+        android:text="+ ADD MORE"
+        android:visibility="gone"/>
 
 </RelativeLayout>

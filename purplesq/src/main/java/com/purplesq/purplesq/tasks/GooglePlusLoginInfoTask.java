@@ -7,7 +7,7 @@ import android.util.Log;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.Scopes;
-import com.purplesq.purplesq.activities.SocialLoginBaseActivity;
+import com.purplesq.purplesq.fragments.LoginFragment;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 
 import java.io.ByteArrayOutputStream;
@@ -62,7 +62,7 @@ public class GooglePlusLoginInfoTask extends AsyncTask<Void, Void, String> {
 
         } catch (UserRecoverableAuthException userAuthEx) {
             // Start the user recoverable action using the intent returned by getIntent()
-            mActivity.startActivityForResult(userAuthEx.getIntent(), SocialLoginBaseActivity.RC_SIGN_IN);
+            mActivity.startActivityForResult(userAuthEx.getIntent(), LoginFragment.RC_SIGN_IN);
             return null;
         } catch (Exception e) {
             // Handle error

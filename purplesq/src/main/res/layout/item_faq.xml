@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/item_faq_question"
-            style="@style/TextAppearance_Subhead_Teal"
+            style="@style/TextAppearance_Subhead_Teal500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/item_faq_tv_question"
-            style="@style/TextAppearance_Subhead_Teal"
+            style="@style/TextAppearance_Subhead_Teal500"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/minimum_margin"
             android:layout_marginLeft="@dimen/horizontal_margin"
@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/item_faq_answer"
-            style="@style/TextAppearance_Subhead"
+            style="@style/TextAppearance_Subhead_Grey800"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/item_faq_tv_answer"
-            style="@style/TextAppearance_Subhead"
+            style="@style/TextAppearance_Subhead_Grey800"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/minimum_margin"
             android:layout_marginLeft="@dimen/horizontal_margin"

@@ -17,28 +17,6 @@
              which is used to tint widgets -->
         <item name="colorAccent">@color/colorAccent</item>
 
-
-        <!-- Views specific -->
-        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewPurpleSQ</item>
-        <item name="android:buttonStyle">@style/ButtonPurpleSQ</item>
-        <item name="android:buttonStyleToggle">@style/TogglePurpleSQ</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Purplesq</item>
-        <item name="android:dropDownSpinnerStyle">@style/SpinnerPurpleSQ</item>
-        <item name="android:editTextBackground">@drawable/edit_text_holo_light_purplesq</item>
-        <item name="android:fastScrollThumbDrawable">@drawable/fastscroll_thumb_holo_purplesq</item>
-        <item name="android:imageButtonStyle">@style/ImageButtonPurpleSQ</item>
-        <item name="android:listChoiceBackgroundIndicator">@drawable/list_selector_holo_light_purplesq</item>
-        <item name="android:listChoiceIndicatorMultiple">@drawable/btn_check_holo_light_purplesq</item>
-        <item name="android:listChoiceIndicatorSingle">@drawable/btn_radio_holo_light_purplesq</item>
-        <item name="android:popupMenuStyle">@style/PopupMenu.Purplesq</item>
-        <item name="android:progressBarStyleHorizontal">@style/ProgressBarPurpleSQ</item>
-        <item name="android:seekBarStyle">@style/SeekBarPurpleSQ</item>
-        <item name="android:textColor">@color/grey800</item>
-        <item name="android:textColorHighlight">#995d2f90</item>
-        <item name="android:textSelectHandleLeft">@drawable/text_select_handle_left</item>
-        <item name="android:textSelectHandleRight">@drawable/text_select_handle_right</item>
-        <item name="android:textSelectHandle">@drawable/text_select_handle_middle</item>
-
     </style>
 
 </resources>

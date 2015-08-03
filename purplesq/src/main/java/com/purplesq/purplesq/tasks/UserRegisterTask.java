@@ -103,12 +103,18 @@ public class UserRegisterTask extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(final String response) {
+    protected void onPostExecute(String response) {
         if (!TextUtils.isEmpty(response)) {
-            Log.i("Nish", "Response : " + response);
-            mListener.genericAsyncTaskOnSuccess(response);
+            try {
+                Log.i("Nish", "Response : " + response);
+                mListener.genericAsyncTaskOnSuccess(new JSONObject(response));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                mListener.genericAsyncTaskOnError(mErrorVo);
+            }
+
         } else {
-            mListener.genericAsyncTaskOnSuccess(mErrorVo);
+            mListener.genericAsyncTaskOnError(mErrorVo);
         }
     }
 
