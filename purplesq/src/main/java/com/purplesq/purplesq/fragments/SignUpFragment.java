@@ -112,12 +112,12 @@ public class SignUpFragment extends Fragment implements LoaderManager.LoaderCall
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String firstName = mFirstNameView.getText().toString();
-        String lastName = mLastNameView.getText().toString();
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-        String confirmPassword = mConfirmPasswordView.getText().toString();
-        String phoneno = mPhoneNoView.getText().toString();
+        String firstName = mFirstNameView.getText().toString().trim();
+        String lastName = mLastNameView.getText().toString().trim();
+        String email = mEmailView.getText().toString().trim();
+        String password = mPasswordView.getText().toString().trim();
+        String confirmPassword = mConfirmPasswordView.getText().toString().trim();
+        String phoneno = mPhoneNoView.getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;

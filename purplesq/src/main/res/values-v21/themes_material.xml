@@ -14,6 +14,7 @@
         <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:listDivider">@drawable/shape_line_shadow</item>
 
     </style>
 </resources>

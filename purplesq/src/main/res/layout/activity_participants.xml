@@ -1,8 +1,9 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context="com.purplesq.purplesq.activities.ParticipantsActivity">
 
@@ -10,26 +11,63 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"/>
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/activity_participants_tv_label"
+        style="@style/TextAppearance_Small_Grey700"
+        android:layout_marginBottom="@dimen/horizontal_half_margin"
+        android:layout_marginEnd="@dimen/horizontal_margin"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:layout_marginRight="@dimen/horizontal_margin"
+        android:layout_marginStart="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/horizontal_half_margin"
+        android:text="Please check names as you enter, they will be printed on certificates as is, "
+        />
+
+    <ScrollView
+        android:id="@+id/activity_participants_scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/activity_participants_layout_participants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/activity_participants_tv_add_participants"
+                style="@style/TextAppearance_Caption_Teal500"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/basic_margin"
+                android:layout_marginLeft="@dimen/basic_margin"
+                android:layout_marginRight="@dimen/basic_margin"
+                android:layout_marginStart="@dimen/basic_margin"
+                android:gravity="center_vertical"
+                android:minHeight="40dp"
+                android:minWidth="80dp"
+                android:text="+ ADD MORE"/>
+
+
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/activity_participants_btn_proceed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/basic_margin"
         android:background="@color/orange500"
         android:text="PROCEED TO PAYMENTS"
         android:textColor="@color/white"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/activity_participants_recycler_view_participants"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/activity_participants_btn_proceed"
-        android:layout_below="@id/toolbar"
-        android:background="@color/white"
-        android:scrollbars="vertical"/>
-
-</RelativeLayout>
+</LinearLayout>

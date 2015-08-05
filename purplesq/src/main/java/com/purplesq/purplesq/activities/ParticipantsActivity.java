@@ -1,23 +1,23 @@
 package com.purplesq.purplesq.activities;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.purplesq.purplesq.R;
-import com.purplesq.purplesq.adapters.RecyclerViewParticipantsAdapter;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
-import com.purplesq.purplesq.interfces.RecyclerViewItemClickListener;
 import com.purplesq.purplesq.tasks.RegisterParticipantsTask;
 import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ErrorVo;
@@ -27,22 +27,19 @@ import com.purplesq.purplesq.vos.UserVo;
 
 import java.util.ArrayList;
 
-public class ParticipantsActivity extends AppCompatActivity implements RecyclerViewItemClickListener, GenericAsyncTaskListener {
+public class ParticipantsActivity extends AppCompatActivity implements GenericAsyncTaskListener {
 
     private LinearLayout mParticipantsLayout;
-    private Activity mActivity;
+    private AppCompatActivity mActivity;
     private ArrayList<ParticipantVo> mParticipantList;
     private AuthVo authVo;
-    private boolean isUserSaved = false;
-    private boolean isUserDeleted = false;
+    private boolean inEditMode = false;
     private String mEventId = "";
     private RegisterParticipantsTask mRegisterParticipantsTask;
     private int position = -1;
-    private Toolbar mToolbar;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerViewParticipantsAdapter mRecyclerViewAdapter;
-    private RecyclerView.LayoutManager mRecyclerViewLayoutManager;
+    private TextView mTvAddMore;
+    private Button mBtnProceed;
 
 
     @Override
@@ -60,18 +57,6 @@ public class ParticipantsActivity extends AppCompatActivity implements RecyclerV
             position = getIntent().getIntExtra("event-position", -1);
         }
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.activity_participants_recycler_view_participants);
-        mRecyclerViewLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mRecyclerViewLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        findViewById(R.id.activity_participants_btn_proceed).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerParticipants();
-            }
-        });
-
         authVo = AuthDataManager.getAuthData(this);
 
         if (authVo == null || authVo.getUser() == null || TextUtils.isEmpty(authVo.getUser().getId())) {
@@ -82,17 +67,34 @@ public class ParticipantsActivity extends AppCompatActivity implements RecyclerV
             UserVo userVo = authVo.getUser();
             mParticipantList = new ArrayList<>();
 
-            ParticipantVo participantVo = new ParticipantVo(1);
+            mParticipantsLayout = (LinearLayout) findViewById(R.id.activity_participants_layout_participants);
+
+            ParticipantVo participantVo = new ParticipantVo(0);
             participantVo.setFirstname(userVo.getFirstName());
             participantVo.setLastname(userVo.getLastName());
             participantVo.setEmail(userVo.getEmail());
             participantVo.setPhone(userVo.getPhone());
             participantVo.setInstitute(userVo.getInstitute());
-            participantVo.setPosition(1);
             mParticipantList.add(participantVo);
 
-            mRecyclerViewAdapter = new RecyclerViewParticipantsAdapter(mActivity, mParticipantList, userVo.getEmail());
-            mRecyclerView.setAdapter(mRecyclerViewAdapter);
+            populateParticipants();
+
+            findViewById(R.id.activity_participants_tv_add_participants).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    inEditMode = true;
+                    ParticipantVo participantVo = new ParticipantVo(mParticipantList.size());
+                    mParticipantList.add(participantVo);
+                    populateParticipants();
+                }
+            });
+
+            findViewById(R.id.activity_participants_btn_proceed).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    registerParticipants();
+                }
+            });
         }
     }
 
@@ -100,21 +102,294 @@ public class ParticipantsActivity extends AppCompatActivity implements RecyclerV
      * Set up the {@link android.support.v7.widget.Toolbar}.
      */
     private void setupToolBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             }
         }
     }
 
+
+    private void populateParticipants() {
+
+        mParticipantsLayout.removeAllViews();
+
+        for (int i = 0; i < mParticipantList.size(); i++) {
+
+            View participantView = mActivity.getLayoutInflater().inflate(R.layout.item_participants, null);
+
+            final int position = i;
+
+            final CardView cardView = (CardView) participantView.findViewById(R.id.item_participants_cardview);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                cardView.setElevation(0.0f);
+            }
+
+            final RelativeLayout editLayout = (RelativeLayout) participantView.findViewById(R.id.item_participants_layout_edit);
+            final RelativeLayout savedLayout = (RelativeLayout) participantView.findViewById(R.id.item_participants_layout_saved);
+            final LinearLayout editDeletelayout = (LinearLayout) participantView.findViewById(R.id.item_participants_layout_edit_delete);
+
+            final EditText etFirstName = (EditText) participantView.findViewById(R.id.item_participants_et_firstname);
+            final EditText etLastName = (EditText) participantView.findViewById(R.id.item_participants_et_lastname);
+            final EditText etEmail = (EditText) participantView.findViewById(R.id.item_participants_et_email);
+            final EditText etPhone = (EditText) participantView.findViewById(R.id.item_participants_et_phone);
+            final EditText etInstitute = (EditText) participantView.findViewById(R.id.item_participants_et_insitute);
+            final TextView tvNo = (TextView) participantView.findViewById(R.id.item_participants_tv_no);
+            final TextView tvSave = (TextView) participantView.findViewById(R.id.item_participants_tv_save);
+            final TextView tvCancel = (TextView) participantView.findViewById(R.id.item_participants_tv_cancel);
+
+            final TextView tvNumber = (TextView) participantView.findViewById(R.id.item_participants_tv_number);
+            final TextView tvName = (TextView) participantView.findViewById(R.id.item_participants_tv_name);
+            final TextView tvInstitute = (TextView) participantView.findViewById(R.id.item_participants_tv_insitute);
+            final TextView tvEdit = (TextView) participantView.findViewById(R.id.item_participants_tv_edit);
+            final TextView tvDelete = (TextView) participantView.findViewById(R.id.item_participants_tv_delete);
+
+
+            if (position == 0 && isParticipantEmpty(position)) {
+                editLayout.setVisibility(View.GONE);
+                savedLayout.setVisibility(View.VISIBLE);
+                inEditMode = true;
+            } else {
+                tvNo.setText((position + 1) + "");
+                String fname = mParticipantList.get(position).getFirstname();
+                String lname = mParticipantList.get(position).getLastname();
+                String email = mParticipantList.get(position).getEmail();
+                String phone = mParticipantList.get(position).getPhone();
+                String institute = mParticipantList.get(position).getInstitute();
+
+                etFirstName.setText(fname);
+                etLastName.setText(lname);
+                etEmail.setText(email);
+                etPhone.setText(phone);
+                etInstitute.setText(institute);
+
+                if (!TextUtils.isEmpty(mParticipantList.get(position).getEmail())) {
+                    if (mParticipantList.get(position).getEmail().contentEquals(authVo.getUser().getEmail())) {
+                        tvName.setText(fname + " " + lname + " (You)");
+                    } else {
+                        tvName.setText(fname + " " + lname);
+                    }
+                } else {
+                    tvName.setText("");
+                    inEditMode = true;
+                }
+
+                tvInstitute.setText(institute);
+                tvNumber.setText((position + 1) + "");
+
+                if (position == 0) {
+                    if (mParticipantList.get(position).getEmail().contentEquals(authVo.getUser().getEmail())) {
+                        if (!TextUtils.isEmpty(mParticipantList.get(position).getInstitute()) && !TextUtils.isEmpty(mParticipantList.get(position).getPhone())) {
+                            inEditMode = false;
+                        } else {
+                            inEditMode = true;
+                        }
+                    }
+                }
+
+                if (!inEditMode) {
+                    editLayout.setVisibility(View.GONE);
+                    savedLayout.setVisibility(View.VISIBLE);
+                } else {
+                    editLayout.setVisibility(View.VISIBLE);
+                    savedLayout.setVisibility(View.GONE);
+                    etFirstName.requestFocus();
+                }
+
+                tvSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean isDataCorrect = true;
+                        String fname = etFirstName.getText().toString().trim();
+                        String lname = etLastName.getText().toString().trim();
+                        String email = etEmail.getText().toString().trim();
+                        String phone = etPhone.getText().toString().trim();
+                        String institute = etInstitute.getText().toString().trim();
+
+                        if (!TextUtils.isEmpty(fname)) {
+                            mParticipantList.get(position).setFirstname(fname);
+                        } else {
+                            isDataCorrect = false;
+                            etFirstName.setError(mActivity.getString(R.string.error_field_required));
+                            etFirstName.requestFocus();
+                        }
+
+                        if (!TextUtils.isEmpty(lname)) {
+                            mParticipantList.get(position).setLastname(lname);
+                        } else {
+                            isDataCorrect = false;
+                            etLastName.setError(mActivity.getString(R.string.error_field_required));
+                            etLastName.requestFocus();
+                        }
+
+                        if (!TextUtils.isEmpty(email) && email.contains("@")) {
+                            mParticipantList.get(position).setEmail(email);
+                        } else {
+                            isDataCorrect = false;
+                            if (TextUtils.isEmpty(email))
+                                etEmail.setError(mActivity.getString(R.string.error_field_required));
+                            else
+                                etEmail.setError(mActivity.getString(R.string.error_invalid_email));
+                            etEmail.requestFocus();
+                        }
+
+                        if (!TextUtils.isEmpty(phone) && (phone.length() > 9) && (phone.length() < 14)) {
+                            mParticipantList.get(position).setPhone(phone);
+                        } else {
+                            isDataCorrect = false;
+                            if (TextUtils.isEmpty(email))
+                                etPhone.setError(mActivity.getString(R.string.error_field_required));
+                            else
+                                etPhone.setError("Phone no should be between 10-13");
+                            etPhone.requestFocus();
+                        }
+
+                        if (!TextUtils.isEmpty(institute)) {
+                            mParticipantList.get(position).setInstitute(institute);
+                        } else {
+                            isDataCorrect = false;
+                            etInstitute.setError(mActivity.getString(R.string.error_field_required));
+                            etInstitute.requestFocus();
+                        }
+
+                        if (isDataCorrect) {
+                            tvName.setText(fname + " " + lname + " (You)");
+                            tvInstitute.setText(institute);
+
+                            editLayout.setVisibility(View.GONE);
+                            savedLayout.setVisibility(View.VISIBLE);
+
+                            inEditMode = false;
+                        }
+
+                        checkActionButtonsVisibility();
+                    }
+                });
+
+                tvDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mParticipantList.remove(position);
+                        if (mParticipantList.isEmpty()) {
+                            ParticipantVo participantVo = new ParticipantVo(mParticipantList.size());
+                            mParticipantList.add(participantVo);
+                            inEditMode = true;
+                        }
+                        populateParticipants();
+                        checkActionButtonsVisibility();
+                    }
+                });
+
+                tvEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        editLayout.setVisibility(View.VISIBLE);
+                        savedLayout.setVisibility(View.GONE);
+                        inEditMode = true;
+                        checkActionButtonsVisibility();
+                    }
+                });
+
+                tvCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (isParticipantEmpty(position)) {
+                            mParticipantList.remove(position);
+                            populateParticipants();
+                        } else {
+                            editLayout.setVisibility(View.GONE);
+                            savedLayout.setVisibility(View.VISIBLE);
+                            inEditMode = false;
+                        }
+                        checkActionButtonsVisibility();
+                    }
+                });
+
+                savedLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (editDeletelayout.getVisibility() == View.VISIBLE) {
+                            editDeletelayout.setVisibility(View.GONE);
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Log.i("Nish", "Card Elevation for Item Close " + position + " : " + cardView.getElevation());
+                                cardView.setElevation(0.0f);
+                            }
+
+                        } else {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Log.i("Nish", "Card Elevation for Item Open " + position + " : " + cardView.getElevation());
+                                cardView.setElevation(5.0f);
+                            }
+
+                            toggleParticipantsActions(position);
+                            editDeletelayout.setVisibility(View.VISIBLE);
+                        }
+
+                        checkActionButtonsVisibility();
+                    }
+                });
+
+            }
+            checkActionButtonsVisibility();
+            mParticipantsLayout.addView(participantView);
+        }
+
+        View view = new View(mActivity);
+        view.setMinimumHeight(10);
+        view.setBackgroundResource(R.color.white);
+        mParticipantsLayout.addView(view);
+    }
+
+    private boolean isParticipantEmpty(int position) {
+        boolean isEmpty = true;
+        if (!TextUtils.isEmpty(mParticipantList.get(position).getFirstname())) {
+            isEmpty = false;
+        }
+
+        if (!TextUtils.isEmpty(mParticipantList.get(position).getLastname())) {
+            isEmpty = false;
+        }
+        return isEmpty;
+    }
+
+    private void checkActionButtonsVisibility() {
+        if (inEditMode) {
+            findViewById(R.id.activity_participants_tv_add_participants).setVisibility(View.GONE);
+            findViewById(R.id.activity_participants_btn_proceed).setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.activity_participants_tv_add_participants).setVisibility(View.VISIBLE);
+            findViewById(R.id.activity_participants_btn_proceed).setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void toggleParticipantsActions(int clickedPosition) {
+        int participants = mParticipantsLayout.getChildCount() - 1;
+        for (int i = 0; i < participants; i++) {
+            if (i != clickedPosition) {
+                final View participantView = mParticipantsLayout.getChildAt(i);
+                LinearLayout editDeletelayout = (LinearLayout) participantView.findViewById(R.id.item_participants_layout_edit_delete);
+                if (editDeletelayout.getVisibility() == View.VISIBLE) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Log.i("Nish", "Card Elevation for Other Item Close " + position + " : " + participantView.findViewById(R.id.item_participants_cardview).getElevation());
+                        participantView.findViewById(R.id.item_participants_cardview).setElevation(0.0f);
+                    }
+                    editDeletelayout.setVisibility(View.GONE);
+                }
+            }
+        }
+    }
+
+
     private void registerParticipants() {
         if (mRegisterParticipantsTask != null) {
             return;
         }
 
-        mParticipantList = mRecyclerViewAdapter.getDataset();
         if (!mParticipantList.isEmpty()) {
             mRegisterParticipantsTask = new RegisterParticipantsTask(mEventId, authVo.getToken(), mParticipantList, this);
             mRegisterParticipantsTask.execute((Void) null);
@@ -167,8 +442,4 @@ public class ParticipantsActivity extends AppCompatActivity implements RecyclerV
         mRegisterParticipantsTask = null;
     }
 
-    @Override
-    public void OnRecyclerViewItemClick(int position) {
-
-    }
 }

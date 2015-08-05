@@ -1,6 +1,5 @@
 package com.purplesq.purplesq.activities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -29,6 +28,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.datamanagers.UserProfileDataManager;
 import com.purplesq.purplesq.fragments.HomeFragment;
+import com.purplesq.purplesq.fragments.ProfileFragment;
 import com.purplesq.purplesq.vos.UserVo;
 
 /**
@@ -148,7 +148,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-        selectItem(R.id.menu_navigation_home);
+        selectItem(R.id.menu_navigation_events);
 
         loadUserDetailsInDrawer();
 
@@ -209,6 +209,17 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                     }
                 });
             }
+
+
+            mDrawerLayout.findViewById(R.id.drawer_user_profile_circleView).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.main_container, ProfileFragment.newInstance()).commit();
+                    mTitle = getString(R.string.title_leftdrawer_profile);
+                }
+            });
+
         }
 
     }
@@ -216,24 +227,27 @@ public class NavigationDrawerActivity extends AppCompatActivity {
     private void selectItem(int itemId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (itemId) {
-            case R.id.menu_navigation_home:
+            case R.id.menu_navigation_events:
                 fragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment.newInstance()).commit();
                 mTitle = getString(R.string.title_activity_Home);
                 break;
-            case R.id.menu_navigation_login:
-                Intent i = new Intent(this, LoginActivity.class);
-                startActivity(i);
-                mTitle = getString(R.string.title_leftdrawer_login);
+            case R.id.menu_navigation_invoices:
+                mTitle = getString(R.string.title_leftdrawer_invoices);
                 break;
-            case R.id.menu_navigation_logout:
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                mTitle = getString(R.string.title_leftdrawer_logout);
+            case R.id.menu_navigation_queries:
+                mTitle = getString(R.string.title_leftdrawer_queries);
+                break;
+            case R.id.menu_navigation_rateus:
+                mTitle = getString(R.string.title_leftdrawer_rateus);
+                break;
+            case R.id.menu_navigation_help:
+                mTitle = getString(R.string.title_leftdrawer_help);
+                break;
+            case R.id.menu_navigation_tnc:
+                mTitle = getString(R.string.title_leftdrawer_tnc);
                 break;
             case R.id.menu_navigation_settings:
                 mTitle = getString(R.string.title_leftdrawer_settings);
-                break;
-            case 4:
                 break;
         }
 

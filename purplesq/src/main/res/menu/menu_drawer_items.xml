@@ -1,30 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_navigation_group_main"
+        android:checkableBehavior="single">
 
         <item
-            android:id="@+id/menu_navigation_home"
+            android:id="@+id/menu_navigation_events"
             android:checked="true"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="@string/title_leftdrawer_home"/>
+            android:icon="@drawable/ic_event_black_24dp"
+            android:title="@string/title_leftdrawer_events"/>
 
         <item
-            android:id="@+id/menu_navigation_login"
+            android:id="@+id/menu_navigation_invoices"
             android:checked="false"
-            android:icon="@drawable/ic_person_add_black_24dp"
-            android:title="@string/title_leftdrawer_login"/>
+            android:icon="@drawable/ic_receipt_black_24dp"
+            android:title="@string/title_leftdrawer_invoices"/>
 
         <item
-            android:id="@+id/menu_navigation_profile"
+            android:id="@+id/menu_navigation_queries"
             android:checked="false"
-            android:icon="@drawable/ic_person_black_24dp"
-            android:title="@string/title_leftdrawer_profile"/>
+            android:icon="@drawable/ic_call_black_24dp"
+            android:title="@string/title_leftdrawer_queries"/>
 
+        <item
+            android:id="@+id/menu_navigation_rateus"
+            android:checked="false"
+            android:icon="@drawable/ic_star_black_24dp"
+            android:title="@string/title_leftdrawer_rateus"/>
+
+    </group>
+
+    <group
+        android:id="@+id/menu_navigation_group_settings">
+
+        <item
+            android:id="@+id/menu_navigation_help"
+            android:checked="false"
+            android:title="@string/title_leftdrawer_help"/>
+
+        <item
+            android:id="@+id/menu_navigation_tnc"
+            android:checked="false"
+            android:title="@string/title_leftdrawer_tnc"/>
         <item
             android:id="@+id/menu_navigation_settings"
             android:checked="false"
-            android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/title_leftdrawer_settings"/>
 
     </group>
