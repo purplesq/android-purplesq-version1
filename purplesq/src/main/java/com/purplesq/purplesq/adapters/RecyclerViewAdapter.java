@@ -14,7 +14,10 @@ import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.interfces.RecyclerViewItemClickListener;
 import com.purplesq.purplesq.vos.EventsVo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by nishant on 11/05/15.
@@ -46,7 +49,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         // - replace the contents of the view with that element
         holder.position = position;
-        holder.mTextViewHeading.setText(item.getName());
+        holder.mTvHeading.setText(item.getName());
+
+        try {
+            Date date = new Date(item.getSchedule().getStart_date());
+            SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
+            holder.mTvDate.setText(sdf2.format(date));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         ImageLoader.getInstance().displayImage(item.getThumbnail(), holder.mImage);
     }
 
@@ -60,7 +73,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // and you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
-        private TextView mTextViewHeading;
+        private TextView mTvHeading, mTvDate;
         private ImageView mImage;
         private Button mBtnBook;
         private int position;
@@ -69,7 +82,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(v);
             mImage = (ImageView) v.findViewById(R.id.item_cardlayout_imageview);
             mBtnBook = (Button) v.findViewById(R.id.item_cardlayout_btn_book);
-            mTextViewHeading = (TextView) v.findViewById(R.id.item_cardlayout_textview_heading);
+            mTvHeading = (TextView) v.findViewById(R.id.item_cardlayout_textview_heading);
+            mTvDate = (TextView) v.findViewById(R.id.item_cardlayout_tv_date);
             v.setOnClickListener(this);
             mBtnBook.setOnClickListener(new View.OnClickListener() {
                 @Override

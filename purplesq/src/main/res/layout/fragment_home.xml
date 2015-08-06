@@ -22,5 +22,9 @@
         android:id="@+id/fragment_home_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/horizontal_half_margin"
+        android:layout_marginLeft="@dimen/horizontal_half_margin"
+        android:layout_marginRight="@dimen/horizontal_half_margin"
+        android:layout_marginStart="@dimen/horizontal_half_margin"
         android:scrollbars="vertical"/>
 </LinearLayout>

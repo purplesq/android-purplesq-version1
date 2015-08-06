@@ -16,7 +16,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -216,7 +215,7 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
         try {
             Date date = new Date(mEventData.getSchedule().getStart_date());
 
-            SimpleDateFormat sdf2 = new SimpleDateFormat("dd, MMM", Locale.ENGLISH);
+            SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
             eventDay = sdf2.format(date);
 
         } catch (Exception e) {
@@ -249,7 +248,7 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
         try {
             Date date = new Date(mEventData.getSchedule().getRegistration().getUntil());
 
-            SimpleDateFormat sdf2 = new SimpleDateFormat("dd, MMM hh:mm a", Locale.ENGLISH);
+            SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMM, hh:mm a", Locale.ENGLISH);
             registrationTill = sdf2.format(date);
 
         } catch (Exception e) {
@@ -380,13 +379,6 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
                 toolbarMinHeight = ViewCompat.getMinimumHeight(mCollapsingToolbar);
                 scrimTriggerOffset = (int) (2 * ViewCompat.getMinimumHeight(mCollapsingToolbar));
                 isToolbarCalculationDone = true;
-
-                Log.i("Nish", "************ " + isToolbarCalculationDone + " *************");
-                Log.i("Nish", " scrollRange : " + scrollRange);
-                Log.i("Nish", " toolbarHeight : " + toolbarHeight);
-                Log.i("Nish", " toolbarMinHeight : " + toolbarMinHeight);
-                Log.i("Nish", " scrimTriggerOffset : " + scrimTriggerOffset);
-                Log.i("Nish", "**********************************");
             }
         }
 
@@ -394,12 +386,9 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
             if (mCollapsingToolbar.getContentScrim() != null || mCollapsingToolbar.getStatusBarScrim() != null) {
 
                 if (verticalOffset == 0) {
-                    Log.i("Nish", "* Expanded _____________________: " + verticalOffset);
                 } else if (Math.abs(verticalOffset) == scrollRange) {
-                    Log.i("Nish", "_____________________Collapsed *: " + verticalOffset);
                     mCollapsingToolbar.setContentScrimColor(getResources().getColor(R.color.colorPrimary));
                 } else if ((toolbarHeight + verticalOffset) < scrimTriggerOffset) {
-                    Log.i("Nish", "_______In Motion-INSIDE_______ *: " + verticalOffset);
                     int alphaRange = scrimTriggerOffset - toolbarMinHeight;
                     int currentAlphaAbs = scrimTriggerOffset - ((toolbarHeight + verticalOffset));
                     int currentAlphaRelative = (int) (((float) currentAlphaAbs / (float) alphaRange) * 255);
@@ -412,12 +401,10 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
                     mCollapsingToolbar.setContentScrimColor(Color.parseColor(color));
 
                 } else {
-                    Log.i("Nish", "_______In Motion-OUTSIDE______ *: " + verticalOffset);
                     mCollapsingToolbar.setContentScrimColor(getResources().getColor(R.color.transparent));
                 }
             }
         } else {
-            Log.i("Nish", " offset : " + verticalOffset);
             mCollapsingToolbar.setContentScrimColor(getResources().getColor(R.color.transparent));
         }
     }
