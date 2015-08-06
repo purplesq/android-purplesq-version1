@@ -113,7 +113,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
 
         // Find the Google+ sign in button.
         mPlusSignInButton = (SignInButton) rootView.findViewById(R.id.fragment_login_btn_plus_sign_in);
-        mPlusSignInButton.setSize(SignInButton.SIZE_WIDE);
+        mPlusSignInButton.setSize(SignInButton.SIZE_STANDARD);
 
         Button mFBSignInButton = (Button) rootView.findViewById(R.id.fragment_login_btn_fb_sign_in);
         mFBSignInButton.setOnClickListener(new View.OnClickListener() {

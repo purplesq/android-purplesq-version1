@@ -31,6 +31,7 @@ import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.datamanagers.UserProfileDataManager;
 import com.purplesq.purplesq.fragments.HomeFragment;
 import com.purplesq.purplesq.fragments.ProfileFragment;
+import com.purplesq.purplesq.fragments.TermsAndConditionsFragment;
 import com.purplesq.purplesq.vos.UserVo;
 
 /**
@@ -271,6 +272,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 mTitle = getString(R.string.title_leftdrawer_help);
                 break;
             case R.id.menu_navigation_tnc:
+                fragmentManager.beginTransaction().replace(R.id.main_container, TermsAndConditionsFragment.newInstance()).commit();
                 mTitle = getString(R.string.title_leftdrawer_tnc);
                 break;
             case R.id.menu_navigation_settings:

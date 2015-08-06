@@ -55,10 +55,8 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
             jsonProfile.put("first_name", jsonFacebook.get("first_name"));
             jsonProfile.put("last_name", jsonFacebook.get("last_name"));
             jsonProfile.put("email", jsonFacebook.get("email"));
-
             jsonUser.put("profile", jsonProfile);
             jsonUser.put("device", Utils.getDeviceHash(mContext, jsonFacebook.getString("email")));
-            jsonUser.put("access-token", mFBToken);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -69,6 +67,7 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
             Request request = new Request.Builder()
                     .url("http://dev.purplesq.com:4000/users/facebook")
                     .header("platform", "android")
+                    .header("access-token", mFBToken)
                     .post(body)
                     .build();
 

@@ -28,7 +28,8 @@
             android:id="@+id/menu_navigation_rateus"
             android:checked="false"
             android:icon="@drawable/ic_star_black_24dp"
-            android:title="@string/title_leftdrawer_rateus"/>
+            android:title="@string/title_leftdrawer_rateus"
+            android:visible="false"/>
 
     </group>
 
@@ -38,7 +39,8 @@
         <item
             android:id="@+id/menu_navigation_help"
             android:checked="false"
-            android:title="@string/title_leftdrawer_help"/>
+            android:title="@string/title_leftdrawer_help"
+            android:visible="false"/>
 
         <item
             android:id="@+id/menu_navigation_tnc"
@@ -47,7 +49,8 @@
         <item
             android:id="@+id/menu_navigation_settings"
             android:checked="false"
-            android:title="@string/title_leftdrawer_settings"/>
+            android:title="@string/title_leftdrawer_settings"
+            android:visible="false"/>
 
     </group>
 </menu>
