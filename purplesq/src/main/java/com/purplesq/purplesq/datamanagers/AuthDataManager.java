@@ -23,8 +23,12 @@ public class AuthDataManager {
     public static final int GET_AUTH_PHONE = 5;
     public static final int GET_AUTH_INSTITUTE = 6;
     public static final int GET_AUTH_IMAGEURL = 7;
-    public static final int GET_AUTH_EXPIRY = 8;
-    public static final int GET_AUTH_EXPIRY_TIME = 9;
+    public static final int GET_AUTH_DOB = 8;
+    public static final int GET_AUTH_GENDER = 9;
+    public static final int GET_AUTH_SOCIAL_LOGINS = 10;
+    public static final int GET_AUTH_EXPIRY = 11;
+    public static final int GET_AUTH_EXPIRY_TIME = 12;
+
     private static final String[] GET_AUTH_PROJECTION = new String[]{
             PsqContract.UserAuthTable.COL_TOKEN,
             PsqContract.UserAuthTable.COL_USER_ID,
@@ -34,6 +38,9 @@ public class AuthDataManager {
             PsqContract.UserAuthTable.COL_PHONE,
             PsqContract.UserAuthTable.COL_INSTITUTE,
             PsqContract.UserAuthTable.COL_IMAGEURL,
+            PsqContract.UserAuthTable.COL_DOB,
+            PsqContract.UserAuthTable.COL_GENDER,
+            PsqContract.UserAuthTable.COL_SOCIAL_LOGINS,
             PsqContract.UserAuthTable.COL_EXPIRY,
             PsqContract.UserAuthTable.COL_EXPIRY_TIME
     };
@@ -50,6 +57,9 @@ public class AuthDataManager {
         values.put(PsqContract.UserAuthTable.COL_PHONE, authVo.getUser().getPhone());
         values.put(PsqContract.UserAuthTable.COL_INSTITUTE, authVo.getUser().getInstitute());
         values.put(PsqContract.UserAuthTable.COL_IMAGEURL, authVo.getUser().getImageurl());
+        values.put(PsqContract.UserAuthTable.COL_DOB, authVo.getUser().getImageurl());
+        values.put(PsqContract.UserAuthTable.COL_GENDER, authVo.getUser().getImageurl());
+        values.put(PsqContract.UserAuthTable.COL_SOCIAL_LOGINS, authVo.getUser().getImageurl());
         values.put(PsqContract.UserAuthTable.COL_EXPIRY, authVo.getExpiry());
         values.put(PsqContract.UserAuthTable.COL_EXPIRY_TIME, authVo.getExpiryTime());
 
@@ -88,7 +98,8 @@ public class AuthDataManager {
                 userVo.setPhone(cur.getString(GET_AUTH_PHONE));
                 userVo.setInstitute(cur.getString(GET_AUTH_INSTITUTE));
                 userVo.setImageurl(cur.getString(GET_AUTH_IMAGEURL));
-
+                userVo.setDob(cur.getLong(GET_AUTH_DOB));
+                userVo.setGender(cur.getString(GET_AUTH_GENDER));
                 authVo.setToken(cur.getString(GET_AUTH_TOKEN));
                 authVo.setUser(userVo);
                 authVo.setExpiry(cur.getLong(GET_AUTH_EXPIRY));

@@ -44,16 +44,18 @@ public class DBHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + UserAuthTable.TABLE_NAME + " (" +
                     UserAuthTable._ID + " INTEGER PRIMARY KEY," +
                     UserAuthTable.COL_TOKEN + TEXT_TYPE + COMMA_SEP +
-                    UserAuthTable.COL_USER_ID + TEXT_TYPE + COMMA_SEP +
-                    UserAuthTable.COL_EMAIL + TEXT_TYPE + COMMA_SEP +
-                    UserAuthTable.COL_FIRSTNAME + TEXT_TYPE + COMMA_SEP +
-                    UserAuthTable.COL_LASTNAME + TEXT_TYPE + COMMA_SEP +
-                    UserAuthTable.COL_PHONE + TEXT_TYPE + COMMA_SEP +
-                    UserAuthTable.COL_INSTITUTE + TEXT_TYPE + COMMA_SEP +
-                    UserAuthTable.COL_IMAGEURL + TEXT_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_USER_ID + TEXT_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_EMAIL + TEXT_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_FIRSTNAME + TEXT_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_LASTNAME + TEXT_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_PHONE + TEXT_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_DOB + LONG_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_GENDER + TEXT_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_INSTITUTE + TEXT_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_IMAGEURL + TEXT_TYPE + COMMA_SEP +
+                    UserProfileTable.COL_SOCIAL_LOGINS + TEXT_TYPE + COMMA_SEP +
                     UserAuthTable.COL_EXPIRY + LONG_TYPE + COMMA_SEP +
-                    UserAuthTable.COL_EXPIRY_TIME + LONG_TYPE +
-                    " )";
+                    UserAuthTable.COL_EXPIRY_TIME + LONG_TYPE + " )";
 
     private static final String SQL_DELETE_USER_AUTH =
             "DROP TABLE IF EXISTS " + UserAuthTable.TABLE_NAME;

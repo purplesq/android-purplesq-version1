@@ -94,7 +94,6 @@ public class UserProfileDataManager {
                 userVo.setImageurl(cur.getString(GET_IMAGEURL));
                 userVo.setDob(cur.getLong(GET_DOB));
                 userVo.setGender(cur.getString(GET_GENDER));
-                userVo.setGender(cur.getString(GET_SOCIAL_LOGINS));
 
                 return userVo;
             }
