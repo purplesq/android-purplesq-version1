@@ -256,7 +256,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                         }
 
                         if (isDataCorrect) {
-                            tvName.setText(fname + " " + lname + " (You)");
+                            tvName.setText(fname + " " + lname);
                             tvInstitute.setText(institute);
 
                             editLayout.setVisibility(View.GONE);
@@ -403,14 +403,17 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
             TransactionVo transactionVo = (TransactionVo) obj;
             try {
                 ArrayList<String> participantList = new ArrayList<>();
+                ArrayList<String> participantIntitute = new ArrayList<>();
                 for (ParticipantVo participantVo : mParticipantList) {
                     participantList.add(participantVo.getFirstname() + " " + participantVo.getLastname());
+                    participantIntitute.add(participantVo.getInstitute());
                 }
 
                 Intent intent = new Intent(mActivity, PaymentActivity.class);
                 intent.putExtra("transaction", transactionVo.toString());
                 intent.putExtra("event-position", position);
                 intent.putStringArrayListExtra("participants-name", participantList);
+                intent.putStringArrayListExtra("participants-institute", participantIntitute);
                 startActivity(intent);
 
             } catch (Exception e) {

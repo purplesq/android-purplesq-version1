@@ -2,6 +2,7 @@ package com.purplesq.purplesq.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -10,13 +11,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.payu.sdk.PayU;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.application.PurpleSQ;
@@ -30,14 +29,18 @@ import com.purplesq.purplesq.vos.EventsVo;
 import com.purplesq.purplesq.vos.PaymentPayUVo;
 import com.purplesq.purplesq.vos.TransactionVo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class PaymentActivity extends AppCompatActivity implements GenericAsyncTaskListener {
 
+    private final String UNICODE_RUPEE = "\uf156";
     private Activity mActivity;
     private TransactionVo mTransactionVo;
     private float mAmount;
-    private ArrayList<String> mPaticipantsNames;
+    private ArrayList<String> mPaticipantsNames, mPaticipantsInstitute;
     private int position = -1;
     private EventsVo mEventData;
     private PaymentTask mPaymentTask;
@@ -60,32 +63,43 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
     private void populateUI() {
 
         CardView cardView = (CardView) findViewById(R.id.activity_payment_cardview);
-        LinearLayout participantslayout = (LinearLayout) findViewById(R.id.activity_payment_linlayout_participants);
-        Button btnPay = (Button) findViewById(R.id.activity_payment_btn_pay);
-        TextView tvAmount = (TextView) findViewById(R.id.activity_payment_tv_amount);
+        LinearLayout participantslayout = (LinearLayout) findViewById(R.id.activity_payment_layout_participants);
+        Button btnPay = (Button) findViewById(R.id.activity_participants_btn_pay);
+        TextView tvAmount = (TextView) findViewById(R.id.activity_payment_tv_eventamount);
 
-        ImageView image = (ImageView) cardView.findViewById(R.id.item_cardlayout_imageview);
-        (cardView.findViewById(R.id.item_cardlayout_btn_book)).setVisibility(View.GONE);
-        TextView tvHeading = (TextView) cardView.findViewById(R.id.item_cardlayout_textview_heading);
-        TextView tvSubText = (TextView) cardView.findViewById(R.id.item_cardlayout_textview_subheading);
+        TextView tvHeading = (TextView) findViewById(R.id.activity_payment_tv_eventname);
+        TextView tvDate = (TextView) findViewById(R.id.activity_payment_tv_eventdate);
+
+
+        String eventDay = "";
+        try {
+            Date date = new Date(mEventData.getSchedule().getStart_date());
+
+            SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
+            eventDay = sdf2.format(date);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         tvHeading.setText(mEventData.getName());
-        tvSubText.setText(mEventData.getSummary());
-        tvSubText.setVisibility(View.VISIBLE);
-
-        ImageLoader.getInstance().displayImage(mEventData.getThumbnail(), image);
+        tvDate.setText(eventDay + ", " + mEventData.getLocation().getCity());
 
         for (int i = 0; i < mPaticipantsNames.size(); i++) {
-            TextView tvName = new TextView(mActivity);
-            tvName.setText((i + 1) + ". " + mPaticipantsNames.get(i));
-            tvName.setPadding(4, 4, 4, 4);
-            tvName.setTextAppearance(mActivity, android.R.style.TextAppearance_Medium);
 
-            participantslayout.addView(tvName);
+            View participantView = getLayoutInflater().inflate(R.layout.item_payment_participants, null);
+            ((TextView) participantView.findViewById(R.id.item_payment_participants_tv_name)).setText(mPaticipantsNames.get(i));
+            ((TextView) participantView.findViewById(R.id.item_payment_participants_tv_insitute)).setText(mPaticipantsInstitute.get(i));
+            ((TextView) participantView.findViewById(R.id.item_payment_participants_tv_number)).setText((i + 1) + "");
+
+            participantslayout.addView(participantView);
         }
 
-        tvAmount.setText(mAmount + "");
+        Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome.ttf");
+        tvAmount.setTypeface(font);
+        tvAmount.setText(UNICODE_RUPEE + " " + (int) mAmount);
+
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +143,7 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
         }
         if (i.hasExtra("participants-name")) {
             mPaticipantsNames = i.getStringArrayListExtra("participants-name");
+            mPaticipantsInstitute = i.getStringArrayListExtra("participants-institute");
         }
 
         if (i.hasExtra("event-position")) {
