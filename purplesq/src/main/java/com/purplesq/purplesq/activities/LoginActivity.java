@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -22,11 +23,18 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity implements GenericAsyncTaskListener {
 
     public boolean isInfoReceived = false;
+    private String finishActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Intent i = getIntent();
+        if (i.hasExtra("finish-activity")) {
+            finishActivity = i.getStringExtra("finish-activity");
+        }
+
         setupToolBar();
 
         LoginPagerAdapter loginPagerAdapter = new LoginPagerAdapter(getSupportFragmentManager());
@@ -89,15 +97,23 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
                     AuthDataManager.insertOrUpdateAuthData(LoginActivity.this, authVo);
 
-                    Intent i = new Intent(LoginActivity.this, ParticipantsActivity.class);
-                    LoginActivity.this.startActivity(i);
-                    finish();
+                    if (!TextUtils.isEmpty(finishActivity)) {
+                        Intent intent = new Intent();
+                        intent.putExtra("from-activity", LoginActivity.class.getName());
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    } else {
+                        Intent i = new Intent(LoginActivity.this, ParticipantsActivity.class);
+                        LoginActivity.this.startActivity(i);
+                        finish();
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
+
     }
 
     @Override

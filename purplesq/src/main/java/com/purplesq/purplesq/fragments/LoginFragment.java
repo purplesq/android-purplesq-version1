@@ -79,6 +79,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
     private SignInButton mPlusSignInButton;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private boolean isGoogleClicked = false;
+    private String googleEmail = "";
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -95,6 +97,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
         if (mActivity == null) {
             mActivity = (AppCompatActivity) getActivity();
         }
+
 
         mGoogleApiClient = buildGoogleApiClient();
 
@@ -171,22 +174,31 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
     @Override
     public void onStart() {
         super.onStart();
+        if (!mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (supportsGooglePlayServices()) {
-            // Set a listener to connect the user when the G+ button is clicked.
+            // Remove and Set a listener to connect the user when the G+ button is clicked.
+            mPlusSignInButton.setOnClickListener(null);
             mPlusSignInButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    isGoogleClicked = true;
                     goolePlusSignIn();
                 }
             });
         } else {
             // Don't offer G+ sign in if the app's version is too low to support Google Play Services.
             mPlusSignInButton.setVisibility(View.GONE);
+        }
+
+        if (isGoogleClicked) {
+            goolePlusSignIn();
         }
     }
 
@@ -231,8 +243,12 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
 
     public void goolePlusSignIn() {
         mSignInProgress = STATE_SIGN_IN;
-        if (!mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.connect();
+        if (!TextUtils.isEmpty(googleEmail)) {
+            onConnected(null);
+        } else {
+            if (mGoogleApiClient != null) {
+                mGoogleApiClient.connect();
+            }
         }
     }
 
@@ -387,12 +403,14 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
         Log.i(TAG, "onConnected");
 
         if (!((LoginActivity) mActivity).isInfoReceived) {
-            String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-            new GooglePlusLoginInfoTask(mActivity, email, (LoginActivity) mActivity).execute((Void) null);
+            googleEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
         }
 
-        // Indicate that the sign in process is complete.
-        mSignInProgress = STATE_DEFAULT;
+        if (isGoogleClicked) {
+            new GooglePlusLoginInfoTask(mActivity, googleEmail, (LoginActivity) mActivity).execute((Void) null);
+            // Indicate that the sign in process is complete.
+            mSignInProgress = STATE_DEFAULT;
+        }
     }
 
     @Override
@@ -411,9 +429,10 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         // Application code
                         JSONObject userJson = response.getJSONObject();
-                        Log.i("Nish", "FB Token : " + loginResult.getAccessToken().getToken());
+                        String fbToken = loginResult.getAccessToken().getToken();
+                        Log.i("Nish", "FB Token : " + fbToken);
                         Log.i("Nish", "FB user JSON : " + userJson.toString());
-                        new SocialRegistrationFacebookTask(mActivity, userJson.toString(), (LoginActivity) mActivity).execute((Void) null);
+                        new SocialRegistrationFacebookTask(mActivity, fbToken, userJson.toString(), (LoginActivity) mActivity).execute((Void) null);
                     }
                 });
 

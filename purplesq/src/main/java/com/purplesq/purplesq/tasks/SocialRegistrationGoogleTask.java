@@ -45,8 +45,12 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
     protected String doInBackground(Void... params) {
 
         JSONObject jsonUser = new JSONObject();
+        String accessToken = "";
         try {
             JSONObject jsonGoogle = new JSONObject(mJsonGoogleUser);
+            accessToken = jsonGoogle.getString("access-token");
+            Log.i("Nish", "Google Access Token : " + accessToken);
+            jsonGoogle.remove("access-token");
             String email = jsonGoogle.getJSONArray("emails").getJSONObject(0).getString("value");
             jsonUser.put("profile", jsonGoogle);
             jsonUser.put("device", Utils.getDeviceHash(mContext, email));
@@ -60,6 +64,7 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
             Request request = new Request.Builder()
                     .url("http://dev.purplesq.com:4000/users/google")
                     .header("platform", "android")
+                    .header("access-token", accessToken)
                     .post(body)
                     .build();
 

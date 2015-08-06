@@ -1,5 +1,6 @@
 package com.purplesq.purplesq.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -148,10 +150,14 @@ public class NavigationDrawerActivity extends AppCompatActivity {
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-        selectItem(R.id.menu_navigation_events);
 
+        selectDefaultPage();
         loadUserDetailsInDrawer();
 
+    }
+
+    public void selectDefaultPage() {
+        selectItem(R.id.menu_navigation_events);
     }
 
     private void loadUserDetailsInDrawer() {
@@ -209,17 +215,30 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                     }
                 });
             }
+        }
 
-
+        if (user != null) {
             mDrawerLayout.findViewById(R.id.drawer_user_profile_circleView).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.main_container, ProfileFragment.newInstance()).commit();
                     mTitle = getString(R.string.title_leftdrawer_profile);
+                    mDrawerLayout.closeDrawers();
                 }
             });
+        } else {
 
+            mDrawerLayout.findViewById(R.id.drawer_user_profile_circleView).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(NavigationDrawerActivity.this, LoginActivity.class);
+                    i.putExtra("finish-activity", HomeActivity.class.getName());
+                    startActivityForResult(i, 777);
+                    mTitle = getString(R.string.title_leftdrawer_profile);
+                    mDrawerLayout.closeDrawers();
+                }
+            });
         }
 
     }
@@ -253,6 +272,30 @@ public class NavigationDrawerActivity extends AppCompatActivity {
 
         mActionBar.setTitle(mTitle);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 777) {
+            loadUserDetailsInDrawer();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+        if (fragment instanceof ProfileFragment) {
+            selectDefaultPage();
+            return;
+        }
+
+        if (!mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            mDrawerLayout.openDrawer(Gravity.LEFT);
+            return;
+        }
+
+        super.onBackPressed();
     }
 
     @Override

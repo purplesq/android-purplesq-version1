@@ -10,6 +10,9 @@ import com.google.android.gms.common.Scopes;
 import com.purplesq.purplesq.fragments.LoginFragment;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,6 +27,7 @@ public class GooglePlusLoginInfoTask extends AsyncTask<Void, Void, String> {
     GenericAsyncTaskListener mListener;
     Activity mActivity;
     String mAccount = "";
+    String mAccessToken;
 
     public GooglePlusLoginInfoTask(Activity activity, String account, GenericAsyncTaskListener listener) {
         mActivity = activity;
@@ -38,10 +42,10 @@ public class GooglePlusLoginInfoTask extends AsyncTask<Void, Void, String> {
 
         try {
             URL url = new URL("https://www.googleapis.com/plus/v1/people/me");
-            String sAccessToken = GoogleAuthUtil.getToken(mActivity, mAccount, "oauth2:" + Scopes.PLUS_LOGIN + " https://www.googleapis.com/auth/plus.profile.emails.read");
+            mAccessToken = GoogleAuthUtil.getToken(mActivity, mAccount, "oauth2:" + Scopes.PLUS_LOGIN + " https://www.googleapis.com/auth/plus.profile.emails.read");
 
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestProperty("Authorization", "Bearer " + sAccessToken);
+            urlConnection.setRequestProperty("Authorization", "Bearer " + mAccessToken);
 
             String content;
 
@@ -79,6 +83,13 @@ public class GooglePlusLoginInfoTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String jsonObject) {
         Log.i("Nish", "Response : " + jsonObject);
-        mListener.genericAsyncTaskOnSuccess(jsonObject);
+        try {
+            JSONObject jsonResponse = new JSONObject(jsonObject);
+            jsonResponse.put("access-token", mAccessToken);
+            mListener.genericAsyncTaskOnSuccess(jsonResponse.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

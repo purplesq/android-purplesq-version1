@@ -30,15 +30,17 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
 
     public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final String mJsonFBUser;
+    private final String mFBToken;
     private final OkHttpClient okHttpClient = new OkHttpClient();
     private GenericAsyncTaskListener mListener;
     private Context mContext;
     private ErrorVo mErrorVo;
 
-    public SocialRegistrationFacebookTask(Context context, String facebookJson, GenericAsyncTaskListener listener) {
+    public SocialRegistrationFacebookTask(Context context, String fbToken, String facebookJson, GenericAsyncTaskListener listener) {
         mContext = context;
         mJsonFBUser = facebookJson;
         mListener = listener;
+        mFBToken = fbToken;
     }
 
     @Override
@@ -56,6 +58,7 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
 
             jsonUser.put("profile", jsonProfile);
             jsonUser.put("device", Utils.getDeviceHash(mContext, jsonFacebook.getString("email")));
+            jsonUser.put("access-token", mFBToken);
         } catch (JSONException e) {
             e.printStackTrace();
         }
