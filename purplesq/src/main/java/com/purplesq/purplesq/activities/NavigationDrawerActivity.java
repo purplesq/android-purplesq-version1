@@ -255,6 +255,14 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 break;
             case R.id.menu_navigation_queries:
                 mTitle = getString(R.string.title_leftdrawer_queries);
+                try {
+                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+                    phoneIntent.setData(Uri.parse("tel:+912261491313"));
+                    startActivity(phoneIntent);
+                    selectDefaultPage();
+                } catch (android.content.ActivityNotFoundException ex) {
+                    ex.printStackTrace();
+                }
                 break;
             case R.id.menu_navigation_rateus:
                 mTitle = getString(R.string.title_leftdrawer_rateus);

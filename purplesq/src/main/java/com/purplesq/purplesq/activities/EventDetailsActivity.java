@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -353,11 +354,17 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
         findViewById(R.id.activity_event_details_tv_queries).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar snackbar = Snackbar.make(mCoordinatorLayout, "Comming Soon!!!", Snackbar.LENGTH_LONG);
-                View snackbarView = snackbar.getView();
-                TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-                textView.setTextColor(Color.YELLOW);
-                snackbar.show();
+                try {
+                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+                    phoneIntent.setData(Uri.parse("tel:+918080809339"));
+                    startActivity(phoneIntent);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Snackbar snackbar = Snackbar.make(mCoordinatorLayout, "Comming Soon!!!", Snackbar.LENGTH_LONG);
+                    View snackbarView = snackbar.getView();
+                    TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.YELLOW);
+                    snackbar.show();
+                }
             }
         });
 
