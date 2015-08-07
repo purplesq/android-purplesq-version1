@@ -46,6 +46,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.purplesq.purplesq.R;
+import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.activities.LoginActivity;
 import com.purplesq.purplesq.tasks.GooglePlusLoginInfoTask;
 import com.purplesq.purplesq.tasks.SocialRegistrationFacebookTask;
@@ -293,7 +294,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!Utils.isValidEmailAddress(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
@@ -308,11 +309,6 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
             // perform the user login attempt.
             new UserLoginTask(mActivity, email, password, (LoginActivity) mActivity).execute((Void) null);
         }
-    }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {

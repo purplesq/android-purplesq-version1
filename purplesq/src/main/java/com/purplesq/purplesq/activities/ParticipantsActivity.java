@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.purplesq.purplesq.R;
+import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.RegisterParticipantsTask;
@@ -225,7 +226,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                             etLastName.requestFocus();
                         }
 
-                        if (!TextUtils.isEmpty(email) && email.contains("@")) {
+                        if (!TextUtils.isEmpty(email) && Utils.isValidEmailAddress(email)) {
                             mParticipantList.get(position).setEmail(email);
                         } else {
                             isDataCorrect = false;
@@ -236,14 +237,14 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                             etEmail.requestFocus();
                         }
 
-                        if (!TextUtils.isEmpty(phone) && (phone.length() > 9) && (phone.length() < 14)) {
+                        if (!TextUtils.isEmpty(phone) && (phone.length() > 9) && (phone.length() < 14) && Utils.isNumeric(phone)) {
                             mParticipantList.get(position).setPhone(phone);
                         } else {
                             isDataCorrect = false;
-                            if (TextUtils.isEmpty(email))
+                            if (TextUtils.isEmpty(phone))
                                 etPhone.setError(mActivity.getString(R.string.error_field_required));
                             else
-                                etPhone.setError("Phone no should be between 10-13");
+                                etPhone.setError(mActivity.getString(R.string.error_invalid_phoneno));
                             etPhone.requestFocus();
                         }
 

@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.purplesq.purplesq.R;
+import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.activities.LoginActivity;
 import com.purplesq.purplesq.tasks.UserRegisterTask;
 
@@ -160,9 +161,15 @@ public class SignUpFragment extends Fragment implements LoaderManager.LoaderCall
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!Utils.isValidEmailAddress(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
+            cancel = true;
+        }
+
+        if (!Utils.isNumeric(phoneno)) {
+            mEmailView.setError(getString(R.string.error_invalid_phoneno));
+            focusView = mPhoneNoView;
             cancel = true;
         }
 
@@ -175,11 +182,6 @@ public class SignUpFragment extends Fragment implements LoaderManager.LoaderCall
             // perform the user login attempt.
             new UserRegisterTask(mActivity, firstName, lastName, email, password, phoneno, (LoginActivity) mActivity).execute((Void) null);
         }
-    }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {

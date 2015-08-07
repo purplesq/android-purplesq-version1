@@ -45,6 +45,7 @@
     <string name="action_sign_in_short">Sign in </string>
     <string name="action_sign_up_short">Sign up </string>
     <string name="error_invalid_email">This email address is invalid </string>
+    <string name="error_invalid_phoneno">Phone number should be between 10-13. Numeric and \'+\' allowed. </string>
     <string name="error_invalid_password">This password is too short </string>
     <string name="error_incorrect_password">This password is incorrect </string>
     <string name="error_password_does_not_match">Passwords do not match each other </string>

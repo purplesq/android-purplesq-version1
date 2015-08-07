@@ -8,6 +8,8 @@ import com.squareup.okhttp.Request;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okio.Buffer;
 
@@ -57,5 +59,34 @@ public class Utils {
         } catch (final IOException e) {
             return "did not work";
         }
+    }
+
+    public static boolean isValidEmailAddress(String emailAddress) {
+        if (emailAddress.contains("@")) {
+            String emailLocalPart = emailAddress.substring(emailAddress.indexOf("@"));
+            if (emailLocalPart.length() > 64) {
+                return false;
+            }
+        }
+
+        if (emailAddress.length() > 254) {
+            return false;
+        }
+
+        String expression = "[A-Za-z0-9][\\.\\w]*+@([\\w]+\\.)+[A-Za-z]{2,4}$";
+        CharSequence inputStr = emailAddress;
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        return matcher.matches();
+    }
+
+    public static boolean isNumeric(String phone) {
+        String str = phone.replaceAll("/+", "");
+
+        String expression = "^[0-9][0-9]*$";
+        CharSequence inputStr = str;
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        return matcher.matches();
     }
 }
