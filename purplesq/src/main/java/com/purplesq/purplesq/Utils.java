@@ -81,9 +81,9 @@ public class Utils {
     }
 
     public static boolean isNumeric(String phone) {
-        String str = phone.replaceAll("/+", "");
+        String str = phone.replaceAll("\\+", "");
 
-        String expression = "^[0-9][0-9]*$";
+        String expression = "[0-9]*$";
         CharSequence inputStr = str;
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(inputStr);

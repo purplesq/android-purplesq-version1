@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -38,10 +37,6 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
     private String mEventId = "";
     private RegisterParticipantsTask mRegisterParticipantsTask;
     private int position = -1;
-
-    private TextView mTvAddMore;
-    private Button mBtnProceed;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +114,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
 
         for (int i = 0; i < mParticipantList.size(); i++) {
 
-            View participantView = mActivity.getLayoutInflater().inflate(R.layout.item_participants, null);
+            final View participantView = mActivity.getLayoutInflater().inflate(R.layout.item_participants, null);
 
             final int position = i;
 
@@ -131,7 +126,6 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
 
             final RelativeLayout editLayout = (RelativeLayout) participantView.findViewById(R.id.item_participants_layout_edit);
             final RelativeLayout savedLayout = (RelativeLayout) participantView.findViewById(R.id.item_participants_layout_saved);
-            final LinearLayout editDeletelayout = (LinearLayout) participantView.findViewById(R.id.item_participants_layout_edit_delete);
 
             final EditText etFirstName = (EditText) participantView.findViewById(R.id.item_participants_et_firstname);
             final EditText etLastName = (EditText) participantView.findViewById(R.id.item_participants_et_lastname);
@@ -150,9 +144,31 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
 
 
             if (position == 0 && isParticipantEmpty(position)) {
-                editLayout.setVisibility(View.GONE);
-                savedLayout.setVisibility(View.VISIBLE);
+                editLayout.setVisibility(View.VISIBLE);
+                savedLayout.setVisibility(View.GONE);
                 inEditMode = true;
+
+                tvSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onSavedClicked(participantView, position);
+                    }
+                });
+
+                tvCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onCancelClicked(participantView, position);
+                    }
+                });
+
+                savedLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onSavedLayoutClicked(participantView, position);
+                    }
+                });
+
             } else {
                 tvNo.setText((position + 1) + "");
                 String fname = mParticipantList.get(position).getFirstname();
@@ -203,135 +219,35 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                 tvSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        boolean isDataCorrect = true;
-                        String fname = etFirstName.getText().toString().trim();
-                        String lname = etLastName.getText().toString().trim();
-                        String email = etEmail.getText().toString().trim();
-                        String phone = etPhone.getText().toString().trim();
-                        String institute = etInstitute.getText().toString().trim();
-
-                        if (!TextUtils.isEmpty(fname)) {
-                            mParticipantList.get(position).setFirstname(fname);
-                        } else {
-                            isDataCorrect = false;
-                            etFirstName.setError(mActivity.getString(R.string.error_field_required));
-                            etFirstName.requestFocus();
-                        }
-
-                        if (!TextUtils.isEmpty(lname)) {
-                            mParticipantList.get(position).setLastname(lname);
-                        } else {
-                            isDataCorrect = false;
-                            etLastName.setError(mActivity.getString(R.string.error_field_required));
-                            etLastName.requestFocus();
-                        }
-
-                        if (!TextUtils.isEmpty(email) && Utils.isValidEmailAddress(email)) {
-                            mParticipantList.get(position).setEmail(email);
-                        } else {
-                            isDataCorrect = false;
-                            if (TextUtils.isEmpty(email))
-                                etEmail.setError(mActivity.getString(R.string.error_field_required));
-                            else
-                                etEmail.setError(mActivity.getString(R.string.error_invalid_email));
-                            etEmail.requestFocus();
-                        }
-
-                        if (!TextUtils.isEmpty(phone) && (phone.length() > 9) && (phone.length() < 14) && Utils.isNumeric(phone)) {
-                            mParticipantList.get(position).setPhone(phone);
-                        } else {
-                            isDataCorrect = false;
-                            if (TextUtils.isEmpty(phone))
-                                etPhone.setError(mActivity.getString(R.string.error_field_required));
-                            else
-                                etPhone.setError(mActivity.getString(R.string.error_invalid_phoneno));
-                            etPhone.requestFocus();
-                        }
-
-                        if (!TextUtils.isEmpty(institute)) {
-                            mParticipantList.get(position).setInstitute(institute);
-                        } else {
-                            isDataCorrect = false;
-                            etInstitute.setError(mActivity.getString(R.string.error_field_required));
-                            etInstitute.requestFocus();
-                        }
-
-                        if (isDataCorrect) {
-                            tvName.setText(fname + " " + lname);
-                            tvInstitute.setText(institute);
-
-                            editLayout.setVisibility(View.GONE);
-                            savedLayout.setVisibility(View.VISIBLE);
-
-                            inEditMode = false;
-                        }
-
-                        checkActionButtonsVisibility();
+                        onSavedClicked(participantView, position);
                     }
                 });
 
                 tvDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mParticipantList.remove(position);
-                        if (mParticipantList.isEmpty()) {
-                            ParticipantVo participantVo = new ParticipantVo(mParticipantList.size());
-                            mParticipantList.add(participantVo);
-                            inEditMode = true;
-                        }
-                        populateParticipants();
-                        checkActionButtonsVisibility();
+                        onDeleteClicked(position);
                     }
                 });
 
                 tvEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        editLayout.setVisibility(View.VISIBLE);
-                        savedLayout.setVisibility(View.GONE);
-                        inEditMode = true;
-                        checkActionButtonsVisibility();
+                        onEditClicked(participantView);
                     }
                 });
 
                 tvCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        if (isParticipantEmpty(position)) {
-                            mParticipantList.remove(position);
-                            populateParticipants();
-                        } else {
-                            editLayout.setVisibility(View.GONE);
-                            savedLayout.setVisibility(View.VISIBLE);
-                            inEditMode = false;
-                        }
-                        checkActionButtonsVisibility();
+                        onCancelClicked(participantView, position);
                     }
                 });
 
                 savedLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (editDeletelayout.getVisibility() == View.VISIBLE) {
-                            editDeletelayout.setVisibility(View.GONE);
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                Log.i("Nish", "Card Elevation for Item Close " + position + " : " + cardView.getElevation());
-                                cardView.setElevation(0.0f);
-                            }
-
-                        } else {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                Log.i("Nish", "Card Elevation for Item Open " + position + " : " + cardView.getElevation());
-                                cardView.setElevation(5.0f);
-                            }
-
-                            toggleParticipantsActions(position);
-                            editDeletelayout.setVisibility(View.VISIBLE);
-                        }
-
-                        checkActionButtonsVisibility();
+                        onSavedLayoutClicked(participantView, position);
                     }
                 });
 
@@ -344,6 +260,152 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
         view.setMinimumHeight(10);
         view.setBackgroundResource(R.color.white);
         mParticipantsLayout.addView(view);
+    }
+
+    private void onSavedClicked(final View participantView, int position) {
+        boolean isDataCorrect = true;
+
+        RelativeLayout editLayout = (RelativeLayout) participantView.findViewById(R.id.item_participants_layout_edit);
+        RelativeLayout savedLayout = (RelativeLayout) participantView.findViewById(R.id.item_participants_layout_saved);
+
+        EditText etFirstName = (EditText) participantView.findViewById(R.id.item_participants_et_firstname);
+        EditText etLastName = (EditText) participantView.findViewById(R.id.item_participants_et_lastname);
+        EditText etEmail = (EditText) participantView.findViewById(R.id.item_participants_et_email);
+        EditText etPhone = (EditText) participantView.findViewById(R.id.item_participants_et_phone);
+        EditText etInstitute = (EditText) participantView.findViewById(R.id.item_participants_et_insitute);
+        TextView tvName = (TextView) participantView.findViewById(R.id.item_participants_tv_name);
+        TextView tvInstitute = (TextView) participantView.findViewById(R.id.item_participants_tv_insitute);
+
+        String fname = etFirstName.getText().toString().trim();
+        String lname = etLastName.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String phone = etPhone.getText().toString().trim();
+        String institute = etInstitute.getText().toString().trim();
+
+        if (!TextUtils.isEmpty(fname)) {
+            mParticipantList.get(position).setFirstname(fname);
+        } else {
+            isDataCorrect = false;
+            etFirstName.setError(mActivity.getString(R.string.error_field_required));
+            etFirstName.requestFocus();
+        }
+
+        if (!TextUtils.isEmpty(lname)) {
+            mParticipantList.get(position).setLastname(lname);
+        } else {
+            isDataCorrect = false;
+            etLastName.setError(mActivity.getString(R.string.error_field_required));
+            etLastName.requestFocus();
+        }
+
+        if (!TextUtils.isEmpty(email) && Utils.isValidEmailAddress(email)) {
+            mParticipantList.get(position).setEmail(email);
+        } else {
+            isDataCorrect = false;
+            if (TextUtils.isEmpty(email))
+                etEmail.setError(mActivity.getString(R.string.error_field_required));
+            else
+                etEmail.setError(mActivity.getString(R.string.error_invalid_email));
+            etEmail.requestFocus();
+        }
+
+        if (!TextUtils.isEmpty(phone) && (phone.length() > 9) && (phone.length() < 14) && Utils.isNumeric(phone)) {
+            mParticipantList.get(position).setPhone(phone);
+        } else {
+            isDataCorrect = false;
+            if (TextUtils.isEmpty(phone))
+                etPhone.setError(mActivity.getString(R.string.error_field_required));
+            else
+                etPhone.setError(mActivity.getString(R.string.error_invalid_phoneno));
+            etPhone.requestFocus();
+        }
+
+        if (!TextUtils.isEmpty(institute)) {
+            mParticipantList.get(position).setInstitute(institute);
+        } else {
+            isDataCorrect = false;
+            etInstitute.setError(mActivity.getString(R.string.error_field_required));
+            etInstitute.requestFocus();
+        }
+
+        if (isDataCorrect) {
+            tvName.setText(fname + " " + lname);
+            tvInstitute.setText(institute);
+
+            editLayout.setVisibility(View.GONE);
+            savedLayout.setVisibility(View.VISIBLE);
+
+            inEditMode = false;
+        }
+
+
+
+        checkActionButtonsVisibility();
+    }
+
+    private void onCancelClicked(final View participantView, int position) {
+        RelativeLayout editLayout = (RelativeLayout) participantView.findViewById(R.id.item_participants_layout_edit);
+        RelativeLayout savedLayout = (RelativeLayout) participantView.findViewById(R.id.item_participants_layout_saved);
+
+        if (isParticipantEmpty(position)) {
+            mParticipantList.remove(position);
+            populateParticipants();
+        } else {
+            editLayout.setVisibility(View.GONE);
+            savedLayout.setVisibility(View.VISIBLE);
+            inEditMode = false;
+        }
+        checkActionButtonsVisibility();
+    }
+
+    private void onEditClicked(View participantView) {
+        RelativeLayout editLayout = (RelativeLayout) participantView.findViewById(R.id.item_participants_layout_edit);
+        RelativeLayout savedLayout = (RelativeLayout) participantView.findViewById(R.id.item_participants_layout_saved);
+
+        editLayout.setVisibility(View.VISIBLE);
+        savedLayout.setVisibility(View.GONE);
+        inEditMode = true;
+        checkActionButtonsVisibility();
+    }
+
+    private void onDeleteClicked(int position) {
+        mParticipantList.remove(position);
+        if (mParticipantList.isEmpty()) {
+            ParticipantVo participantVo = new ParticipantVo(mParticipantList.size());
+            mParticipantList.add(participantVo);
+            inEditMode = true;
+        }
+        populateParticipants();
+        checkActionButtonsVisibility();
+    }
+
+    private void onSavedLayoutClicked(View participantView, int position) {
+        LinearLayout editDeletelayout = (LinearLayout) participantView.findViewById(R.id.item_participants_layout_edit_delete);
+        final CardView cardView = (CardView) participantView.findViewById(R.id.item_participants_cardview);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cardView.setElevation(0.0f);
+        }
+
+        if (editDeletelayout.getVisibility() == View.VISIBLE) {
+            editDeletelayout.setVisibility(View.GONE);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Log.i("Nish", "Card Elevation for Item Close " + position + " : " + cardView.getElevation());
+                cardView.setElevation(0.0f);
+            }
+
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Log.i("Nish", "Card Elevation for Item Open " + position + " : " + cardView.getElevation());
+                cardView.setElevation(5.0f);
+            }
+
+            toggleParticipantsActions(position);
+            editDeletelayout.setVisibility(View.VISIBLE);
+        }
+
+        checkActionButtonsVisibility();
     }
 
     private boolean isParticipantEmpty(int position) {
