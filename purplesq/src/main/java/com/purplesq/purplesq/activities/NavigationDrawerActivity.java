@@ -50,15 +50,16 @@ public class NavigationDrawerActivity extends AppCompatActivity {
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
-    DrawerLayout mDrawerLayout;
-    FrameLayout mMainContainer;
-    NavigationView mNavigationView;
-    ActionBarDrawerToggle mDrawerToggle;
-    int mCurrentSelectedPosition = 0;
-    String mTitle;
+    private DrawerLayout mDrawerLayout;
+    private FrameLayout mMainContainer;
+    private NavigationView mNavigationView;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private int mCurrentSelectedPosition = 0;
+    private String mTitle;
     private boolean mUserLearnedDrawer;
     private Toolbar mToolbar;
     private ActionBar mActionBar;
+    private boolean isUserProfileUpdated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +167,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         UserVo user = UserProfileDataManager.getUserBacisProfile(this);
 
         if (user != null) {
+            isUserProfileUpdated = true;
             String userName = user.getFirstName() + " " + user.getLastName();
             String email = user.getEmail();
             String userUrl = user.getImageurl();
@@ -229,7 +231,6 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 }
             });
         } else {
-
             mDrawerLayout.findViewById(R.id.drawer_user_profile_circleView).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -285,9 +286,19 @@ public class NavigationDrawerActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isUserProfileUpdated) {
+            loadUserDetailsInDrawer();
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 777) {
-            loadUserDetailsInDrawer();
+            if (!isUserProfileUpdated) {
+                loadUserDetailsInDrawer();
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -297,6 +308,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
         if (fragment instanceof ProfileFragment) {
             selectDefaultPage();
+            loadUserDetailsInDrawer();
             return;
         }
 

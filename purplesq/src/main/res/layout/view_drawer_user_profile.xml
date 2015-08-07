@@ -26,7 +26,6 @@
             android:layout_marginRight="@dimen/horizontal_margin"
             android:layout_marginStart="@dimen/horizontal_margin"
             android:gravity="center"
-            android:text="User Name"
             android:textColor="#ffffff"
             android:textSize="14sp"
             android:textStyle="bold"/>
@@ -41,7 +40,6 @@
             android:layout_marginStart="@dimen/horizontal_margin"
             android:layout_marginTop="@dimen/basic_margin"
             android:gravity="center"
-            android:text="email@gmail.com"
             android:textColor="#ffffff"
             android:textSize="14sp"
             android:textStyle="normal"/>
