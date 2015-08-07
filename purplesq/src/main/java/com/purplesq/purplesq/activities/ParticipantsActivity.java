@@ -147,28 +147,6 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                 editLayout.setVisibility(View.VISIBLE);
                 savedLayout.setVisibility(View.GONE);
                 inEditMode = true;
-
-                tvSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onSavedClicked(participantView, position);
-                    }
-                });
-
-                tvCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onCancelClicked(participantView, position);
-                    }
-                });
-
-                savedLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onSavedLayoutClicked(participantView, position);
-                    }
-                });
-
             } else {
                 tvNo.setText((position + 1) + "");
                 String fname = mParticipantList.get(position).getFirstname();
@@ -215,43 +193,43 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                     savedLayout.setVisibility(View.GONE);
                     etFirstName.requestFocus();
                 }
-
-                tvSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onSavedClicked(participantView, position);
-                    }
-                });
-
-                tvDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onDeleteClicked(position);
-                    }
-                });
-
-                tvEdit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onEditClicked(participantView);
-                    }
-                });
-
-                tvCancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onCancelClicked(participantView, position);
-                    }
-                });
-
-                savedLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onSavedLayoutClicked(participantView, position);
-                    }
-                });
-
             }
+
+            tvSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onSavedClicked(participantView, position);
+                }
+            });
+
+            tvDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onDeleteClicked(position);
+                }
+            });
+
+            tvEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onEditClicked(participantView);
+                }
+            });
+
+            tvCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onCancelClicked(participantView, position);
+                }
+            });
+
+            savedLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onSavedLayoutClicked(participantView, position);
+                }
+            });
+
             checkActionButtonsVisibility();
             mParticipantsLayout.addView(participantView);
         }
@@ -339,7 +317,6 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
         }
 
 
-
         checkActionButtonsVisibility();
     }
 
@@ -349,12 +326,20 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
 
         if (isParticipantEmpty(position)) {
             mParticipantList.remove(position);
+
+            if (mParticipantList.isEmpty()) {
+                ParticipantVo participantVo = new ParticipantVo(mParticipantList.size());
+                mParticipantList.add(participantVo);
+                inEditMode = true;
+            }
+            
             populateParticipants();
         } else {
             editLayout.setVisibility(View.GONE);
             savedLayout.setVisibility(View.VISIBLE);
             inEditMode = false;
         }
+
         checkActionButtonsVisibility();
     }
 
