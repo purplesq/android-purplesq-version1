@@ -77,7 +77,11 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
             position = savedInstanceState.getInt(STATE_SELECTED_POSITION);
         }
 
-        mEventData = ((PurpleSQ) getApplication()).getEventsData().get(position);
+        PurpleSQ app = (PurpleSQ) getApplication();
+
+        if (app.getEventsData() != null) {
+            mEventData = app.getEventsData().get(position);
+        }
 
         setupToolBar();
 
@@ -198,15 +202,24 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
     }
 
     private void populateUI() {
+        if (mEventData == null) {
+            PurpleSQ app = (PurpleSQ) getApplication();
 
-        populateTopCard();
-        populateStatusCard();
-        populateFeaturesCard();
-        populateScheduleCard();
-        populateWhatYouGetCard();
-        populateFAQCard();
+            if (app.getEventsData() != null) {
+                mEventData = app.getEventsData().get(position);
+            }
+        }
 
-        setupBottomBar();
+        if (mEventData != null) {
+
+            populateTopCard();
+            populateStatusCard();
+            populateFeaturesCard();
+            populateScheduleCard();
+            populateWhatYouGetCard();
+            populateFAQCard();
+            setupBottomBar();
+        }
     }
 
     private void populateTopCard() {
