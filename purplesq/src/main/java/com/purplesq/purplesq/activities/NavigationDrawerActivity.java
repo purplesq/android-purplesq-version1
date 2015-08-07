@@ -20,6 +20,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -105,7 +106,9 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 //Checking if the item is in checked state or not, if not make it in checked state
                 if (menuItem.isChecked()) {
                     menuItem.setChecked(false);
-                } else menuItem.setChecked(true);
+                } else {
+                    menuItem.setChecked(true);
+                }
 
                 mDrawerLayout.closeDrawers();
                 selectItem(menuItem.getItemId());
@@ -247,13 +250,16 @@ public class NavigationDrawerActivity extends AppCompatActivity {
 
     private void selectItem(int itemId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        boolean isSecondGroupClicked = false;
         switch (itemId) {
             case R.id.menu_navigation_events:
                 fragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment.newInstance()).commit();
                 mTitle = getString(R.string.title_activity_Home);
+                isSecondGroupClicked = false;
                 break;
             case R.id.menu_navigation_invoices:
                 mTitle = getString(R.string.title_leftdrawer_invoices);
+                isSecondGroupClicked = false;
                 break;
             case R.id.menu_navigation_queries:
                 mTitle = getString(R.string.title_leftdrawer_queries);
@@ -262,23 +268,40 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                     phoneIntent.setData(Uri.parse("tel:+912261491313"));
                     startActivity(phoneIntent);
                     selectDefaultPage();
+                    isSecondGroupClicked = false;
                 } catch (android.content.ActivityNotFoundException ex) {
                     ex.printStackTrace();
                 }
                 break;
             case R.id.menu_navigation_rateus:
                 mTitle = getString(R.string.title_leftdrawer_rateus);
+                isSecondGroupClicked = false;
                 break;
             case R.id.menu_navigation_help:
                 mTitle = getString(R.string.title_leftdrawer_help);
+                isSecondGroupClicked = true;
                 break;
             case R.id.menu_navigation_tnc:
                 fragmentManager.beginTransaction().replace(R.id.main_container, TermsAndConditionsFragment.newInstance()).commit();
                 mTitle = getString(R.string.title_leftdrawer_tnc);
+                isSecondGroupClicked = true;
+
+                Log.i("Nish", "Menu length : " + mNavigationView.getMenu().size());
                 break;
             case R.id.menu_navigation_settings:
                 mTitle = getString(R.string.title_leftdrawer_settings);
+                isSecondGroupClicked = true;
                 break;
+        }
+
+        if (isSecondGroupClicked) {
+            for (int i = 0; i < 4; i++) {
+                mNavigationView.getMenu().getItem(i).setChecked(false);
+            }
+        } else {
+            for (int i = 4; i < 7; i++) {
+                mNavigationView.getMenu().getItem(i).setChecked(false);
+            }
         }
 
         mActionBar.setTitle(mTitle);

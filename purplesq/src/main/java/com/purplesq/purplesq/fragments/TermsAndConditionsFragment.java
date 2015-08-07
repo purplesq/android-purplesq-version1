@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.purplesq.purplesq.R;
@@ -32,10 +33,14 @@ public class TermsAndConditionsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        WebView rootWebView = (WebView) inflater.inflate(R.layout.fragment_terms_n_conditions, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_terms_n_conditions, container, false);
+        WebView webView = (WebView) rootView.findViewById(R.id.fragment_terms_n_conditions_webview);
 
-        rootWebView.loadUrl("http://purplesq.com/home/terms-and-conditions/");
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
-        return rootWebView;
+        webView.loadUrl("http://purplesq.com/home/terms-and-conditions/");
+
+        return rootView;
     }
 }

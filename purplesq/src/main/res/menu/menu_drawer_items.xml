@@ -34,7 +34,8 @@
     </group>
 
     <group
-        android:id="@+id/menu_navigation_group_settings">
+        android:id="@+id/menu_navigation_group_settings"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/menu_navigation_help"
