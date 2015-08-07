@@ -42,3 +42,5 @@ build/
 *.swp
 
 # External Libraries that we dont wanna push to git
+
+purplesq/fabric.properties

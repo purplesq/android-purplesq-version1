@@ -140,6 +140,9 @@
             android:authorities="com.purplesq.purplesq.provider"
             android:exported="false">
         </provider>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="7e28fe0ce8d19b9db5405aeff0e7066fcdfefe4d" />
     </application>
 
 </manifest>

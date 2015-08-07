@@ -2,6 +2,7 @@ package com.purplesq.purplesq.application;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.nostra13.universalimageloader.cache.disc.impl.LimitedAgeDiscCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -9,6 +10,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.purplesq.purplesq.vos.EventsVo;
 
+import io.fabric.sdk.android.Fabric;
 import java.io.File;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class PurpleSQ extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         initImageLoaderConfiguration();
     }
