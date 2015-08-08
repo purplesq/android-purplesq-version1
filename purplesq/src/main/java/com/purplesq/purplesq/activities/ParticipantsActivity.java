@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -380,13 +379,11 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
             editDeletelayout.setVisibility(View.GONE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Log.i("Nish", "Card Elevation for Item Close " + position + " : " + cardView.getElevation());
                 cardView.setElevation(0.0f);
             }
 
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Log.i("Nish", "Card Elevation for Item Open " + position + " : " + cardView.getElevation());
                 cardView.setElevation(5.0f);
             }
 
@@ -427,7 +424,6 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                 LinearLayout editDeletelayout = (LinearLayout) participantView.findViewById(R.id.item_participants_layout_edit_delete);
                 if (editDeletelayout.getVisibility() == View.VISIBLE) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Log.i("Nish", "Card Elevation for Other Item Close " + position + " : " + participantView.findViewById(R.id.item_participants_cardview).getElevation());
                         participantView.findViewById(R.id.item_participants_cardview).setElevation(0.0f);
                     }
                     editDeletelayout.setVisibility(View.GONE);
@@ -486,9 +482,6 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
         mRegisterParticipantsTask = null;
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
-            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
-            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
-            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             Fragment prev = getSupportFragmentManager().findFragmentByTag("error_dialog");

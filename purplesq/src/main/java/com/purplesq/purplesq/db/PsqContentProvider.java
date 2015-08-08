@@ -72,12 +72,12 @@ public class PsqContentProvider extends ContentProvider {
 
     }
 
-    DBHelper dbHelper;
+    DbHelper dbHelper;
 
 
     @Override
     public boolean onCreate() {
-        dbHelper = new DBHelper(getContext());
+        dbHelper = new DbHelper(getContext());
         return (dbHelper != null);
     }
 

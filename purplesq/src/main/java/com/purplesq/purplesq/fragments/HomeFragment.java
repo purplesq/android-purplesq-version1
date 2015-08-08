@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -148,9 +147,6 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
         PurpleSQ.dismissLoadingDialog();
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
-            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
-            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
-            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
 
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("error_dialog");
@@ -175,8 +171,6 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
 
     @Override
     public void OnRecyclerViewItemClick(int position) {
-        Log.d("Nish", "RecyclerView clicked at  : " + position);
-
         Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
         intent.putExtra("event-position", position);
         getActivity().startActivity(intent);

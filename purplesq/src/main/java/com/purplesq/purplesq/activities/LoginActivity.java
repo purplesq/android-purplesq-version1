@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.purplesq.purplesq.R;
@@ -97,8 +96,6 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
         if (obj instanceof JSONObject) {
             JSONObject jsonObject = (JSONObject) obj;
             if (jsonObject.has("token")) {
-                Log.i("Nish", "Login Successful Task : " + jsonObject.toString());
-
                 try {
                     Gson gson = new Gson();
                     AuthVo authVo = gson.fromJson(jsonObject.toString(), AuthVo.class);
@@ -130,9 +127,6 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
-            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
-            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
-            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             Fragment prev = getSupportFragmentManager().findFragmentByTag("error_dialog");

@@ -20,7 +20,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -287,8 +286,6 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 fragmentManager.beginTransaction().replace(R.id.main_container, TermsAndConditionsFragment.newInstance()).commit();
                 mTitle = getString(R.string.title_leftdrawer_tnc);
                 isSecondGroupClicked = true;
-
-                Log.i("Nish", "Menu length : " + mNavigationView.getMenu().size());
                 break;
             case R.id.menu_navigation_settings:
                 mTitle = getString(R.string.title_leftdrawer_settings);

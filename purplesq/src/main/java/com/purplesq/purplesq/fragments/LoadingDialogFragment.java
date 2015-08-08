@@ -19,14 +19,13 @@ import com.purplesq.purplesq.R;
 public class LoadingDialogFragment extends DialogFragment {
 
 
+    public LoadingDialogFragment() {
+        // Required empty public constructor
+    }
+
     public static LoadingDialogFragment newInstance() {
         LoadingDialogFragment dialogFragment = new LoadingDialogFragment();
         return dialogFragment;
-    }
-
-
-    public LoadingDialogFragment() {
-        // Required empty public constructor
     }
 
     @Override

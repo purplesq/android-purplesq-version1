@@ -7,7 +7,6 @@ package com.purplesq.purplesq.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
@@ -70,10 +69,8 @@ public class UserLoginTask extends AsyncTask<Void, Void, String> {
 
             RequestBody body = RequestBody.create(JSON, jsonUser.toString());
 
-            Log.i("Nish", "Request Json : " + jsonUser.toString());
-
             Request request = new Request.Builder()
-                    .url("http://dev.purplesq.com:4000/users/login")
+                    .url("http://api.purplesq.com/users/login")
                     .header("platform", "android")
                     .post(body)
                     .build();
@@ -99,7 +96,6 @@ public class UserLoginTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(final String response) {
 
         if (!TextUtils.isEmpty(response)) {
-            Log.i("Nish", "Response : " + response);
             JSONObject jsonResponse;
             try {
                 jsonResponse = new JSONObject(response);

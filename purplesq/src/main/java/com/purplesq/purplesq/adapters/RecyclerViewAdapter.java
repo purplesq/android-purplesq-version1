@@ -1,7 +1,6 @@
 package com.purplesq.purplesq.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +94,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View v) {
-            Log.i("Nish", "Click detected at : " + position);
             mRecyclerViewItemClickListener.OnRecyclerViewItemClick(position);
         }
     }

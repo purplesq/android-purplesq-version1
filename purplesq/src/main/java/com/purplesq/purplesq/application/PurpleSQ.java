@@ -25,9 +25,38 @@ import io.fabric.sdk.android.Fabric;
  */
 public class PurpleSQ extends Application {
 
-    private List<EventsVo> eventsData;
     private static DialogFragment mLoadingDialogFragment;
     private static boolean isShowDialogCalled = false;
+    private List<EventsVo> eventsData;
+
+    public static void showLoadingDialog(FragmentActivity activity) {
+        if (isShowDialogCalled) {
+            return;
+        }
+
+        FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+        Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+
+        // Create and show the dialog.
+        if (mLoadingDialogFragment == null) {
+            mLoadingDialogFragment = LoadingDialogFragment.newInstance();
+        }
+
+        isShowDialogCalled = true;
+        mLoadingDialogFragment.show(ft, "dialog");
+    }
+
+    public static void dismissLoadingDialog() {
+        if (mLoadingDialogFragment != null) {
+            if (mLoadingDialogFragment.isVisible()) {
+                mLoadingDialogFragment.dismiss();
+                isShowDialogCalled = false;
+            }
+        }
+    }
 
     @Override
     public void onCreate() {
@@ -69,34 +98,5 @@ public class PurpleSQ extends Application {
             this.eventsData.clear();
         }
         this.eventsData = events;
-    }
-
-    public static void showLoadingDialog(FragmentActivity activity) {
-        if (isShowDialogCalled) {
-            return;
-        }
-
-        FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
-        Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-
-        // Create and show the dialog.
-        if (mLoadingDialogFragment == null) {
-            mLoadingDialogFragment = LoadingDialogFragment.newInstance();
-        }
-
-        isShowDialogCalled = true;
-        mLoadingDialogFragment.show(ft, "dialog");
-    }
-
-    public static void dismissLoadingDialog() {
-        if (mLoadingDialogFragment != null) {
-            if (mLoadingDialogFragment.isVisible()) {
-                mLoadingDialogFragment.dismiss();
-                isShowDialogCalled = false;
-            }
-        }
     }
 }

@@ -62,9 +62,8 @@ import java.util.List;
 public class LoginFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         FacebookCallback<LoginResult>, LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String TAG = LoginFragment.class.getSimpleName();
-
     public static final int RC_SIGN_IN = 0;
+    private static final String TAG = LoginFragment.class.getSimpleName();
     private static final int STATE_DEFAULT = 0;
     private static final int STATE_SIGN_IN = 1;
     private static final int STATE_IN_PROGRESS = 2;
@@ -84,12 +83,12 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
     private boolean isGoogleClicked = false;
     private String googleEmail = "";
 
-    public static LoginFragment newInstance() {
-        return new LoginFragment();
-    }
-
     public LoginFragment() {
         // Required empty public constructor
+    }
+
+    public static LoginFragment newInstance() {
+        return new LoginFragment();
     }
 
     @Override
@@ -377,15 +376,18 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == AppCompatActivity.RESULT_OK) {
-                // If the error resolution was successful we should continue processing errors.
+                // If the error resolution was successful we should continue
+                // processing errors.
                 mSignInProgress = STATE_SIGN_IN;
             } else {
-                // If the error resolution was not successful or the user canceled, we should stop processing errors.
+                // If the error resolution was not successful or the user canceled,
+                // we should stop processing errors.
                 mSignInProgress = STATE_DEFAULT;
             }
 
             if (!mGoogleApiClient.isConnecting()) {
-                // If Google Play services resolved the issue with a dialog then onStart is not called so we need to re-attempt connection here.
+                // If Google Play services resolved the issue with a dialog then
+                // onStart is not called so we need to re-attempt connection here.
                 mGoogleApiClient.connect();
             }
         } else {
@@ -398,7 +400,6 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
     @Override
     public void onConnected(Bundle bundle) {
         // Reaching onConnected means we consider the user signed in.
-        Log.i(TAG, "onConnected");
 
         if (!((LoginActivity) mActivity).isInfoReceived) {
             googleEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
@@ -422,7 +423,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
 
     @Override
     public void onSuccess(final LoginResult loginResult) {
-        PurpleSQ.dismissLoadingDialog();
+        PurpleSQ.showLoadingDialog(mActivity);
 
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -431,8 +432,6 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
                         // Application code
                         JSONObject userJson = response.getJSONObject();
                         String fbToken = loginResult.getAccessToken().getToken();
-                        Log.i("Nish", "FB Token : " + fbToken);
-                        Log.i("Nish", "FB user JSON : " + userJson.toString());
 
                         PurpleSQ.showLoadingDialog(mActivity);
                         new SocialRegistrationFacebookTask(mActivity, fbToken, userJson.toString(), (LoginActivity) mActivity).execute((Void) null);
@@ -513,7 +512,6 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
                 mSignInProgress = STATE_IN_PROGRESS;
                 mActivity.startIntentSenderForResult(mSignInIntent.getIntentSender(), RC_SIGN_IN, null, 0, 0, 0);
             } catch (IntentSender.SendIntentException e) {
-                Log.i(TAG, "Sign in intent could not be sent: " + e.getLocalizedMessage());
 
                 // The intent was canceled before it was sent.  Attempt to connect to
                 // get an updated ConnectionResult.

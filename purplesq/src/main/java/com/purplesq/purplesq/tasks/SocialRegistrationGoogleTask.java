@@ -3,7 +3,6 @@ package com.purplesq.purplesq.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
@@ -49,7 +48,6 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
         try {
             JSONObject jsonGoogle = new JSONObject(mJsonGoogleUser);
             accessToken = jsonGoogle.getString("access-token");
-            Log.i("Nish", "Google Access Token : " + accessToken);
             jsonGoogle.remove("access-token");
             String email = jsonGoogle.getJSONArray("emails").getJSONObject(0).getString("value");
             jsonUser.put("profile", jsonGoogle);
@@ -62,15 +60,11 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
             RequestBody body = RequestBody.create(JSON, jsonUser.toString());
 
             Request request = new Request.Builder()
-                    .url("http://dev.purplesq.com:4000/users/google")
+                    .url("http://api.purplesq.com/users/google")
                     .header("platform", "android")
                     .header("access-token", accessToken)
                     .post(body)
                     .build();
-
-            Log.i("Nish", "Request : " + request.toString());
-            Log.i("Nish", "Headers : " + request.headers());
-            Log.i("Nish", "Body : " + Utils.bodyToString(request));
 
             Response response = okHttpClient.newCall(request).execute();
 
@@ -92,7 +86,6 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
     @Override
     protected void onPostExecute(final String response) {
         if (!TextUtils.isEmpty(response)) {
-            Log.i("Nish", "Response : " + response);
             try {
                 JSONObject jsonResponse = new JSONObject(response);
                 mListener.genericAsyncTaskOnSuccess(jsonResponse);

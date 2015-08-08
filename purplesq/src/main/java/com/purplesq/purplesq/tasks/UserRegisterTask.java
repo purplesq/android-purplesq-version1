@@ -3,7 +3,6 @@ package com.purplesq.purplesq.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
@@ -76,11 +75,10 @@ public class UserRegisterTask extends AsyncTask<Void, Void, String> {
         }
 
         try {
-            Log.i("Nish", "JSON : " + jsonUser.toString());
             RequestBody body = RequestBody.create(JSON, jsonUser.toString());
 
             Request request = new Request.Builder()
-                    .url("http://dev.purplesq.com:4000/users/account")
+                    .url("http://api.purplesq.com/users/account")
                     .header("platform", "android")
                     .post(body)
                     .build();
@@ -106,7 +104,6 @@ public class UserRegisterTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String response) {
         if (!TextUtils.isEmpty(response)) {
             try {
-                Log.i("Nish", "Response : " + response);
                 mListener.genericAsyncTaskOnSuccess(new JSONObject(response));
             } catch (JSONException e) {
                 e.printStackTrace();

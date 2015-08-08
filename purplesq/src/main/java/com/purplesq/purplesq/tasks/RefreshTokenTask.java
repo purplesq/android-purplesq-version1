@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.purplesq.purplesq.Utils;
@@ -59,17 +58,13 @@ public class RefreshTokenTask extends AsyncTask<Void, Void, String> {
             RequestBody body = RequestBody.create(JSON, jsonUser.toString());
 
             Request request = new Request.Builder()
-                    .url("http://dev.purplesq.com:4000/users/refresh-token")
+                    .url("http://api.purplesq.com/users/refresh-token")
                     .header("platform", "android")
                     .addHeader("content-type", "application/json")
                     .post(body)
                     .build();
 
             Response response = okHttpClient.newCall(request).execute();
-
-            Log.i("Nish", "Request : " + request.toString());
-            Log.i("Nish", "Headers : " + request.headers());
-            Log.i("Nish", "Body : " + Utils.bodyToString(request));
 
             if (!response.isSuccessful()) {
                 mErrorVo = new ErrorVo();
@@ -97,7 +92,6 @@ public class RefreshTokenTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(final String response) {
 
         if (!TextUtils.isEmpty(response)) {
-            Log.i("Nish", "Response : " + response);
             Gson gson = new Gson();
             AuthVo authVo = gson.fromJson(response, AuthVo.class);
             AuthDataManager.insertOrUpdateAuthData(mContext, authVo);

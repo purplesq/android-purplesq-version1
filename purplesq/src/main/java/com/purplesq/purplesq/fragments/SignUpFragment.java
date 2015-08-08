@@ -12,7 +12,6 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,13 +39,13 @@ public class SignUpFragment extends Fragment implements LoaderManager.LoaderCall
     private ImageView mUserImageView;
     private AppCompatActivity mActivity;
 
+    public SignUpFragment() {
+        // Required empty public constructor
+    }
+
     public static SignUpFragment newInstance() {
         SignUpFragment fragment = new SignUpFragment();
         return fragment;
-    }
-
-    public SignUpFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -71,7 +70,6 @@ public class SignUpFragment extends Fragment implements LoaderManager.LoaderCall
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 int imeId = getResources().getInteger(R.integer.customImeActionId);
                 if (id == imeId || id == EditorInfo.IME_ACTION_DONE) {
-                    Log.i("Nish", "Sign Up clicked : " + id);
                     registerUser();
                     return true;
                 }

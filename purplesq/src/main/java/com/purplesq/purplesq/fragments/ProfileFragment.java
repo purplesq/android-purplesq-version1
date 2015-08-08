@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,13 +48,13 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
     private UserVo userVo;
     private String mToken;
 
+    public ProfileFragment() {
+        // Required empty public constructor
+    }
+
     public static ProfileFragment newInstance() {
         ProfileFragment fragment = new ProfileFragment();
         return fragment;
-    }
-
-    public ProfileFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -375,9 +374,6 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
 
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
-            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
-            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
-            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
 
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("error_dialog");

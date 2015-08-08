@@ -2,7 +2,6 @@ package com.purplesq.purplesq.tasks;
 
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
@@ -51,7 +50,7 @@ public class PaymentTask extends AsyncTask<Void, Void, String> {
 
 
             Request request = new Request.Builder()
-                    .url("http://dev.purplesq.com:5000/pay/process/" + mTransactionVo.getId())
+                    .url("http://api.purplesq.com/payments/process/" + mTransactionVo.getId())
                     .header("Purple-Token", mToken)
                     .header("platform", "android")
                     .post(formBody)
@@ -78,7 +77,6 @@ public class PaymentTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(final String response) {
         if (!TextUtils.isEmpty(response)) {
-            Log.i("Nish", "Response : " + response);
             try {
                 PaymentPayUVo paymentPayUVo = gson.fromJson(response, PaymentPayUVo.class);
                 mListener.genericAsyncTaskOnSuccess(paymentPayUVo);

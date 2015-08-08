@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -181,9 +180,6 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
         mPaymentTask = null;
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
-            Log.i("Nish", "Response failed Code : " + errorVo.getCode());
-            Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
-            Log.i("Nish", "Response failed Body : " + errorVo.getBody());
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             Fragment prev = getSupportFragmentManager().findFragmentByTag("error_dialog");
@@ -212,9 +208,6 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
                 //success
                 if (data != null) {
                     String jsonString = data.getStringExtra("result");
-                    jsonString = jsonString.replaceAll("&quot;", "\"");
-                    Toast.makeText(this, "Success" + jsonString, Toast.LENGTH_LONG).show();
-                    Log.i("Nish", "Transaction Details : " + jsonString);
                     Intent intent = new Intent(mActivity, HomeActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

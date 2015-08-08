@@ -35,7 +35,7 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... voids) {
         try {
-            String url = "http://dev.purplesq.com:4000/eduventures/events/odis";
+            String url = "http://api.purplesq.com/eduventures/events/odis";
             if (!TextUtils.isEmpty(mCity)) {
                 if (!mCity.contains("All Events")) {
                     url = url + "?city=" + mCity;

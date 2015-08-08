@@ -34,7 +34,7 @@ public class GetAllCitiesTask extends AsyncTask<Void, Void, String> {
         try {
 
             Request request = new Request.Builder()
-                    .url("http://dev.purplesq.com:4000/eduventures/events/cities")
+                    .url("http://api.purplesq.com/eduventures/events/cities")
                     .get()
                     .addHeader("platform", "android")
                     .build();

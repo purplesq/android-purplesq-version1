@@ -3,7 +3,6 @@ package com.purplesq.purplesq.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
@@ -65,7 +64,7 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
             RequestBody body = RequestBody.create(JSON, jsonUser.toString());
 
             Request request = new Request.Builder()
-                    .url("http://dev.purplesq.com:4000/users/facebook")
+                    .url("http://api.purplesq.com/users/facebook")
                     .header("platform", "android")
                     .header("access-token", mFBToken)
                     .post(body)
@@ -91,7 +90,6 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
     @Override
     protected void onPostExecute(final String response) {
         if (!TextUtils.isEmpty(response)) {
-            Log.i("Nish", "FBReg Response : " + response);
             try {
                 JSONObject jsonResponse = new JSONObject(response);
                 mListener.genericAsyncTaskOnSuccess(jsonResponse);

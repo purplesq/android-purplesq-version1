@@ -56,6 +56,9 @@
         <meta-data
             android:name="payu_merchant_salt"
             android:value="kOmwccGW"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="7e28fe0ce8d19b9db5405aeff0e7066fcdfefe4d"/>
 
         <activity
             android:name=".activities.HomeActivity"
@@ -140,9 +143,6 @@
             android:authorities="com.purplesq.purplesq.provider"
             android:exported="false">
         </provider>
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="7e28fe0ce8d19b9db5405aeff0e7066fcdfefe4d" />
     </application>
 
 </manifest>

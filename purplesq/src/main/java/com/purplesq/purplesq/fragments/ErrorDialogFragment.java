@@ -27,16 +27,15 @@ public class ErrorDialogFragment extends DialogFragment {
 
     private ErrorVo errorVo;
 
+    public ErrorDialogFragment() {
+        // Required empty public constructor
+    }
+
     public static ErrorDialogFragment newInstance(ErrorVo errorVo) {
         ErrorDialogFragment fragment = new ErrorDialogFragment();
         fragment.errorVo = errorVo;
         return fragment;
     }
-
-    public ErrorDialogFragment() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

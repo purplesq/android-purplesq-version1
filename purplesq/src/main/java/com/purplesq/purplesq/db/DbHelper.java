@@ -11,7 +11,7 @@ import com.purplesq.purplesq.db.PsqContract.UserProfileTable;
 /**
  * Created by nishant on 13/07/15.
  */
-public class DBHelper extends SQLiteOpenHelper {
+public class DbHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
@@ -73,7 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + PurchaseHistoryTable.TABLE_NAME;
 
 
-    public DBHelper(Context context) {
+    public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

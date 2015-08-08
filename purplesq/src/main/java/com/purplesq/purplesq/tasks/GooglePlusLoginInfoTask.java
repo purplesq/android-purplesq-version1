@@ -2,7 +2,6 @@ package com.purplesq.purplesq.tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -82,7 +81,6 @@ public class GooglePlusLoginInfoTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String jsonObject) {
-        Log.i("Nish", "Response : " + jsonObject);
         try {
             JSONObject jsonResponse = new JSONObject(jsonObject);
             jsonResponse.put("access-token", mAccessToken);
