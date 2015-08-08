@@ -205,10 +205,12 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                     @Override
                     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
                         Uri photo = Uri.EMPTY;
-                        while (cursor.moveToNext()) {
-                            photo = Uri.parse(cursor.getString(0));
+                        if (!cursor.isClosed()) {
+                            while (cursor.moveToNext()) {
+                                photo = Uri.parse(cursor.getString(0));
+                            }
+                            cursor.close();
                         }
-                        cursor.close();
 
                         if (!TextUtils.isEmpty(photo.toString())) {
                             ((de.hdodenhof.circleimageview.CircleImageView) mDrawerLayout.findViewById(R.id.drawer_user_profile_circleView)).setImageURI(photo);

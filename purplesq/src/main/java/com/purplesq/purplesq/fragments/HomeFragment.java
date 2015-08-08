@@ -81,12 +81,13 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
             long timeToFetchToken = authVo.getExpiryTime() - System.currentTimeMillis();
 
             if (timeToFetchToken < (1000 * 60 * 60 * 24)) { //86400000
-                new RefreshTokenTask(getActivity(), authVo.getUser(), this).execute();
+                PurpleSQ.showLoadingDialog(getActivity());
+                new RefreshTokenTask(getActivity(), authVo.getUser(), this).execute((Void) null);
             }
         }
 
-
-        new GetAllCitiesTask(this).execute();
+        PurpleSQ.showLoadingDialog(getActivity());
+        new GetAllCitiesTask(this).execute((Void) null);
 
         return remoteView;
     }
@@ -105,6 +106,8 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
+        PurpleSQ.dismissLoadingDialog();
+
         if (obj != null) {
             if (obj instanceof JSONArray) {
                 try {
@@ -141,6 +144,7 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
+        PurpleSQ.dismissLoadingDialog();
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
             Log.i("Nish", "Response failed Code : " + errorVo.getCode());
@@ -156,7 +160,7 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
 
     @Override
     public void genericAsyncTaskOnCancelled(Object obj) {
-
+        PurpleSQ.dismissLoadingDialog();
     }
 
     @Override
@@ -170,8 +174,9 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
 
     @Override
     public void onItemSelected(AdapterView<?> adapter, View view, int position, long id) {
+        PurpleSQ.showLoadingDialog(getActivity());
         GetAllEventsTask getAllEventsTask = new GetAllEventsTask(mGenericAsyncTaskListener, adapter.getItemAtPosition(position).toString());
-        getAllEventsTask.execute();
+        getAllEventsTask.execute((Void) null);
     }
 
     @Override

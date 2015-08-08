@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.purplesq.purplesq.R;
+import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.datamanagers.UserProfileDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
@@ -65,7 +66,8 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
         mToken = authVo.getToken();
 
         if (!TextUtils.isEmpty(mToken)) {
-            new GetUserProfileTask(mToken, this).execute();
+            PurpleSQ.showLoadingDialog(getActivity());
+            new GetUserProfileTask(mToken, this).execute((Void) null);
         }
 
     }
@@ -80,7 +82,8 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
             mToken = authVo.getToken();
 
             if (!TextUtils.isEmpty(mToken)) {
-                new GetUserProfileTask(mToken, this).execute();
+                PurpleSQ.showLoadingDialog(getActivity());
+                new GetUserProfileTask(mToken, this).execute((Void) null);
             }
         }
 
@@ -271,7 +274,8 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
         }
 
         if (isValidData) {
-            new ProfileUpdateTask(mToken, userVo, ProfileFragment.this).execute();
+            PurpleSQ.showLoadingDialog(getActivity());
+            new ProfileUpdateTask(mToken, userVo, ProfileFragment.this).execute((Void) null);
 
             layoutShow.setVisibility(View.VISIBLE);
             layoutEdit.setVisibility(View.GONE);
@@ -334,6 +338,8 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
+        PurpleSQ.dismissLoadingDialog();
+
         if (obj != null) {
             if (obj instanceof JSONObject) {
                 try {
@@ -364,6 +370,8 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
+        PurpleSQ.dismissLoadingDialog();
+
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
             Log.i("Nish", "Response failed Code : " + errorVo.getCode());
@@ -379,6 +387,6 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
 
     @Override
     public void genericAsyncTaskOnCancelled(Object obj) {
-
+        PurpleSQ.dismissLoadingDialog();
     }
 }

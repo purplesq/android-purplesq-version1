@@ -48,6 +48,7 @@ import com.google.android.gms.plus.Plus;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.activities.LoginActivity;
+import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.tasks.GooglePlusLoginInfoTask;
 import com.purplesq.purplesq.tasks.SocialRegistrationFacebookTask;
 import com.purplesq.purplesq.tasks.UserLoginTask;
@@ -120,6 +121,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
         mFBSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                PurpleSQ.showLoadingDialog(mActivity);
                 LoginManager.getInstance().logInWithReadPermissions(LoginFragment.this, Arrays.asList("public_profile", "email"));
             }
         });
@@ -190,6 +192,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
                 @Override
                 public void onClick(View view) {
                     isGoogleClicked = true;
+
+                    PurpleSQ.showLoadingDialog(mActivity);
                     goolePlusSignIn();
                 }
             });
@@ -307,6 +311,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            PurpleSQ.showLoadingDialog(mActivity);
             new UserLoginTask(mActivity, email, password, (LoginActivity) mActivity).execute((Void) null);
         }
     }
@@ -372,18 +377,15 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == AppCompatActivity.RESULT_OK) {
-                // If the error resolution was successful we should continue
-                // processing errors.
+                // If the error resolution was successful we should continue processing errors.
                 mSignInProgress = STATE_SIGN_IN;
             } else {
-                // If the error resolution was not successful or the user canceled,
-                // we should stop processing errors.
+                // If the error resolution was not successful or the user canceled, we should stop processing errors.
                 mSignInProgress = STATE_DEFAULT;
             }
 
             if (!mGoogleApiClient.isConnecting()) {
-                // If Google Play services resolved the issue with a dialog then
-                // onStart is not called so we need to re-attempt connection here.
+                // If Google Play services resolved the issue with a dialog then onStart is not called so we need to re-attempt connection here.
                 mGoogleApiClient.connect();
             }
         } else {
@@ -403,6 +405,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
         }
 
         if (isGoogleClicked) {
+            PurpleSQ.showLoadingDialog(mActivity);
             new GooglePlusLoginInfoTask(mActivity, googleEmail, (LoginActivity) mActivity).execute((Void) null);
             // Indicate that the sign in process is complete.
             mSignInProgress = STATE_DEFAULT;
@@ -419,6 +422,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
 
     @Override
     public void onSuccess(final LoginResult loginResult) {
+        PurpleSQ.dismissLoadingDialog();
+
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
                     @Override
@@ -428,6 +433,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
                         String fbToken = loginResult.getAccessToken().getToken();
                         Log.i("Nish", "FB Token : " + fbToken);
                         Log.i("Nish", "FB user JSON : " + userJson.toString());
+
+                        PurpleSQ.showLoadingDialog(mActivity);
                         new SocialRegistrationFacebookTask(mActivity, fbToken, userJson.toString(), (LoginActivity) mActivity).execute((Void) null);
                     }
                 });
@@ -437,11 +444,12 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
 
     @Override
     public void onCancel() {
-
+        PurpleSQ.dismissLoadingDialog();
     }
 
     @Override
     public void onError(FacebookException e) {
+        PurpleSQ.dismissLoadingDialog();
         e.printStackTrace();
     }
 
@@ -454,6 +462,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
      */
     @Override
     public void onConnectionFailed(ConnectionResult result) {
+        PurpleSQ.dismissLoadingDialog();
 
         // Refer to the javadoc for ConnectionResult to see what error codes might
         // be returned in onConnectionFailed.
@@ -488,6 +497,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
      * setting to enable device networking, etc.
      */
     private void resolveSignInError() {
+        PurpleSQ.dismissLoadingDialog();
+
         if (mSignInIntent != null) {
             // We have an intent which will allow our user to sign in or
             // resolve an error.  For example if the user needs to

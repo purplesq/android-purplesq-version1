@@ -1,6 +1,10 @@
 package com.purplesq.purplesq.application;
 
 import android.app.Application;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
 import com.crashlytics.android.Crashlytics;
 import com.nostra13.universalimageloader.cache.disc.impl.LimitedAgeDiscCache;
@@ -8,11 +12,13 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.purplesq.purplesq.fragments.LoadingDialogFragment;
 import com.purplesq.purplesq.vos.EventsVo;
 
-import io.fabric.sdk.android.Fabric;
 import java.io.File;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by nishant on 02/06/15.
@@ -20,6 +26,8 @@ import java.util.List;
 public class PurpleSQ extends Application {
 
     private List<EventsVo> eventsData;
+    private static DialogFragment mLoadingDialogFragment;
+    private static boolean isShowDialogCalled = false;
 
     @Override
     public void onCreate() {
@@ -49,6 +57,7 @@ public class PurpleSQ extends Application {
                 .build();
 
         ImageLoader.getInstance().init(config);
+
     }
 
     public List<EventsVo> getEventsData() {
@@ -60,5 +69,34 @@ public class PurpleSQ extends Application {
             this.eventsData.clear();
         }
         this.eventsData = events;
+    }
+
+    public static void showLoadingDialog(FragmentActivity activity) {
+        if (isShowDialogCalled) {
+            return;
+        }
+
+        FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+        Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+
+        // Create and show the dialog.
+        if (mLoadingDialogFragment == null) {
+            mLoadingDialogFragment = LoadingDialogFragment.newInstance();
+        }
+
+        isShowDialogCalled = true;
+        mLoadingDialogFragment.show(ft, "dialog");
+    }
+
+    public static void dismissLoadingDialog() {
+        if (mLoadingDialogFragment != null) {
+            if (mLoadingDialogFragment.isVisible()) {
+                mLoadingDialogFragment.dismiss();
+                isShowDialogCalled = false;
+            }
+        }
     }
 }

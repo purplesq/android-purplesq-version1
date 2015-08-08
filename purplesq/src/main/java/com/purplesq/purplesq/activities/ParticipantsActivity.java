@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.Utils;
+import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.RegisterParticipantsTask;
@@ -332,7 +333,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                 mParticipantList.add(participantVo);
                 inEditMode = true;
             }
-            
+
             populateParticipants();
         } else {
             editLayout.setVisibility(View.GONE);
@@ -439,6 +440,8 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
         }
 
         if (!mParticipantList.isEmpty()) {
+
+            PurpleSQ.showLoadingDialog(ParticipantsActivity.this);
             mRegisterParticipantsTask = new RegisterParticipantsTask(mEventId, authVo.getToken(), mParticipantList, this);
             mRegisterParticipantsTask.execute((Void) null);
         }
@@ -446,6 +449,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
+        PurpleSQ.dismissLoadingDialog();
         mRegisterParticipantsTask = null;
         if (obj != null && obj instanceof TransactionVo) {
             TransactionVo transactionVo = (TransactionVo) obj;
@@ -474,6 +478,8 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
+        PurpleSQ.dismissLoadingDialog();
+
         mRegisterParticipantsTask = null;
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
@@ -491,6 +497,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
     @Override
     public void genericAsyncTaskOnCancelled(Object obj) {
         mRegisterParticipantsTask = null;
+        PurpleSQ.dismissLoadingDialog();
     }
 
 }

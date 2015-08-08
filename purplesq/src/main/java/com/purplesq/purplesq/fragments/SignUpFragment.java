@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.activities.LoginActivity;
+import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.tasks.UserRegisterTask;
 
 import java.util.ArrayList;
@@ -180,6 +181,8 @@ public class SignUpFragment extends Fragment implements LoaderManager.LoaderCall
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+
+            PurpleSQ.showLoadingDialog(mActivity);
             new UserRegisterTask(mActivity, firstName, lastName, email, password, phoneno, (LoginActivity) mActivity).execute((Void) null);
         }
     }

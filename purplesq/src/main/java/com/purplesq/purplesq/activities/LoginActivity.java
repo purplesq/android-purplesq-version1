@@ -12,6 +12,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.adapters.LoginPagerAdapter;
+import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.SocialRegistrationGoogleTask;
@@ -81,8 +82,12 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
+        PurpleSQ.dismissLoadingDialog();
+
         if (obj instanceof String) {
             isInfoReceived = true;
+
+            PurpleSQ.showLoadingDialog(LoginActivity.this);
             SocialRegistrationGoogleTask mSocialRegistrationGoogleTask = new SocialRegistrationGoogleTask(LoginActivity.this, (String) obj, this);
             mSocialRegistrationGoogleTask.execute((Void) null);
         }
@@ -118,6 +123,8 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
+        PurpleSQ.dismissLoadingDialog();
+
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
             Log.i("Nish", "Response failed Code : " + errorVo.getCode());
@@ -133,6 +140,7 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
     @Override
     public void genericAsyncTaskOnCancelled(Object obj) {
+        PurpleSQ.dismissLoadingDialog();
     }
 
 

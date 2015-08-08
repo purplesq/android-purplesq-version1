@@ -1,4 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
+    <!--    24sp primary    -->
+    <style name="TextAppearance_Headline" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TextAppearance_Headline_Grey800" parent="TextAppearance_Headline">
+        <item name="android:textColor">@color/grey800</item>
+    </style>
+
+    <style name="TextAppearance_Headline_Grey900" parent="TextAppearance_Headline">
+        <item name="android:textColor">@color/grey900</item>
+    </style>
+
+
+    <!--    20sp primary    -->
+    <style name="TextAppearance_Title" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TextAppearance_Title_Black" parent="TextAppearance_Title">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!--    16sp primary    -->
+    <style name="TextAppearance_Subhead" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TextAppearance_Subhead_Grey800" parent="TextAppearance_Subhead">
+        <item name="android:textColor">@color/grey800</item>
+    </style>
+
+    <style name="TextAppearance_Subhead_Grey900" parent="TextAppearance_Subhead">
+        <item name="android:textColor">@color/grey900</item>
+    </style>
+
+    <style name="TextAppearance_Subhead_Teal500" parent="TextAppearance_Subhead">
+        <item name="android:textColor">@color/teal500</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance_Subhead_White" parent="TextAppearance_Subhead">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!--    12sp secondary    -->
+    <style name="TextAppearance_Caption" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextAppearance_Caption_Grey600" parent="TextAppearance_Caption">
+        <item name="android:textColor">@color/grey600</item>
+    </style>
+
+    <style name="TextAppearance_Caption_Grey700" parent="TextAppearance_Caption">
+        <item name="android:textColor">@color/grey700</item>
+    </style>
+
+    <style name="TextAppearance_Caption_Grey900" parent="TextAppearance_Caption">
+        <item name="android:textColor">@color/grey900</item>
+    </style>
+
+    <style name="TextAppearance_Caption_Teal500" parent="TextAppearance_Caption">
+        <item name="android:textColor">@color/teal500</item>
+    </style>
+
+    <style name="TextAppearance_Caption_Orange500" parent="TextAppearance_Caption">
+        <item name="android:textColor">@color/orange500</item>
+    </style>
+
+
+    <!--    18sp secondary    -->
+    <style name="TextAppearance_Medium" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/teal500</item>
+    </style>
+
+    <style name="TextAppearance_Medium_Teal500" parent="TextAppearance_Medium">
+        <item name="android:textColor">@color/teal500</item>
+    </style>
+
+
+
+    <!--    14sp Tertiary    -->
+    <style name="TextAppearance_Small" parent="TextAppearance.AppCompat.Small">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TextAppearance_Small_Grey700" parent="TextAppearance_Small">
+        <item name="android:textColor">@color/grey700</item>
+    </style>
+
+
+
+    <style name="LinearLayout_Vertical">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+
+    </style>
+
+    <style name="LinearLayout_Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
 
     <style name="BorderlessDialog">
         <item name="android:windowFrame">@null</item>
@@ -8,12 +129,7 @@
         <item name="android:windowTitleStyle">@null</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
-        <item name="android:backgroundDimEnabled">true</item>
         <item name="android:background">@android:color/transparent</item>
-    </style>
-
-    <style name="WhiteTextAppearance">
-        <item name="android:textColor">@color/white</item>
     </style>
 
 

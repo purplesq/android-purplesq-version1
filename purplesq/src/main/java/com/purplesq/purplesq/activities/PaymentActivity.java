@@ -105,6 +105,9 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
             public void onClick(View v) {
                 AuthVo authVo = AuthDataManager.getAuthData(PaymentActivity.this);
                 if (authVo != null) {
+
+                    PurpleSQ.showLoadingDialog(PaymentActivity.this);
+
                     mPaymentTask = new PaymentTask(authVo.getToken(), mTransactionVo, PaymentActivity.this);
                     mPaymentTask.execute((Void) null);
                 }
@@ -158,16 +161,20 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
+        PurpleSQ.dismissLoadingDialog();
+
         mPaymentTask = null;
         if (obj != null && obj instanceof PaymentPayUVo) {
             PaymentPayUVo paymentPayUVo = (PaymentPayUVo) obj;
             PaymentPayUVo.PaymentRequstVo mPaymentRequstVo = paymentPayUVo.getRequest();
-            new PayUTask(mActivity, mPaymentRequstVo).execute();
+            new PayUTask(mActivity, mPaymentRequstVo).execute((Void) null);
         }
     }
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
+        PurpleSQ.dismissLoadingDialog();
+
         mPaymentTask = null;
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
@@ -184,7 +191,7 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
 
     @Override
     public void genericAsyncTaskOnCancelled(Object obj) {
-
+        PurpleSQ.dismissLoadingDialog();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
