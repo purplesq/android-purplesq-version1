@@ -32,7 +32,7 @@ public class LoadingDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_error_dialog, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_loading_dialog, container, false);
         getDialog().setCanceledOnTouchOutside(false);
 
         return rootView;

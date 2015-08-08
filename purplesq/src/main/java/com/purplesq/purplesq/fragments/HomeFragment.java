@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -150,6 +151,15 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
             Log.i("Nish", "Response failed Code : " + errorVo.getCode());
             Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
             Log.i("Nish", "Response failed Body : " + errorVo.getBody());
+
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("error_dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+
+            ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.newInstance(errorVo);
+            errorDialogFragment.show(ft, "error_dialog");
         }
     }
 

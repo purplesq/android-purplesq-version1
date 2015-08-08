@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +22,7 @@ import com.payu.sdk.PayU;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
+import com.purplesq.purplesq.fragments.ErrorDialogFragment;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.PayUTask;
 import com.purplesq.purplesq.tasks.PaymentTask;
@@ -181,6 +184,15 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
             Log.i("Nish", "Response failed Code : " + errorVo.getCode());
             Log.i("Nish", "Response failed Message : " + errorVo.getMessage());
             Log.i("Nish", "Response failed Body : " + errorVo.getBody());
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            Fragment prev = getSupportFragmentManager().findFragmentByTag("error_dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+
+            ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.newInstance(errorVo);
+            errorDialogFragment.show(ft, "error_dialog");
         }
     }
 

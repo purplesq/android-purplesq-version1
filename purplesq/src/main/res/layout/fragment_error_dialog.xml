@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@color/snackbar_background_color"
+    android:elevation="@dimen/snackbar_elevation"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <TextView
+        android:id="@+id/fragment_error_dialog_errorheading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="@dimen/snackbar_padding_vertical"
+        android:paddingLeft="@dimen/snackbar_padding_horizontal"
+        android:paddingRight="@dimen/snackbar_padding_horizontal"
+        android:paddingTop="@dimen/snackbar_padding_vertical"
+        android:text="Error"
+        android:textAppearance="@style/TextAppearance_Title"
+        android:textColor="@color/white"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_error_dialog_errorheading">
+
+        <TextView
+            android:id="@+id/fragment_error_dialog_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/horizontal_half_margin"
+            android:layout_marginLeft="@dimen/snackbar_extra_spacing_horizontal"
+            android:layout_marginRight="@dimen/horizontal_half_margin"
+            android:layout_marginStart="@dimen/snackbar_extra_spacing_horizontal"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:minWidth="70dp"
+            android:paddingBottom="@dimen/snackbar_padding_vertical"
+            android:paddingLeft="@dimen/snackbar_padding_horizontal"
+            android:paddingRight="@dimen/snackbar_padding_horizontal"
+            android:paddingTop="@dimen/snackbar_padding_vertical"
+            android:text="OK"
+            android:textAppearance="@style/TextAppearance.Design.Snackbar.Action"
+            android:textColor="@color/colorAccent"/>
+
+        <TextView
+            android:id="@+id/fragment_error_dialog_errortext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@id/fragment_error_dialog_action"
+            android:layout_toStartOf="@id/fragment_error_dialog_action"
+            android:paddingBottom="@dimen/snackbar_padding_vertical"
+            android:paddingLeft="@dimen/snackbar_padding_horizontal"
+            android:paddingRight="@dimen/snackbar_padding_horizontal"
+            android:paddingTop="@dimen/snackbar_padding_vertical"
+            android:textAppearance="@style/TextAppearance.Design.Snackbar.Message"
+            android:textColor="@color/white"/>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
