@@ -60,6 +60,10 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
 
         if (authVo == null || authVo.getUser() == null || TextUtils.isEmpty(authVo.getUser().getId())) {
             Intent i = new Intent(this, LoginActivity.class);
+            if (!TextUtils.isEmpty(mEventId)) {
+                i.putExtra("event-id", mEventId);
+                i.putExtra("event-position", position);
+            }
             startActivity(i);
             finish();
         } else {

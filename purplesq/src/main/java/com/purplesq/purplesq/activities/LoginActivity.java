@@ -27,6 +27,8 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
     public boolean isInfoReceived = false;
     private String finishActivity;
+    private String mEventId;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,13 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
         Intent i = getIntent();
         if (i.hasExtra("finish-activity")) {
             finishActivity = i.getStringExtra("finish-activity");
+        }
+        if (getIntent().hasExtra("event-id")) {
+            mEventId = getIntent().getStringExtra("event-id");
+        }
+
+        if (getIntent().hasExtra("event-position")) {
+            position = getIntent().getIntExtra("event-position", -1);
         }
 
         setupToolBar();
@@ -109,6 +118,10 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
                         finish();
                     } else {
                         Intent i = new Intent(LoginActivity.this, ParticipantsActivity.class);
+                        if (!TextUtils.isEmpty(mEventId)) {
+                            i.putExtra("event-id", mEventId);
+                            i.putExtra("event-position", position);
+                        }
                         LoginActivity.this.startActivity(i);
                         finish();
                     }
