@@ -80,7 +80,7 @@ public class UserProfileDataManager {
     }
 
     public static UserVo getUserProfile(Context context) {
-        Cursor cur;
+        Cursor cur = null;
         UserVo userVo = new UserVo();
         try {
             cur = context.getContentResolver().query(PsqContentProvider.URI_USER_PROFILE, GET_USER_PROFILE_PROJECTION, null, null, null);
@@ -101,13 +101,17 @@ public class UserProfileDataManager {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        } finally {
+            if ((cur != null) && !cur.isClosed()) {
+                cur.close();
+            }
         }
 
         return null;
     }
 
     public static UserVo getUserBacisProfile(Context context) {
-        Cursor cur;
+        Cursor cur = null;
         UserVo userVo = new UserVo();
         try {
             cur = context.getContentResolver().query(PsqContentProvider.URI_USER_PROFILE, GET_USER_BASIC_PROFILE_PROJECTION, null, null, null);
@@ -125,6 +129,10 @@ public class UserProfileDataManager {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        } finally {
+            if ((cur != null) && !cur.isClosed()) {
+                cur.close();
+            }
         }
 
         return null;

@@ -5,6 +5,7 @@ package com.purplesq.purplesq.tasks;
  */
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
@@ -45,23 +46,22 @@ public class UserLoginTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-        // TODO: attempt authentication against a network service.
-
-        try {
-            // Simulate network access.
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            return null;
-        }
-
 
         JSONObject jsonUser = new JSONObject();
         try {
+
+            String versionName = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
+            int versionCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
+
 //            {"email" : "testUser@purplesq.com", "password" : "psq1234"}
             jsonUser.put("email", mEmail);
             jsonUser.put("password", mPassword);
+            jsonUser.put("app_name", versionName);
+            jsonUser.put("app_code", versionCode);
             jsonUser.put("device", Utils.getDeviceHash(mContext, mEmail));
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
 

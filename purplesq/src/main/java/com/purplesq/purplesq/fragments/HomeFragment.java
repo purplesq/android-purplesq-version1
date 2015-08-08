@@ -105,6 +105,12 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
     }
 
     @Override
+    public void onPause() {
+        PurpleSQ.dismissLoadingDialog();
+        super.onPause();
+    }
+
+    @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
         PurpleSQ.dismissLoadingDialog();
 

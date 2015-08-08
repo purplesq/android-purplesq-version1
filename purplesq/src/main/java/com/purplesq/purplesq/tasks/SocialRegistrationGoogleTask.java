@@ -1,6 +1,7 @@
 package com.purplesq.purplesq.tasks;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
@@ -46,13 +47,20 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
         JSONObject jsonUser = new JSONObject();
         String accessToken = "";
         try {
+            String versionName = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
+            int versionCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
+
             JSONObject jsonGoogle = new JSONObject(mJsonGoogleUser);
             accessToken = jsonGoogle.getString("access-token");
             jsonGoogle.remove("access-token");
             String email = jsonGoogle.getJSONArray("emails").getJSONObject(0).getString("value");
             jsonUser.put("profile", jsonGoogle);
+            jsonUser.put("app_name", versionName);
+            jsonUser.put("app_code", versionCode);
             jsonUser.put("device", Utils.getDeviceHash(mContext, email));
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
 

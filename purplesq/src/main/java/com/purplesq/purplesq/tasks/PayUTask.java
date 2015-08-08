@@ -25,13 +25,6 @@ public class PayUTask extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... voids) {
 
         try {
-            // Simulate network access.
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            return null;
-        }
-
-        try {
 
             HashMap<String, String> params = new HashMap<>();
             params.put(PayU.MERCHANT_KEY, mPaymentRequstVo.getKey());

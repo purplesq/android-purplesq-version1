@@ -1,6 +1,7 @@
 package com.purplesq.purplesq.tasks;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
@@ -45,8 +46,13 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
     @Override
     protected String doInBackground(Void... params) {
 
+
         JSONObject jsonUser = new JSONObject();
         try {
+
+            String versionName = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionName;
+            int versionCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
+
             JSONObject jsonFacebook = new JSONObject(mJsonFBUser);
 
             JSONObject jsonProfile = new JSONObject();
@@ -55,8 +61,12 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
             jsonProfile.put("last_name", jsonFacebook.get("last_name"));
             jsonProfile.put("email", jsonFacebook.get("email"));
             jsonUser.put("profile", jsonProfile);
+            jsonUser.put("app_name", versionName);
+            jsonUser.put("app_code", versionCode);
             jsonUser.put("device", Utils.getDeviceHash(mContext, jsonFacebook.getString("email")));
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
 

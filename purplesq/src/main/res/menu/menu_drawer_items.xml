@@ -16,7 +16,8 @@
             android:id="@+id/menu_navigation_invoices"
             android:checked="false"
             android:icon="@drawable/ic_receipt_black_24dp"
-            android:title="@string/title_leftdrawer_invoices"/>
+            android:title="@string/title_leftdrawer_invoices"
+            android:visible="false"/>
 
         <item
             android:id="@+id/menu_navigation_queries"

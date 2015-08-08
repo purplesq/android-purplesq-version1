@@ -84,7 +84,7 @@ public class AuthDataManager {
     }
 
     public static AuthVo getAuthData(Context context) {
-        Cursor cur;
+        Cursor cur = null;
         AuthVo authVo = new AuthVo();
 
         try {
@@ -111,6 +111,10 @@ public class AuthDataManager {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        } finally {
+            if ((cur != null) && !cur.isClosed()) {
+                cur.close();
+            }
         }
 
         return null;

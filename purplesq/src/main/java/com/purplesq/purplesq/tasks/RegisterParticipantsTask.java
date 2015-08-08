@@ -46,14 +46,6 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
 
-        try {
-            // Simulate network access.
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            return null;
-        }
-
-
         JSONObject jsonParticipants = new JSONObject();
         try {
             JSONArray jsonArrayStudents = new JSONArray();
