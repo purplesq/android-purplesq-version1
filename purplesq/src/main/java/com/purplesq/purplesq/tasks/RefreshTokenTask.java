@@ -6,9 +6,9 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.UserVo;

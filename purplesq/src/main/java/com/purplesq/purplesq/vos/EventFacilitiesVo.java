@@ -31,22 +31,4 @@ public class EventFacilitiesVo {
     public void setType(String type) {
         this.type = type;
     }
-
-    public String getUnicodeForType() {
-        if (this.type.equalsIgnoreCase("Travel")) {
-            return "";
-        } else if (this.type.equalsIgnoreCase("Certificate")) {
-            return "";
-        } else if (this.type.equalsIgnoreCase("Meals")) {
-            return "";
-        } else if (this.type.equalsIgnoreCase("Travel")) {
-            return "";
-        } else if (this.type.equalsIgnoreCase("Travel")) {
-            return "";
-        } else if (this.type.equalsIgnoreCase("Travel")) {
-            return "";
-        }
-
-        return "";
-    }
 }

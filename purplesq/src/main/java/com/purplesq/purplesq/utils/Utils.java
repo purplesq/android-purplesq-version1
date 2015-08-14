@@ -1,4 +1,4 @@
-package com.purplesq.purplesq;
+package com.purplesq.purplesq.utils;
 
 import android.content.Context;
 import android.provider.Settings.Secure;

@@ -5,8 +5,8 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
-import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;

@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:gravity="center"
-                android:text="Names are user for creating certificates.\nBy continuing you agree to our Terms &amp; Conditions"/>
+                android:text="Name of user is for creating certificates.\nBy continuing you agree to our Terms &amp; Conditions"/>
         </LinearLayout>
 
     </LinearLayout>

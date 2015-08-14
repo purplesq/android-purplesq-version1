@@ -46,7 +46,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.purplesq.purplesq.R;
-import com.purplesq.purplesq.Utils;
+import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.activities.LoginActivity;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.tasks.GooglePlusLoginInfoTask;
