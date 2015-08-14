@@ -6,10 +6,10 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.ApiConst;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.vos.ErrorVo;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
@@ -28,9 +28,7 @@ import java.io.IOException;
  */
 public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> {
 
-    public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final String mJsonGoogleUser;
-    private final OkHttpClient okHttpClient = new OkHttpClient();
     private GenericAsyncTaskListener mListener;
     private Context mContext;
     private ErrorVo mErrorVo;
@@ -51,13 +49,13 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
             int versionCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
 
             JSONObject jsonGoogle = new JSONObject(mJsonGoogleUser);
-            accessToken = jsonGoogle.getString("access-token");
-            jsonGoogle.remove("access-token");
-            String email = jsonGoogle.getJSONArray("emails").getJSONObject(0).getString("value");
-            jsonUser.put("profile", jsonGoogle);
-            jsonUser.put("app_name", versionName);
-            jsonUser.put("app_code", versionCode);
-            jsonUser.put("device", Utils.getDeviceHash(mContext, email));
+            accessToken = jsonGoogle.getString(PSQConsts.JSON_PARAM_ACCESS_TOKEN);
+            jsonGoogle.remove(PSQConsts.JSON_PARAM_ACCESS_TOKEN);
+            String email = jsonGoogle.getJSONArray(PSQConsts.JSON_PARAM_EMAILS).getJSONObject(0).getString("value");
+            jsonUser.put(PSQConsts.JSON_PARAM_PROFILE, jsonGoogle);
+            jsonUser.put(PSQConsts.JSON_PARAM_APP_NAME, versionName);
+            jsonUser.put(PSQConsts.JSON_PARAM_APP_CODE, versionCode);
+            jsonUser.put(PSQConsts.JSON_PARAM_DEVICE, Utils.getDeviceHash(mContext, email));
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (PackageManager.NameNotFoundException e) {
@@ -65,16 +63,16 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
         }
 
         try {
-            RequestBody body = RequestBody.create(JSON, jsonUser.toString());
+            RequestBody body = RequestBody.create(ApiConst.JSON, jsonUser.toString());
 
             Request request = new Request.Builder()
-                    .url("http://api.purplesq.com/users/google")
-                    .header("platform", "android")
-                    .header("access-token", accessToken)
+                    .url(ApiConst.URL_LOGIN_GOOGLE)
+                    .header(ApiConst.HEADER_PLATFORM, ApiConst.HEADER_PARAM_ANDROID)
+                    .header(ApiConst.HEADER_ACCESS_TOKEN, accessToken)
                     .post(body)
                     .build();
 
-            Response response = okHttpClient.newCall(request).execute();
+            Response response = ApiConst.getHttpClient().newCall(request).execute();
 
             if (!response.isSuccessful()) {
                 mErrorVo = new ErrorVo();

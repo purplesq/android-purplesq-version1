@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.ApiConst;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -20,7 +21,6 @@ import java.io.IOException;
 
 public class GetUserProfileTask extends AsyncTask<Void, Void, String> {
 
-    private final OkHttpClient okHttpClient = new OkHttpClient();
     private GenericAsyncTaskListener mListener;
     private ErrorVo mErrorVo;
     private String mToken;
@@ -34,13 +34,13 @@ public class GetUserProfileTask extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         try {
             Request request = new Request.Builder()
-                    .url("http://api.purplesq.com/users/account")
-                    .header("platform", "android")
-                    .header("Purple-Token", mToken)
+                    .url(ApiConst.URL_GET_USER_PROFILE)
+                    .header(ApiConst.HEADER_PLATFORM, ApiConst.HEADER_PARAM_ANDROID)
+                    .header(ApiConst.HEADER_PURPLE_TOKEN, mToken)
                     .get()
                     .build();
 
-            Response response = okHttpClient.newCall(request).execute();
+            Response response = ApiConst.getHttpClient().newCall(request).execute();
 
             if (!response.isSuccessful()) {
                 mErrorVo = new ErrorVo();

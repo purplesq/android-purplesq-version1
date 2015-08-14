@@ -25,6 +25,7 @@ import com.purplesq.purplesq.fragments.ErrorDialogFragment;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.PayUTask;
 import com.purplesq.purplesq.tasks.PaymentTask;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.EventsVo;
@@ -38,7 +39,6 @@ import java.util.Locale;
 
 public class PaymentActivity extends AppCompatActivity implements GenericAsyncTaskListener {
 
-    private final String UNICODE_RUPEE = "\uf156";
     private Activity mActivity;
     private TransactionVo mTransactionVo;
     private float mAmount;
@@ -100,7 +100,7 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome.ttf");
         tvAmount.setTypeface(font);
-        tvAmount.setText(UNICODE_RUPEE + " " + (int) mAmount);
+        tvAmount.setText(PSQConsts.UNICODE_RUPEE + " " + (int) mAmount);
 
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,8 +135,8 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
 
     public void getIntentExtras() {
         Intent i = getIntent();
-        if (i.hasExtra("transaction")) {
-            String transaction = i.getStringExtra("transaction");
+        if (i.hasExtra(PSQConsts.EXTRAS_TRANSACTION)) {
+            String transaction = i.getStringExtra(PSQConsts.EXTRAS_TRANSACTION);
             if (!TextUtils.isEmpty(transaction)) {
                 Gson gson = new Gson();
                 mTransactionVo = gson.fromJson(transaction, TransactionVo.class);
@@ -146,13 +146,13 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
                 }
             }
         }
-        if (i.hasExtra("participants-name")) {
-            mPaticipantsNames = i.getStringArrayListExtra("participants-name");
-            mPaticipantsInstitute = i.getStringArrayListExtra("participants-institute");
+        if (i.hasExtra(PSQConsts.EXTRAS_PARTICIPANTS_NAME)) {
+            mPaticipantsNames = i.getStringArrayListExtra(PSQConsts.EXTRAS_PARTICIPANTS_NAME);
+            mPaticipantsInstitute = i.getStringArrayListExtra(PSQConsts.EXTRAS_PARTICIPANTS_INSTITUTE);
         }
 
-        if (i.hasExtra("event-position")) {
-            position = i.getIntExtra("event-position", -1);
+        if (i.hasExtra(PSQConsts.EXTRAS_EVENT_POSITION)) {
+            position = i.getIntExtra(PSQConsts.EXTRAS_EVENT_POSITION, -1);
         }
 
         if (position >= 0) {
@@ -182,7 +182,7 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
             ErrorVo errorVo = (ErrorVo) obj;
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            Fragment prev = getSupportFragmentManager().findFragmentByTag("error_dialog");
+            Fragment prev = getSupportFragmentManager().findFragmentByTag(PSQConsts.DIALOG_FRAGMENT_ERROR);
             if (prev != null) {
                 ft.remove(prev);
             }
@@ -207,7 +207,9 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
             if (resultCode == RESULT_OK) {
                 //success
                 if (data != null) {
-                    String jsonString = data.getStringExtra("result");
+                    String jsonString = data.getStringExtra(PSQConsts.EXTRAS_RESULT);
+//                    jsonString = jsonString.replaceAll("&quot;", "\"");
+//                    Log.i("Nish", "Result String : " + jsonString);
                     Intent intent = new Intent(mActivity, HomeActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -220,7 +222,7 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
             if (resultCode == RESULT_CANCELED) {
                 //failed
                 if (data != null)
-                    Toast.makeText(this, "Failed" + data.getStringExtra("result"), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Failed" + data.getStringExtra(PSQConsts.EXTRAS_RESULT), Toast.LENGTH_LONG).show();
             }
         }
     }

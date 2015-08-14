@@ -6,10 +6,10 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.ApiConst;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.vos.ErrorVo;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
@@ -28,10 +28,8 @@ import java.io.IOException;
  */
 public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String> {
 
-    public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final String mJsonFBUser;
     private final String mFBToken;
-    private final OkHttpClient okHttpClient = new OkHttpClient();
     private GenericAsyncTaskListener mListener;
     private Context mContext;
     private ErrorVo mErrorVo;
@@ -56,14 +54,14 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
             JSONObject jsonFacebook = new JSONObject(mJsonFBUser);
 
             JSONObject jsonProfile = new JSONObject();
-            jsonProfile.put("id", jsonFacebook.get("id"));
-            jsonProfile.put("first_name", jsonFacebook.get("first_name"));
-            jsonProfile.put("last_name", jsonFacebook.get("last_name"));
-            jsonProfile.put("email", jsonFacebook.get("email"));
-            jsonUser.put("profile", jsonProfile);
-            jsonUser.put("app_name", versionName);
-            jsonUser.put("app_code", versionCode);
-            jsonUser.put("device", Utils.getDeviceHash(mContext, jsonFacebook.getString("email")));
+            jsonProfile.put(PSQConsts.JSON_PARAM_ID, jsonFacebook.get(PSQConsts.JSON_PARAM_ID));
+            jsonProfile.put(PSQConsts.JSON_PARAM_FIRST_NAME, jsonFacebook.get(PSQConsts.JSON_PARAM_FIRST_NAME));
+            jsonProfile.put(PSQConsts.JSON_PARAM_LAST_NAME, jsonFacebook.get(PSQConsts.JSON_PARAM_LAST_NAME));
+            jsonProfile.put(PSQConsts.JSON_PARAM_EMAIL, jsonFacebook.get(PSQConsts.JSON_PARAM_EMAIL));
+            jsonUser.put(PSQConsts.JSON_PARAM_PROFILE, jsonProfile);
+            jsonUser.put(PSQConsts.JSON_PARAM_APP_NAME, versionName);
+            jsonUser.put(PSQConsts.JSON_PARAM_APP_CODE, versionCode);
+            jsonUser.put(PSQConsts.JSON_PARAM_DEVICE, Utils.getDeviceHash(mContext, jsonFacebook.getString(PSQConsts.JSON_PARAM_EMAIL)));
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (PackageManager.NameNotFoundException e) {
@@ -71,16 +69,16 @@ public class SocialRegistrationFacebookTask extends AsyncTask<Void, Void, String
         }
 
         try {
-            RequestBody body = RequestBody.create(JSON, jsonUser.toString());
+            RequestBody body = RequestBody.create(ApiConst.JSON, jsonUser.toString());
 
             Request request = new Request.Builder()
-                    .url("http://api.purplesq.com/users/facebook")
-                    .header("platform", "android")
-                    .header("access-token", mFBToken)
+                    .url(ApiConst.URL_LOGIN_FACEBOOK)
+                    .header(ApiConst.HEADER_PLATFORM, ApiConst.HEADER_PARAM_ANDROID)
+                    .header(ApiConst.HEADER_ACCESS_TOKEN, mFBToken)
                     .post(body)
                     .build();
 
-            Response response = okHttpClient.newCall(request).execute();
+            Response response = ApiConst.getHttpClient().newCall(request).execute();
 
             if (!response.isSuccessful()) {
                 mErrorVo = new ErrorVo();

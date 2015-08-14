@@ -6,10 +6,10 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.ApiConst;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.vos.ErrorVo;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
@@ -29,13 +29,11 @@ import java.io.IOException;
  */
 public class UserRegisterTask extends AsyncTask<Void, Void, String> {
 
-    public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final String mFirstName;
     private final String mLastName;
     private final String mEmail;
     private final String mPassword;
     private final String mPhoneNo;
-    private final OkHttpClient okHttpClient = new OkHttpClient();
     private GenericAsyncTaskListener mListener;
     private Context mContext;
     private ErrorVo mErrorVo;
@@ -60,14 +58,14 @@ public class UserRegisterTask extends AsyncTask<Void, Void, String> {
             int versionCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
 
 //            {"fname" : "testUser", "lname" : "testUser", "email" : "testUser@purplesq.com", "phone" : "7676767676", "password" : "psq1234"}
-            jsonUser.put("fname", mFirstName);
-            jsonUser.put("lname", mLastName);
-            jsonUser.put("email", mEmail);
-            jsonUser.put("phone", mPhoneNo);
-            jsonUser.put("password", mPassword);
-            jsonUser.put("app_name", versionName);
-            jsonUser.put("app_code", versionCode);
-            jsonUser.put("device", Utils.getDeviceHash(mContext, mEmail));
+            jsonUser.put(PSQConsts.JSON_PARAM_FNAME, mFirstName);
+            jsonUser.put(PSQConsts.JSON_PARAM_LNAME, mLastName);
+            jsonUser.put(PSQConsts.JSON_PARAM_EMAIL, mEmail);
+            jsonUser.put(PSQConsts.JSON_PARAM_PHONE, mPhoneNo);
+            jsonUser.put(PSQConsts.JSON_PARAM_PASSWORD, mPassword);
+            jsonUser.put(PSQConsts.JSON_PARAM_APP_NAME, versionName);
+            jsonUser.put(PSQConsts.JSON_PARAM_APP_CODE, versionCode);
+            jsonUser.put(PSQConsts.JSON_PARAM_DEVICE, Utils.getDeviceHash(mContext, mEmail));
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (PackageManager.NameNotFoundException e) {
@@ -75,15 +73,15 @@ public class UserRegisterTask extends AsyncTask<Void, Void, String> {
         }
 
         try {
-            RequestBody body = RequestBody.create(JSON, jsonUser.toString());
+            RequestBody body = RequestBody.create(ApiConst.JSON, jsonUser.toString());
 
             Request request = new Request.Builder()
-                    .url("http://api.purplesq.com/users/account")
-                    .header("platform", "android")
+                    .url(ApiConst.URL_LOGIN_REGISTER)
+                    .header(ApiConst.HEADER_PLATFORM, ApiConst.HEADER_PARAM_ANDROID)
                     .post(body)
                     .build();
 
-            Response response = okHttpClient.newCall(request).execute();
+            Response response = ApiConst.getHttpClient().newCall(request).execute();
 
             if (!response.isSuccessful()) {
                 mErrorVo = new ErrorVo();

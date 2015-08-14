@@ -8,12 +8,12 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.ApiConst;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.UserVo;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
@@ -28,9 +28,7 @@ import java.io.IOException;
  */
 public class RefreshTokenTask extends AsyncTask<Void, Void, String> {
 
-    public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final UserVo mUser;
-    private final OkHttpClient okHttpClient = new OkHttpClient();
     private GenericAsyncTaskListener mListener;
     private Context mContext;
     private ErrorVo mErrorVo;
@@ -49,22 +47,22 @@ public class RefreshTokenTask extends AsyncTask<Void, Void, String> {
             int versionCode = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0).versionCode;
 
             JSONObject jsonUser = new JSONObject();
-            jsonUser.put("uid", mUser.getId());
-            jsonUser.put("email", mUser.getEmail());
-            jsonUser.put("device", Utils.getDeviceHash(mContext, mUser.getEmail()));
-            jsonUser.put("app_name", versionName);
-            jsonUser.put("app_code", versionCode);
+            jsonUser.put(PSQConsts.JSON_PARAM_UID, mUser.getId());
+            jsonUser.put(PSQConsts.JSON_PARAM_EMAIL, mUser.getEmail());
+            jsonUser.put(PSQConsts.JSON_PARAM_DEVICE, Utils.getDeviceHash(mContext, mUser.getEmail()));
+            jsonUser.put(PSQConsts.JSON_PARAM_APP_NAME, versionName);
+            jsonUser.put(PSQConsts.JSON_PARAM_APP_CODE, versionCode);
 
-            RequestBody body = RequestBody.create(JSON, jsonUser.toString());
+            RequestBody body = RequestBody.create(ApiConst.JSON, jsonUser.toString());
 
             Request request = new Request.Builder()
-                    .url("http://api.purplesq.com/users/refresh-token")
-                    .header("platform", "android")
-                    .addHeader("content-type", "application/json")
+                    .url(ApiConst.URL_REFRESH_TOKEN)
+                    .header(ApiConst.HEADER_PLATFORM, ApiConst.HEADER_PARAM_ANDROID)
+                    .addHeader(ApiConst.HEADER_CONTENT_TYPE, ApiConst.HEADER_PARAM_JSON)
                     .post(body)
                     .build();
 
-            Response response = okHttpClient.newCall(request).execute();
+            Response response = ApiConst.getHttpClient().newCall(request).execute();
 
             if (!response.isSuccessful()) {
                 mErrorVo = new ErrorVo();

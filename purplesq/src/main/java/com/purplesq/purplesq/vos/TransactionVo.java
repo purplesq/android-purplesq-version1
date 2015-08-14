@@ -2,6 +2,8 @@ package com.purplesq.purplesq.vos;
 
 import android.text.TextUtils;
 
+import com.purplesq.purplesq.utils.PSQConsts;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -78,22 +80,22 @@ public class TransactionVo {
         try {
             JSONObject jsonTransaction = new JSONObject();
             if (!TextUtils.isEmpty(id)) {
-                jsonTransaction.put("id", id);
+                jsonTransaction.put(PSQConsts.JSON_PARAM_ID, id);
             }
             if (!TextUtils.isEmpty(status)) {
-                jsonTransaction.put("status", status);
+                jsonTransaction.put(PSQConsts.JSON_PARAM_STATUS, status);
             }
             if (!TextUtils.isEmpty(email)) {
-                jsonTransaction.put("email", email);
+                jsonTransaction.put(PSQConsts.JSON_PARAM_EMAIL, email);
             }
             if (phone >= 0) {
-                jsonTransaction.put("phone", phone);
+                jsonTransaction.put(PSQConsts.JSON_PARAM_PHONE, phone);
             }
             if (!TextUtils.isEmpty(mode)) {
-                jsonTransaction.put("mode", mode);
+                jsonTransaction.put(PSQConsts.JSON_PARAM_MODE, mode);
             }
             if (amount >= 0) {
-                jsonTransaction.put("amount", amount);
+                jsonTransaction.put(PSQConsts.JSON_PARAM_AMOUNT, amount);
             }
 
             return jsonTransaction.toString();

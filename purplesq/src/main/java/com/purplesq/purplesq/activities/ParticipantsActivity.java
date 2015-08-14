@@ -16,12 +16,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.purplesq.purplesq.R;
-import com.purplesq.purplesq.Utils;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.fragments.ErrorDialogFragment;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.RegisterParticipantsTask;
+import com.purplesq.purplesq.utils.PSQConsts;
+import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.ParticipantVo;
@@ -48,12 +49,12 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
         mActivity = this;
         setupToolBar();
 
-        if (getIntent().hasExtra("event-id")) {
-            mEventId = getIntent().getStringExtra("event-id");
+        if (getIntent().hasExtra(PSQConsts.EXTRAS_EVENT_ID)) {
+            mEventId = getIntent().getStringExtra(PSQConsts.EXTRAS_EVENT_ID);
         }
 
-        if (getIntent().hasExtra("event-position")) {
-            position = getIntent().getIntExtra("event-position", -1);
+        if (getIntent().hasExtra(PSQConsts.EXTRAS_EVENT_POSITION)) {
+            position = getIntent().getIntExtra(PSQConsts.EXTRAS_EVENT_POSITION, -1);
         }
 
         authVo = AuthDataManager.getAuthData(this);
@@ -61,8 +62,8 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
         if (authVo == null || authVo.getUser() == null || TextUtils.isEmpty(authVo.getUser().getId())) {
             Intent i = new Intent(this, LoginActivity.class);
             if (!TextUtils.isEmpty(mEventId)) {
-                i.putExtra("event-id", mEventId);
-                i.putExtra("event-position", position);
+                i.putExtra(PSQConsts.EXTRAS_EVENT_ID, mEventId);
+                i.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
             }
             startActivity(i);
             finish();
@@ -465,10 +466,10 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                 }
 
                 Intent intent = new Intent(mActivity, PaymentActivity.class);
-                intent.putExtra("transaction", transactionVo.toString());
-                intent.putExtra("event-position", position);
-                intent.putStringArrayListExtra("participants-name", participantList);
-                intent.putStringArrayListExtra("participants-institute", participantIntitute);
+                intent.putExtra(PSQConsts.EXTRAS_TRANSACTION, transactionVo.toString());
+                intent.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
+                intent.putStringArrayListExtra(PSQConsts.EXTRAS_PARTICIPANTS_NAME, participantList);
+                intent.putStringArrayListExtra(PSQConsts.EXTRAS_PARTICIPANTS_INSTITUTE, participantIntitute);
                 startActivity(intent);
 
             } catch (Exception e) {
@@ -488,13 +489,13 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
             ErrorVo errorVo = (ErrorVo) obj;
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            Fragment prev = getSupportFragmentManager().findFragmentByTag("error_dialog");
+            Fragment prev = getSupportFragmentManager().findFragmentByTag(PSQConsts.DIALOG_FRAGMENT_ERROR);
             if (prev != null) {
                 ft.remove(prev);
             }
 
             ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.newInstance(errorVo);
-            errorDialogFragment.show(ft, "error_dialog");
+            errorDialogFragment.show(ft, PSQConsts.DIALOG_FRAGMENT_ERROR);
         }
     }
 

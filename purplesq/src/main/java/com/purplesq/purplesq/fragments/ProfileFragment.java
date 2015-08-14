@@ -25,6 +25,7 @@ import com.purplesq.purplesq.datamanagers.UserProfileDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.GetUserProfileTask;
 import com.purplesq.purplesq.tasks.ProfileUpdateTask;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.UserVo;
@@ -345,9 +346,9 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
                 try {
                     JSONObject jsonResponse = (JSONObject) obj;
 
-                    if (jsonResponse.has("_id")) {
+                    if (jsonResponse.has(PSQConsts.JSON_PARAM__ID)) {
 
-                        if (userVo.getId().equalsIgnoreCase(jsonResponse.getString("_id"))) {
+                        if (userVo.getId().equalsIgnoreCase(jsonResponse.getString(PSQConsts.JSON_PARAM__ID))) {
                             Gson gson = new Gson();
                             UserVo user = gson.fromJson(jsonResponse.toString(), UserVo.class);
                             if (user != null) {
@@ -376,13 +377,13 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
             ErrorVo errorVo = (ErrorVo) obj;
 
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("error_dialog");
+            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(PSQConsts.DIALOG_FRAGMENT_ERROR);
             if (prev != null) {
                 ft.remove(prev);
             }
 
             ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.newInstance(errorVo);
-            errorDialogFragment.show(ft, "error_dialog");
+            errorDialogFragment.show(ft, PSQConsts.DIALOG_FRAGMENT_ERROR);
         }
     }
 

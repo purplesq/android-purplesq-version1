@@ -18,6 +18,7 @@ import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.fragments.ErrorDialogFragment;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.SocialRegistrationGoogleTask;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ErrorVo;
 
@@ -36,15 +37,15 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
         setContentView(R.layout.activity_login);
 
         Intent i = getIntent();
-        if (i.hasExtra("finish-activity")) {
-            finishActivity = i.getStringExtra("finish-activity");
+        if (i.hasExtra(PSQConsts.EXTRAS_FINISH_ACTIVITY)) {
+            finishActivity = i.getStringExtra(PSQConsts.EXTRAS_FROM_ACTIVITY);
         }
-        if (getIntent().hasExtra("event-id")) {
-            mEventId = getIntent().getStringExtra("event-id");
+        if (getIntent().hasExtra(PSQConsts.EXTRAS_EVENT_ID)) {
+            mEventId = getIntent().getStringExtra(PSQConsts.EXTRAS_EVENT_ID);
         }
 
-        if (getIntent().hasExtra("event-position")) {
-            position = getIntent().getIntExtra("event-position", -1);
+        if (getIntent().hasExtra(PSQConsts.EXTRAS_EVENT_POSITION)) {
+            position = getIntent().getIntExtra(PSQConsts.EXTRAS_EVENT_POSITION, -1);
         }
 
         setupToolBar();
@@ -104,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
         }
         if (obj instanceof JSONObject) {
             JSONObject jsonObject = (JSONObject) obj;
-            if (jsonObject.has("token")) {
+            if (jsonObject.has(PSQConsts.JSON_PARAM_TOKEN)) {
                 try {
                     Gson gson = new Gson();
                     AuthVo authVo = gson.fromJson(jsonObject.toString(), AuthVo.class);
@@ -113,14 +114,14 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
                     if (!TextUtils.isEmpty(finishActivity)) {
                         Intent intent = new Intent();
-                        intent.putExtra("from-activity", LoginActivity.class.getName());
+                        intent.putExtra(PSQConsts.EXTRAS_FROM_ACTIVITY, LoginActivity.class.getName());
                         setResult(RESULT_OK, intent);
                         finish();
                     } else {
                         Intent i = new Intent(LoginActivity.this, ParticipantsActivity.class);
                         if (!TextUtils.isEmpty(mEventId)) {
-                            i.putExtra("event-id", mEventId);
-                            i.putExtra("event-position", position);
+                            i.putExtra(PSQConsts.EXTRAS_EVENT_ID, mEventId);
+                            i.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
                         }
                         LoginActivity.this.startActivity(i);
                         finish();
@@ -142,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
             ErrorVo errorVo = (ErrorVo) obj;
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            Fragment prev = getSupportFragmentManager().findFragmentByTag("error_dialog");
+            Fragment prev = getSupportFragmentManager().findFragmentByTag(PSQConsts.DIALOG_FRAGMENT_ERROR);
             if (prev != null) {
                 ft.remove(prev);
             }

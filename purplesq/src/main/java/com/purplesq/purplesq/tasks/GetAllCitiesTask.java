@@ -3,10 +3,10 @@ package com.purplesq.purplesq.tasks;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.ApiConst;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.ErrorVo;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -20,8 +20,6 @@ import java.io.IOException;
  */
 public class GetAllCitiesTask extends AsyncTask<Void, Void, String> {
 
-    private final OkHttpClient okHttpClient = new OkHttpClient();
-    private final Gson gson = new Gson();
     private GenericAsyncTaskListener mListener;
     private ErrorVo mErrorVo;
 
@@ -34,12 +32,12 @@ public class GetAllCitiesTask extends AsyncTask<Void, Void, String> {
         try {
 
             Request request = new Request.Builder()
-                    .url("http://api.purplesq.com/eduventures/events/cities")
+                    .url(ApiConst.URL_GET_ALL_CITIES)
                     .get()
-                    .addHeader("platform", "android")
+                    .header(ApiConst.HEADER_PLATFORM, ApiConst.HEADER_PARAM_ANDROID)
                     .build();
 
-            Response response = okHttpClient.newCall(request).execute();
+            Response response = ApiConst.getHttpClient().newCall(request).execute();
 
             if (!response.isSuccessful()) {
                 mErrorVo = new ErrorVo();

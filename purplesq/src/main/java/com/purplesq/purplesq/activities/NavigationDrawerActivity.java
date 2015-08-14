@@ -32,6 +32,7 @@ import com.purplesq.purplesq.datamanagers.UserProfileDataManager;
 import com.purplesq.purplesq.fragments.HomeFragment;
 import com.purplesq.purplesq.fragments.ProfileFragment;
 import com.purplesq.purplesq.fragments.TermsAndConditionsFragment;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.UserVo;
 
 /**
@@ -239,7 +240,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(NavigationDrawerActivity.this, LoginActivity.class);
-                    i.putExtra("finish-activity", HomeActivity.class.getName());
+                    i.putExtra(PSQConsts.EXTRAS_FINISH_ACTIVITY, HomeActivity.class.getName());
                     startActivityForResult(i, 777);
                     mTitle = getString(R.string.title_leftdrawer_profile);
                     mDrawerLayout.closeDrawers();

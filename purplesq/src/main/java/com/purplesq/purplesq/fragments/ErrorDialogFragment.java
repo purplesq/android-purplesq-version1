@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.purplesq.purplesq.R;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.ErrorVo;
 
 import org.json.JSONException;
@@ -50,8 +51,8 @@ public class ErrorDialogFragment extends DialogFragment {
         JSONObject errorJson = null;
         try {
             errorJson = new JSONObject(errorMsg);
-            if (errorJson.has("message")) {
-                errorMsg = errorJson.getString("message");
+            if (errorJson.has(PSQConsts.JSON_PARAM_MESSAGE)) {
+                errorMsg = errorJson.getString(PSQConsts.JSON_PARAM_MESSAGE);
             }
         } catch (JSONException e) {
             e.printStackTrace();

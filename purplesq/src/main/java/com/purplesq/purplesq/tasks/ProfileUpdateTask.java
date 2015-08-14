@@ -4,10 +4,10 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.ApiConst;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.UserVo;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
@@ -23,9 +23,7 @@ import java.io.IOException;
 
 public class ProfileUpdateTask extends AsyncTask<Void, Void, String> {
 
-    public final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final UserVo mUserVo;
-    private final OkHttpClient okHttpClient = new OkHttpClient();
     private GenericAsyncTaskListener mListener;
     private ErrorVo mErrorVo;
     private String mToken;
@@ -40,17 +38,17 @@ public class ProfileUpdateTask extends AsyncTask<Void, Void, String> {
     protected String doInBackground(Void... params) {
         JSONObject jsonUser = new JSONObject();
         try {
-            jsonUser.put("fname", mUserVo.getFirstName());
-            jsonUser.put("lname", mUserVo.getLastName());
+            jsonUser.put(PSQConsts.JSON_PARAM_FNAME, mUserVo.getFirstName());
+            jsonUser.put(PSQConsts.JSON_PARAM_LNAME, mUserVo.getLastName());
             if (!TextUtils.isEmpty(mUserVo.getPhone())) {
-                jsonUser.put("phone", mUserVo.getPhone());
+                jsonUser.put(PSQConsts.JSON_PARAM_PHONE, mUserVo.getPhone());
             }
             if (!TextUtils.isEmpty(mUserVo.getInstitute())) {
-                jsonUser.put("institute", mUserVo.getInstitute());
+                jsonUser.put(PSQConsts.JSON_PARAM_INSTITUTE, mUserVo.getInstitute());
             }
-            jsonUser.put("dob", mUserVo.getDob());
+            jsonUser.put(PSQConsts.JSON_PARAM_DOB, mUserVo.getDob());
             if (!TextUtils.isEmpty(mUserVo.getGender())) {
-                jsonUser.put("gender", mUserVo.getGender());
+                jsonUser.put(PSQConsts.JSON_PARAM_GENDER, mUserVo.getGender());
             }
 
         } catch (JSONException e) {
@@ -58,16 +56,16 @@ public class ProfileUpdateTask extends AsyncTask<Void, Void, String> {
         }
 
         try {
-            RequestBody body = RequestBody.create(JSON, jsonUser.toString());
+            RequestBody body = RequestBody.create(ApiConst.JSON, jsonUser.toString());
 
             Request request = new Request.Builder()
-                    .url("http://api.purplesq.com/users/account")
-                    .header("platform", "android")
-                    .header("Purple-Token", mToken)
+                    .url(ApiConst.URL_PROFILE_UPDATE)
+                    .header(ApiConst.HEADER_PLATFORM, ApiConst.HEADER_PARAM_ANDROID)
+                    .header(ApiConst.HEADER_PURPLE_TOKEN, mToken)
                     .put(body)
                     .build();
 
-            Response response = okHttpClient.newCall(request).execute();
+            Response response = ApiConst.getHttpClient().newCall(request).execute();
 
             if (!response.isSuccessful()) {
                 mErrorVo = new ErrorVo();

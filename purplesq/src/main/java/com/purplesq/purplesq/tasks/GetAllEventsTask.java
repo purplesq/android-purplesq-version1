@@ -3,12 +3,12 @@ package com.purplesq.purplesq.tasks;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.ApiConst;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.EventsVo;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -21,8 +21,6 @@ import java.util.List;
  */
 public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
 
-    private final OkHttpClient okHttpClient = new OkHttpClient();
-    private final Gson gson = new Gson();
     private GenericAsyncTaskListener mListener;
     private String mCity;
     private ErrorVo mErrorVo;
@@ -35,7 +33,7 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... voids) {
         try {
-            String url = "http://api.purplesq.com/eduventures/events/odis";
+            String url = ApiConst.URL_GET_ALL_EVENTS;
             if (!TextUtils.isEmpty(mCity)) {
                 if (!mCity.contains("All Events")) {
                     url = url + "?city=" + mCity;
@@ -44,10 +42,10 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
 
             Request request = new Request.Builder()
                     .url(url)
-                    .header("platform", "android")
+                    .header(ApiConst.HEADER_PLATFORM, ApiConst.HEADER_PARAM_ANDROID)
                     .build();
 
-            Response response = okHttpClient.newCall(request).execute();
+            Response response = ApiConst.getHttpClient().newCall(request).execute();
 
             if (!response.isSuccessful()) {
                 mErrorVo = new ErrorVo();
@@ -72,7 +70,7 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
             Type listType = new TypeToken<List<EventsVo>>() {
             }.getType();
 
-            eventsVos = gson.fromJson(result, listType);
+            eventsVos = ApiConst.getGson().fromJson(result, listType);
             mListener.genericAsyncTaskOnSuccess(eventsVos);
 
         } else {

@@ -26,6 +26,7 @@ import com.purplesq.purplesq.interfces.RecyclerViewItemClickListener;
 import com.purplesq.purplesq.tasks.GetAllCitiesTask;
 import com.purplesq.purplesq.tasks.GetAllEventsTask;
 import com.purplesq.purplesq.tasks.RefreshTokenTask;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.EventsVo;
@@ -155,7 +156,7 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
             ErrorVo errorVo = (ErrorVo) obj;
 
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag("error_dialog");
+            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(PSQConsts.DIALOG_FRAGMENT_ERROR);
             if (prev != null) {
                 ft.remove(prev);
             }
@@ -178,7 +179,7 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
     @Override
     public void OnRecyclerViewItemClick(int position) {
         Intent intent = new Intent(getActivity(), EventDetailsActivity.class);
-        intent.putExtra("event-position", position);
+        intent.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
         getActivity().startActivity(intent);
     }
 

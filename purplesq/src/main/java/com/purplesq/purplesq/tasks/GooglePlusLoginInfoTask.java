@@ -8,6 +8,7 @@ import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.Scopes;
 import com.purplesq.purplesq.fragments.LoginFragment;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.PSQConsts;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,7 +84,7 @@ public class GooglePlusLoginInfoTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String jsonObject) {
         try {
             JSONObject jsonResponse = new JSONObject(jsonObject);
-            jsonResponse.put("access-token", mAccessToken);
+            jsonResponse.put(PSQConsts.JSON_PARAM_ACCESS_TOKEN, mAccessToken);
             mListener.genericAsyncTaskOnSuccess(jsonResponse.toString());
 
         } catch (JSONException e) {

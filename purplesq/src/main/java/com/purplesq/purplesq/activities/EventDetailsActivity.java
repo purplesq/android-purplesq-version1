@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.application.PurpleSQ;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.EventFacilitiesVo;
 import com.purplesq.purplesq.vos.EventFaqsVo;
 import com.purplesq.purplesq.vos.EventItinerariesVo;
@@ -38,15 +39,6 @@ import java.util.Locale;
 
 
 public class EventDetailsActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
-
-    private final String UNICODE_RUPEE = "\uf156";
-    private final String UNICODE_CERTIFICATE = "\uf0a3";
-    private final String UNICODE_FOOD = "\uf0f5";
-    private final String UNICODE_GUIDE = "\uf21d";
-    private final String UNICODE_KIT = "\uf1b3";
-    private final String UNICODE_TRAVEL = "\uf207";
-    private final String UNICODE_ACCOMODATION = "\uf1ad";
-    private final String UNICODE_ASTERISK = "\uF069";
 
     private final String STATE_SELECTED_POSITION = "selected_event_position";
 
@@ -71,8 +63,8 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
 
         mActivity = this;
 
-        if (getIntent().hasExtra("event-position")) {
-            position = getIntent().getIntExtra("event-position", -1);
+        if (getIntent().hasExtra(PSQConsts.EXTRAS_EVENT_POSITION)) {
+            position = getIntent().getIntExtra(PSQConsts.EXTRAS_EVENT_POSITION, -1);
         } else if (savedInstanceState != null) {
             position = savedInstanceState.getInt(STATE_SELECTED_POSITION);
         }
@@ -178,9 +170,9 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
         int seatsRemaining = mEventData.getBatch_size() - mEventData.getConsumed();
         String bottomText;
         if (seatsRemaining > 1) {
-            bottomText = UNICODE_RUPEE + " " + mEventData.getCost().getTotal() + " | " + seatsRemaining + " seats left";
+            bottomText = PSQConsts.UNICODE_RUPEE + " " + mEventData.getCost().getTotal() + " | " + seatsRemaining + " seats left";
         } else if (seatsRemaining == 1) {
-            bottomText = UNICODE_RUPEE + " " + mEventData.getCost().getTotal() + " | " + seatsRemaining + " seat left";
+            bottomText = PSQConsts.UNICODE_RUPEE + " " + mEventData.getCost().getTotal() + " | " + seatsRemaining + " seat left";
         } else {
             bottomText = "Event is sold out.";
         }
@@ -193,8 +185,8 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mActivity, ParticipantsActivity.class);
-                i.putExtra("event-id", mEventData.get_id());
-                i.putExtra("event-position", position);
+                i.putExtra(PSQConsts.EXTRAS_EVENT_ID, mEventData.get_id());
+                i.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
                 mActivity.startActivity(i);
             }
         });
@@ -236,7 +228,7 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
         }
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome.ttf");
-        String date_cost = eventDay + " | " + UNICODE_RUPEE + " " + mEventData.getCost().getTotal();
+        String date_cost = eventDay + " | " + PSQConsts.UNICODE_RUPEE + " " + mEventData.getCost().getTotal();
 
         ((TextView) findViewById(R.id.activity_event_details_tv_headline)).setText(mEventData.getName());
         ((TextView) findViewById(R.id.activity_event_details_tv_event_date)).setTypeface(font);
@@ -250,8 +242,8 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mActivity, ParticipantsActivity.class);
-                i.putExtra("event-id", mEventData.get_id());
-                i.putExtra("event-position", position);
+                i.putExtra(PSQConsts.EXTRAS_EVENT_ID, mEventData.get_id());
+                i.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
                 mActivity.startActivity(i);
             }
         });
@@ -299,7 +291,7 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
             LinearLayout featureLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.item_fontawesome_row, null);
             TextView fontTv = (TextView) featureLayout.findViewById(R.id.item_fontawesome_row_font);
             fontTv.setTypeface(font);
-            fontTv.setText(UNICODE_ASTERISK);
+            fontTv.setText(PSQConsts.UNICODE_ASTERISK);
             ((TextView) featureLayout.findViewById(R.id.item_fontawesome_row_normaltext)).setText(feature);
             featuresLayout.addView(featureLayout);
         }
@@ -328,22 +320,22 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
             fontTv.setTypeface(font);
             switch (facility.getType()) {
                 case "Accomodation":
-                    fontTv.setText(UNICODE_ACCOMODATION);
+                    fontTv.setText(PSQConsts.UNICODE_ACCOMODATION);
                     break;
                 case "Travel":
-                    fontTv.setText(UNICODE_TRAVEL);
+                    fontTv.setText(PSQConsts.UNICODE_TRAVEL);
                     break;
                 case "Food":
-                    fontTv.setText(UNICODE_FOOD);
+                    fontTv.setText(PSQConsts.UNICODE_FOOD);
                     break;
                 case "Kit":
-                    fontTv.setText(UNICODE_KIT);
+                    fontTv.setText(PSQConsts.UNICODE_KIT);
                     break;
                 case "Guide":
-                    fontTv.setText(UNICODE_GUIDE);
+                    fontTv.setText(PSQConsts.UNICODE_GUIDE);
                     break;
                 case "Certificate":
-                    fontTv.setText(UNICODE_CERTIFICATE);
+                    fontTv.setText(PSQConsts.UNICODE_CERTIFICATE);
                     break;
             }
 

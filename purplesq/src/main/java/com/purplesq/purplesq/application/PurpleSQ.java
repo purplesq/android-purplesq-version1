@@ -13,6 +13,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.purplesq.purplesq.fragments.LoadingDialogFragment;
+import com.purplesq.purplesq.utils.Config;
+import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.EventsVo;
 
 import java.io.File;
@@ -29,40 +31,12 @@ public class PurpleSQ extends Application {
     private static boolean isShowDialogCalled = false;
     private List<EventsVo> eventsData;
 
-    public static void showLoadingDialog(FragmentActivity activity) {
-        if (isShowDialogCalled) {
-            return;
-        }
-
-        FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
-        Fragment prev = activity.getSupportFragmentManager().findFragmentByTag("dialog");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-
-        // Create and show the dialog.
-        if (mLoadingDialogFragment == null) {
-            mLoadingDialogFragment = LoadingDialogFragment.newInstance();
-        }
-
-        isShowDialogCalled = true;
-        mLoadingDialogFragment.show(ft, "dialog");
-    }
-
-    public static void dismissLoadingDialog() {
-        if (mLoadingDialogFragment != null) {
-            if (mLoadingDialogFragment.isVisible()) {
-                mLoadingDialogFragment.dismiss();
-                isShowDialogCalled = false;
-            }
-        }
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
 
+        Config.configureEnvironment(this);
         initImageLoaderConfiguration();
     }
 
@@ -82,7 +56,7 @@ public class PurpleSQ extends Application {
                 .diskCache(new LimitedAgeDiscCache(cacheDir, 691200)) // 8 days in seconds
                 .defaultDisplayImageOptions(defaultOptions)
 //                .writeDebugLogs()
-                .diskCacheExtraOptions(800, 800, null)
+                .diskCacheExtraOptions(1024, 1024, null)
                 .build();
 
         ImageLoader.getInstance().init(config);
@@ -98,5 +72,34 @@ public class PurpleSQ extends Application {
             this.eventsData.clear();
         }
         this.eventsData = events;
+    }
+
+    public static void showLoadingDialog(FragmentActivity activity) {
+        if (isShowDialogCalled) {
+            return;
+        }
+
+        FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+        Fragment prev = activity.getSupportFragmentManager().findFragmentByTag(PSQConsts.DIALOG_FRAGMENT_LOADING);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+
+        // Create and show the dialog.
+        if (mLoadingDialogFragment == null) {
+            mLoadingDialogFragment = LoadingDialogFragment.newInstance();
+        }
+
+        isShowDialogCalled = true;
+        mLoadingDialogFragment.show(ft, PSQConsts.DIALOG_FRAGMENT_LOADING);
+    }
+
+    public static void dismissLoadingDialog() {
+        if (mLoadingDialogFragment != null) {
+            if (mLoadingDialogFragment.isVisible()) {
+                mLoadingDialogFragment.dismiss();
+                isShowDialogCalled = false;
+            }
+        }
     }
 }
