@@ -59,6 +59,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             e.printStackTrace();
         }
 
+        if (mDataset.get(position).isSoldout()) {
+            holder.mBtnBook.setText("Sold Out");
+        }
+
         ImageLoader.getInstance().displayImage(item.getThumbnail(), holder.mImage);
     }
 

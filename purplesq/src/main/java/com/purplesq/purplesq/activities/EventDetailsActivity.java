@@ -181,15 +181,21 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
         ((TextView) mBottomBar.findViewById(R.id.snackbar_text)).setTypeface(font);
         ((TextView) mBottomBar.findViewById(R.id.snackbar_text)).setText(bottomText);
 
-        mBottomBar.findViewById(R.id.snackbar_action).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(mActivity, ParticipantsActivity.class);
-                i.putExtra(PSQConsts.EXTRAS_EVENT_ID, mEventData.get_id());
-                i.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
-                mActivity.startActivity(i);
-            }
-        });
+        if (mEventData.isSoldout()) {
+            ((TextView) mBottomBar.findViewById(R.id.snackbar_action)).setText("Sold Out");
+            mBottomBar.findViewById(R.id.snackbar_action).setOnClickListener(null);
+            
+        } else {
+            mBottomBar.findViewById(R.id.snackbar_action).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(mActivity, ParticipantsActivity.class);
+                    i.putExtra(PSQConsts.EXTRAS_EVENT_ID, mEventData.get_id());
+                    i.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
+                    mActivity.startActivity(i);
+                }
+            });
+        }
 
     }
 
@@ -238,15 +244,23 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
     private void populateStatusCard() {
 
         mBtnBook = (Button) findViewById(R.id.activity_event_details_btn_book);
-        mBtnBook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(mActivity, ParticipantsActivity.class);
-                i.putExtra(PSQConsts.EXTRAS_EVENT_ID, mEventData.get_id());
-                i.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
-                mActivity.startActivity(i);
-            }
-        });
+
+        if (mEventData.isSoldout()) {
+            mBtnBook.setText("Sold Out");
+            mBtnBook.setTextColor(getResources().getColor(R.color.white));
+            mBtnBook.setEnabled(false);
+            mBtnBook.setOnClickListener(null);
+        } else {
+            mBtnBook.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(mActivity, ParticipantsActivity.class);
+                    i.putExtra(PSQConsts.EXTRAS_EVENT_ID, mEventData.get_id());
+                    i.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
+                    mActivity.startActivity(i);
+                }
+            });
+        }
 
 
         String registrationTill = "";
