@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.ErrorVo;
@@ -56,6 +57,7 @@ public class ErrorDialogFragment extends DialogFragment {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         tvError.setText(errorMsg);

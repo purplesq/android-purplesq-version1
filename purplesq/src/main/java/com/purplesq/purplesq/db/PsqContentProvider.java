@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.db.PsqContract.PurchaseHistoryTable;
 import com.purplesq.purplesq.db.PsqContract.UserAuthTable;
 import com.purplesq.purplesq.db.PsqContract.UserProfileTable;
@@ -271,6 +272,7 @@ public class PsqContentProvider extends ContentProvider {
             db.setTransactionSuccessful();
         } catch (SQLException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         } finally {
             db.endTransaction();
             getContext().getContentResolver().notifyChange(uri, null);
@@ -303,6 +305,7 @@ public class PsqContentProvider extends ContentProvider {
                     getContext().getContentResolver().notifyChange(u, null);
             } catch (Exception e) {
                 e.printStackTrace();
+                Crashlytics.logException(e);
             }
         }
     }

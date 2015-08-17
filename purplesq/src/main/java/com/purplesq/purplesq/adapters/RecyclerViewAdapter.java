@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.interfces.RecyclerViewItemClickListener;
@@ -57,6 +58,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         if (mDataset.get(position).isSoldout()) {

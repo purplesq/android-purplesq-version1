@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.application.PurpleSQ;
@@ -184,7 +185,7 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
         if (mEventData.isSoldout()) {
             ((TextView) mBottomBar.findViewById(R.id.snackbar_action)).setText("Sold Out");
             mBottomBar.findViewById(R.id.snackbar_action).setOnClickListener(null);
-            
+
         } else {
             mBottomBar.findViewById(R.id.snackbar_action).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -231,6 +232,7 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
 
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome.ttf");
@@ -272,6 +274,7 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
 
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         String eligibility = mEventData.getEligibility();
@@ -382,6 +385,8 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
                     TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
                     textView.setTextColor(Color.YELLOW);
                     snackbar.show();
+
+                    Crashlytics.logException(ex);
                 }
             }
         });

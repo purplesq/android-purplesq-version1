@@ -110,6 +110,7 @@ public class AuthDataManager {
 
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
             return null;
         } finally {
             if ((cur != null) && !cur.isClosed()) {

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
 import com.purplesq.purplesq.utils.PSQConsts;
@@ -57,8 +58,10 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
             jsonUser.put(PSQConsts.JSON_PARAM_APP_CODE, versionCode);
             jsonUser.put(PSQConsts.JSON_PARAM_DEVICE, Utils.getDeviceHash(mContext, email));
         } catch (JSONException e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
         } catch (PackageManager.NameNotFoundException e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
         }
 
@@ -83,20 +86,26 @@ public class SocialRegistrationGoogleTask extends AsyncTask<Void, Void, String> 
             }
 
             return response.body().string();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            Crashlytics.logException(e);
+            e.printStackTrace();
             return null;
         }
     }
 
     @Override
     protected void onPostExecute(final String response) {
-        if (!TextUtils.isEmpty(response)) {
-            try {
-                JSONObject jsonResponse = new JSONObject(response);
-                mListener.genericAsyncTaskOnSuccess(jsonResponse);
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if (mErrorVo == null) {
+            if (!TextUtils.isEmpty(response)) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    mListener.genericAsyncTaskOnSuccess(jsonResponse);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Crashlytics.logException(e);
+                    mListener.genericAsyncTaskOnError(mErrorVo);
+                }
+            } else {
                 mListener.genericAsyncTaskOnError(mErrorVo);
             }
         } else {

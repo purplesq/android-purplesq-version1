@@ -3,6 +3,7 @@ package com.purplesq.purplesq.tasks;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
 import com.purplesq.purplesq.utils.PSQConsts;
@@ -61,6 +62,7 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         try {
@@ -86,8 +88,9 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
 
             return response.body().string();
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
             return null;
         }
 
@@ -95,12 +98,17 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(final String response) {
-        if (!TextUtils.isEmpty(response)) {
-            try {
-                TransactionVo transactionVo = ApiConst.getGson().fromJson(response, TransactionVo.class);
-                mListener.genericAsyncTaskOnSuccess(transactionVo);
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (mErrorVo == null) {
+            if (!TextUtils.isEmpty(response)) {
+                try {
+                    TransactionVo transactionVo = ApiConst.getGson().fromJson(response, TransactionVo.class);
+                    mListener.genericAsyncTaskOnSuccess(transactionVo);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Crashlytics.logException(e);
+                    mListener.genericAsyncTaskOnError(mErrorVo);
+                }
+            } else {
                 mListener.genericAsyncTaskOnError(mErrorVo);
             }
         } else {

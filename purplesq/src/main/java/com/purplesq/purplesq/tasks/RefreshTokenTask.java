@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
@@ -74,26 +75,32 @@ public class RefreshTokenTask extends AsyncTask<Void, Void, String> {
 
             return response.body().string();
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
             return null;
         } catch (JSONException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
             return null;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
             return null;
         }
     }
 
     @Override
     protected void onPostExecute(final String response) {
-
-        if (!TextUtils.isEmpty(response)) {
-            Gson gson = new Gson();
-            AuthVo authVo = gson.fromJson(response, AuthVo.class);
-            AuthDataManager.insertOrUpdateAuthData(mContext, authVo);
-            mListener.genericAsyncTaskOnSuccess(true);
+        if (mErrorVo == null) {
+            if (!TextUtils.isEmpty(response)) {
+                Gson gson = new Gson();
+                AuthVo authVo = gson.fromJson(response, AuthVo.class);
+                AuthDataManager.insertOrUpdateAuthData(mContext, authVo);
+                mListener.genericAsyncTaskOnSuccess(true);
+            } else {
+                mListener.genericAsyncTaskOnError(mErrorVo);
+            }
         } else {
             mListener.genericAsyncTaskOnError(mErrorVo);
         }

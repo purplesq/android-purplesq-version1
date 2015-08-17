@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -235,6 +236,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
                     GooglePlayServicesUtil.getErrorDialog(2, mActivity, 0).show();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Crashlytics.logException(e);
                     return false;
                 }
                 break;
@@ -517,6 +519,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
                 // get an updated ConnectionResult.
                 mSignInProgress = STATE_SIGN_IN;
                 mGoogleApiClient.connect();
+                Crashlytics.logException(e);
             }
         } else {
             // Google Play services wasn't able to provide an intent for some

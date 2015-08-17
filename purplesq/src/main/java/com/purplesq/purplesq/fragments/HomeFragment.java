@@ -16,6 +16,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.activities.EventDetailsActivity;
 import com.purplesq.purplesq.adapters.RecyclerViewAdapter;
@@ -135,6 +136,7 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Crashlytics.logException(e);
                 }
 
             } else if (obj instanceof List) {

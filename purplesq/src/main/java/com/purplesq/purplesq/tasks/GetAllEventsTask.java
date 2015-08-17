@@ -3,6 +3,7 @@ package com.purplesq.purplesq.tasks;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.reflect.TypeToken;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
@@ -42,6 +43,7 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
 
             Request request = new Request.Builder()
                     .url(url)
+                    .get()
                     .header(ApiConst.HEADER_PLATFORM, ApiConst.HEADER_PARAM_ANDROID)
                     .build();
 
@@ -56,23 +58,28 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
             }
 
             return response.body().string();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
             return null;
         }
     }
 
     @Override
     protected void onPostExecute(String result) {
-        if (!TextUtils.isEmpty(result)) {
-            List<EventsVo> eventsVos = null;
+        if (mErrorVo == null) {
+            if (!TextUtils.isEmpty(result)) {
+                List<EventsVo> eventsVos = null;
 
-            Type listType = new TypeToken<List<EventsVo>>() {
-            }.getType();
+                Type listType = new TypeToken<List<EventsVo>>() {
+                }.getType();
 
-            eventsVos = ApiConst.getGson().fromJson(result, listType);
-            mListener.genericAsyncTaskOnSuccess(eventsVos);
+                eventsVos = ApiConst.getGson().fromJson(result, listType);
+                mListener.genericAsyncTaskOnSuccess(eventsVos);
 
+            } else {
+                mListener.genericAsyncTaskOnError(mErrorVo);
+            }
         } else {
             mListener.genericAsyncTaskOnError(mErrorVo);
         }

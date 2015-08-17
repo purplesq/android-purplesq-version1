@@ -3,6 +3,7 @@ package com.purplesq.purplesq.tasks;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.Scopes;
@@ -60,6 +61,7 @@ public class GooglePlusLoginInfoTask extends AsyncTask<Void, Void, String> {
                 content = bo.toString();
             } catch (IOException e) {
                 content = "";
+                Crashlytics.logException(e);
             }
 
             return content;
@@ -67,10 +69,12 @@ public class GooglePlusLoginInfoTask extends AsyncTask<Void, Void, String> {
         } catch (UserRecoverableAuthException userAuthEx) {
             // Start the user recoverable action using the intent returned by getIntent()
             mActivity.startActivityForResult(userAuthEx.getIntent(), LoginFragment.RC_SIGN_IN);
+            Crashlytics.logException(userAuthEx);
             return null;
         } catch (Exception e) {
             // Handle error
             e.printStackTrace(); // Uncomment if needed during debugging.
+            Crashlytics.logException(e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -88,6 +92,7 @@ public class GooglePlusLoginInfoTask extends AsyncTask<Void, Void, String> {
             mListener.genericAsyncTaskOnSuccess(jsonResponse.toString());
 
         } catch (JSONException e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
         }
     }

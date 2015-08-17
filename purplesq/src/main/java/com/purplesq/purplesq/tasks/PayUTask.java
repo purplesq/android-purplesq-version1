@@ -3,6 +3,7 @@ package com.purplesq.purplesq.tasks;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.crashlytics.android.Crashlytics;
 import com.payu.sdk.PayU;
 import com.purplesq.purplesq.vos.PaymentPayUVo.PaymentRequstVo;
 
@@ -44,6 +45,7 @@ public class PayUTask extends AsyncTask<Void, Void, Void> {
                     new PayU.PaymentMode[]{PayU.PaymentMode.CC, PayU.PaymentMode.DC, PayU.PaymentMode.NB, PayU.PaymentMode.PAYU_MONEY});
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
         return null;
     }

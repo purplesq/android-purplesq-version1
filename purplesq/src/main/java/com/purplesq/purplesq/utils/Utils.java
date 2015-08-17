@@ -3,6 +3,7 @@ package com.purplesq.purplesq.utils;
 import android.content.Context;
 import android.provider.Settings.Secure;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.okhttp.Request;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class Utils {
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
         return "";
     }
@@ -57,6 +59,7 @@ public class Utils {
             copy.body().writeTo(buffer);
             return buffer.readUtf8();
         } catch (final IOException e) {
+            Crashlytics.logException(e);
             return "did not work";
         }
     }

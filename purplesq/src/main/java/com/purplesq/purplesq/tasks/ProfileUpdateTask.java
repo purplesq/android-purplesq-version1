@@ -3,6 +3,7 @@ package com.purplesq.purplesq.tasks;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
 import com.purplesq.purplesq.utils.PSQConsts;
@@ -53,6 +54,7 @@ public class ProfileUpdateTask extends AsyncTask<Void, Void, String> {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
         try {
@@ -76,22 +78,28 @@ public class ProfileUpdateTask extends AsyncTask<Void, Void, String> {
             }
 
             return response.body().string();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
             return null;
         }
     }
 
     @Override
     protected void onPostExecute(String response) {
-        if (!TextUtils.isEmpty(response)) {
-            try {
-                mListener.genericAsyncTaskOnSuccess(new JSONObject(response));
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if (mErrorVo == null) {
+            if (!TextUtils.isEmpty(response)) {
+                try {
+                    mListener.genericAsyncTaskOnSuccess(new JSONObject(response));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    mListener.genericAsyncTaskOnError(mErrorVo);
+                    Crashlytics.logException(e);
+                }
+
+            } else {
                 mListener.genericAsyncTaskOnError(mErrorVo);
             }
-
         } else {
             mListener.genericAsyncTaskOnError(mErrorVo);
         }

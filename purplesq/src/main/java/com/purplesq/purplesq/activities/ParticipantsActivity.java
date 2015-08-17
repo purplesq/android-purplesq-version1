@@ -474,6 +474,7 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
 
             } catch (Exception e) {
                 e.printStackTrace();
+                Crashlytics.logException(e);
             }
 
 

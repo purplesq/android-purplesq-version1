@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.application.PurpleSQ;
@@ -186,6 +187,7 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
 
             } catch (Exception e) {
                 e.printStackTrace();
+                Crashlytics.logException(e);
             }
         } else {
             tvDob.setVisibility(View.GONE);
@@ -223,6 +225,7 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
 
                     } catch (Exception e) {
                         e.printStackTrace();
+                        Crashlytics.logException(e);
                     }
                 } else {
                     etDob.setText("");
@@ -327,6 +330,7 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
 
             } catch (Exception e) {
                 e.printStackTrace();
+                Crashlytics.logException(e);
             }
         } else {
             etDob.setText("");
@@ -364,6 +368,7 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Crashlytics.logException(e);
                 }
             }
         }

@@ -82,6 +82,7 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
 
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
         }
 
 

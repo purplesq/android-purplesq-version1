@@ -2,6 +2,7 @@ package com.purplesq.purplesq.vos;
 
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.utils.PSQConsts;
 
 import org.json.JSONException;
@@ -102,6 +103,7 @@ public class TransactionVo {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
             return "";
         }
     }

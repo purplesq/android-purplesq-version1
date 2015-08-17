@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.db.PsqContentProvider;
 import com.purplesq.purplesq.db.PsqContract.UserProfileTable;
 import com.purplesq.purplesq.vos.UserVo;
@@ -100,6 +101,7 @@ public class UserProfileDataManager {
 
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
             return null;
         } finally {
             if ((cur != null) && !cur.isClosed()) {
@@ -128,6 +130,7 @@ public class UserProfileDataManager {
 
         } catch (Exception e) {
             e.printStackTrace();
+            Crashlytics.logException(e);
             return null;
         } finally {
             if ((cur != null) && !cur.isClosed()) {

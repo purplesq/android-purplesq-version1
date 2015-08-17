@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.datamanagers.UserProfileDataManager;
@@ -175,6 +176,10 @@ public class NavigationDrawerActivity extends AppCompatActivity {
             String email = user.getEmail();
             String userUrl = user.getImageurl();
 
+            Crashlytics.setUserName(userName);
+            Crashlytics.setUserEmail(email);
+            Crashlytics.setUserIdentifier(user.getId());
+
             if (!TextUtils.isEmpty(userName)) {
                 ((TextView) mDrawerLayout.findViewById(R.id.drawer_user_profile_tv_name)).setText(userName);
             } else {
@@ -273,6 +278,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                     isSecondGroupClicked = false;
                 } catch (android.content.ActivityNotFoundException ex) {
                     ex.printStackTrace();
+                    Crashlytics.logException(ex);
                 }
                 break;
             case R.id.menu_navigation_rateus:

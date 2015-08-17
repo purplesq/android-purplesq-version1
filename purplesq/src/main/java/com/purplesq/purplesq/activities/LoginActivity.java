@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.adapters.LoginPagerAdapter;
@@ -129,6 +130,7 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Crashlytics.logException(e);
                 }
             }
         }

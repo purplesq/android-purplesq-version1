@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
 import com.purplesq.purplesq.utils.PSQConsts;
@@ -58,8 +59,10 @@ public class UserLoginTask extends AsyncTask<Void, Void, String> {
             jsonUser.put(PSQConsts.JSON_PARAM_APP_CODE, versionCode);
             jsonUser.put(PSQConsts.JSON_PARAM_DEVICE, Utils.getDeviceHash(mContext, mEmail));
         } catch (JSONException e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
         } catch (PackageManager.NameNotFoundException e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
         }
 
@@ -84,25 +87,30 @@ public class UserLoginTask extends AsyncTask<Void, Void, String> {
             }
 
             return response.body().string();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
             return null;
         }
     }
 
     @Override
     protected void onPostExecute(final String response) {
+        if (mErrorVo == null) {
+            if (!TextUtils.isEmpty(response)) {
+                JSONObject jsonResponse;
+                try {
+                    jsonResponse = new JSONObject(response);
+                    mListener.genericAsyncTaskOnSuccess(jsonResponse);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Crashlytics.logException(e);
+                    mListener.genericAsyncTaskOnError(mErrorVo);
+                }
 
-        if (!TextUtils.isEmpty(response)) {
-            JSONObject jsonResponse;
-            try {
-                jsonResponse = new JSONObject(response);
-                mListener.genericAsyncTaskOnSuccess(jsonResponse);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else {
                 mListener.genericAsyncTaskOnError(mErrorVo);
             }
-
         } else {
             mListener.genericAsyncTaskOnError(mErrorVo);
         }
