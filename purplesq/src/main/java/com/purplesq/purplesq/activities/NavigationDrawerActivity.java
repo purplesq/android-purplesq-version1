@@ -31,6 +31,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.datamanagers.UserProfileDataManager;
 import com.purplesq.purplesq.fragments.HomeFragment;
+import com.purplesq.purplesq.fragments.InvoicesFragment;
 import com.purplesq.purplesq.fragments.ProfileFragment;
 import com.purplesq.purplesq.fragments.TermsAndConditionsFragment;
 import com.purplesq.purplesq.utils.PSQConsts;
@@ -265,6 +266,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 isSecondGroupClicked = false;
                 break;
             case R.id.menu_navigation_invoices:
+                fragmentManager.beginTransaction().replace(R.id.main_container, InvoicesFragment.newInstance()).commit();
                 mTitle = getString(R.string.title_leftdrawer_invoices);
                 isSecondGroupClicked = false;
                 break;

@@ -14,7 +14,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:gravity="center"
+        android:gravity="center_horizontal|top"
         android:lines="1"
         android:maxLines="1"
         android:text="1"
