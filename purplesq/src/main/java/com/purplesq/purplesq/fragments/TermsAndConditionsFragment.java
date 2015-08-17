@@ -38,7 +38,7 @@ public class TermsAndConditionsFragment extends Fragment {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
-        webView.loadUrl("http://purplesq.com/home/terms-and-conditions/");
+        webView.loadUrl("http://purplesq.com/terms-and-conditions");
 
         return rootView;
     }
