@@ -16,7 +16,7 @@ public class Config {
 
     public static final String ENV_DEFAULT = ENV_PROD;
 
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
 
     private static String purplesqBaseUrl = null;
 
