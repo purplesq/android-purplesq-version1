@@ -36,7 +36,8 @@ public class ApiConst {
     public static final String URL_PAYMENT = Config.getPurplesqBaseUrl() + "payments/process/";
     public static final String URL_REFRESH_TOKEN = Config.getPurplesqBaseUrl() + "users/refresh-token/";
     public static final String URL_PAYMENT_INITIATE = Config.getPurplesqBaseUrl() + "payments/events/";
-    public static final String URL_PAYMENT_INITIATE_PART = Config.getPurplesqBaseUrl() + "/initiate";
+    public static final String URL_PAYMENT_INITIATE_PART = "/initiate";
+    public static final String URL_INVOICES = Config.getPurplesqBaseUrl() + "users/purchaseHistory";
 
 
     public static OkHttpClient getHttpClient() {

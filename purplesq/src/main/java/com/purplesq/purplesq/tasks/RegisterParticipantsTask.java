@@ -52,7 +52,9 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
                 participant.put(PSQConsts.JSON_PARAM_LNAME, participantVo.getLastname());
                 participant.put(PSQConsts.JSON_PARAM_EMAIL, participantVo.getEmail());
                 participant.put(PSQConsts.JSON_PARAM_PHONE, participantVo.getPhone());
-                participant.put(PSQConsts.JSON_PARAM_INSTITUTE, participantVo.getInstitute());
+                JSONObject profile = new JSONObject();
+                profile.put(PSQConsts.JSON_PARAM_INSTITUTE, participantVo.getInstitute());
+                participant.put(PSQConsts.JSON_PARAM_PROFILE, profile);
 
                 jsonArrayStudents.put(participant);
             }
