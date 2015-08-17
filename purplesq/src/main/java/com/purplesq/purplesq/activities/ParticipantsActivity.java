@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;

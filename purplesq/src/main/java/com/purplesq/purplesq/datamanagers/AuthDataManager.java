@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.db.PsqContentProvider;
 import com.purplesq.purplesq.db.PsqContract;
 import com.purplesq.purplesq.vos.AuthVo;
