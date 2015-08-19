@@ -24,10 +24,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.purplesq.purplesq.R;
-import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.activities.LoginActivity;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.tasks.UserRegisterTask;
+import com.purplesq.purplesq.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -237,7 +237,10 @@ public class SignUpFragment extends Fragment implements LoaderManager.LoaderCall
                 }
                 phones.add(phoneno);
             } else if (mime_type.equals(ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)) {
-                photo = Uri.parse(cursor.getString(ProfileQuery.PHOTO_URI));
+                String uri = cursor.getString(ProfileQuery.PHOTO_URI);
+                if (!TextUtils.isEmpty(uri)) {
+                    photo = Uri.parse(uri);
+                }
             } else if (mime_type.equals(ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)) {
                 firstname = cursor.getString(ProfileQuery.GIVEN_NAME);
                 lastname = cursor.getString(ProfileQuery.FAMILY_NAME);
