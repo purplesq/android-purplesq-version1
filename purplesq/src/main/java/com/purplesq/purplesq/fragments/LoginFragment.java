@@ -82,6 +82,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private boolean isGoogleClicked = false;
+    private boolean isGoogleClickedWithoutConnection = false;
     private String googleEmail = "";
 
     public LoginFragment() {
@@ -185,16 +186,24 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
     @Override
     public void onResume() {
         super.onResume();
+        if (!mGoogleApiClient.isConnected()) {
+            if (mGoogleApiClient.isConnecting()) {
+                mGoogleApiClient.connect();
+            }
+        }
         if (supportsGooglePlayServices()) {
             // Remove and Set a listener to connect the user when the G+ button is clicked.
             mPlusSignInButton.setOnClickListener(null);
             mPlusSignInButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    isGoogleClicked = true;
-
-                    PurpleSQ.showLoadingDialog(mActivity);
-                    goolePlusSignIn();
+                    if (mGoogleApiClient.isConnected()) {
+                        isGoogleClicked = true;
+                        PurpleSQ.showLoadingDialog(mActivity);
+                        goolePlusSignIn();
+                    } else {
+                        isGoogleClickedWithoutConnection = true;
+                    }
                 }
             });
         } else {
@@ -202,7 +211,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
             mPlusSignInButton.setVisibility(View.GONE);
         }
 
-        if (isGoogleClicked) {
+        if (isGoogleClicked || isGoogleClickedWithoutConnection) {
             goolePlusSignIn();
         }
     }
@@ -407,7 +416,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
             googleEmail = Plus.AccountApi.getAccountName(mGoogleApiClient);
         }
 
-        if (isGoogleClicked) {
+        if (isGoogleClicked || isGoogleClickedWithoutConnection) {
             PurpleSQ.showLoadingDialog(mActivity);
             new GooglePlusLoginInfoTask(mActivity, googleEmail, (LoginActivity) mActivity).execute((Void) null);
             // Indicate that the sign in process is complete.
