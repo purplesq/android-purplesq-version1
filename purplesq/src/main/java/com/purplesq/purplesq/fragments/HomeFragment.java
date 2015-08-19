@@ -108,14 +108,19 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
 
     @Override
     public void onPause() {
-        PurpleSQ.dismissLoadingDialog();
         super.onPause();
     }
 
     @Override
-    public void genericAsyncTaskOnSuccess(Object obj) {
-        PurpleSQ.dismissLoadingDialog();
+    public void onSaveInstanceState(Bundle outState) {
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
+        super.onSaveInstanceState(outState);
+    }
 
+    @Override
+    public void genericAsyncTaskOnSuccess(Object obj) {
         if (obj != null) {
             if (obj instanceof JSONArray) {
                 try {
@@ -129,7 +134,7 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
 
                     Cities.add(0, "All Events");
 
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, Cities);
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Cities);
                     arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     mSpinner.setAdapter(arrayAdapter);
                     mSpinner.setSelection(0);
@@ -149,11 +154,17 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
                 ((PurpleSQ) getActivity().getApplication()).setEventsData(allEvents);
             }
         }
+
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
     }
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
 
@@ -175,7 +186,9 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
 
     @Override
     public void genericAsyncTaskOnCancelled(Object obj) {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
     }
 
     @Override

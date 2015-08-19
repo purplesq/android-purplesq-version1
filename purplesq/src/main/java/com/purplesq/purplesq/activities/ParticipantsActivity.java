@@ -454,7 +454,6 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
-        PurpleSQ.dismissLoadingDialog();
         mRegisterParticipantsTask = null;
         if (obj != null && obj instanceof TransactionVo) {
             TransactionVo transactionVo = (TransactionVo) obj;
@@ -477,14 +476,18 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                 e.printStackTrace();
                 Crashlytics.logException(e);
             }
+        }
 
-
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
         }
     }
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
 
         mRegisterParticipantsTask = null;
         if (obj instanceof ErrorVo) {
@@ -509,7 +512,9 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
     @Override
     public void genericAsyncTaskOnCancelled(Object obj) {
         mRegisterParticipantsTask = null;
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
     }
 
 }

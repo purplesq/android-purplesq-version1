@@ -102,4 +102,14 @@ public class PurpleSQ extends Application {
             }
         }
     }
+
+    public static boolean isLoadingDialogVisible() {
+        if (mLoadingDialogFragment != null) {
+            if (mLoadingDialogFragment.isVisible()) {
+               return true;
+            }
+        }
+
+        return false;
+    }
 }

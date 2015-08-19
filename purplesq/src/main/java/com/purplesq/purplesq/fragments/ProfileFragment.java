@@ -343,8 +343,6 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
-        PurpleSQ.dismissLoadingDialog();
-
         if (obj != null) {
             if (obj instanceof JSONObject) {
                 try {
@@ -372,11 +370,17 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
                 }
             }
         }
+
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
     }
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
 
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
@@ -399,6 +403,8 @@ public class ProfileFragment extends Fragment implements GenericAsyncTaskListene
 
     @Override
     public void genericAsyncTaskOnCancelled(Object obj) {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
     }
 }

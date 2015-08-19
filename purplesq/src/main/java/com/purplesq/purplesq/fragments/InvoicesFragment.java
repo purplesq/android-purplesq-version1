@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.tasks.InvoicesTask;
 import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.AuthVo;
+import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.InvoicesVo;
 
 import java.util.List;
@@ -124,24 +126,39 @@ public class InvoicesFragment extends Fragment implements GenericAsyncTaskListen
             populateTransactios();
         }
 
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
     }
 
     @Override
-    public void genericAsyncTaskOnError
-            (Object obj) {
+    public void genericAsyncTaskOnError(Object obj) {
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
+        if (obj instanceof ErrorVo) {
+            ErrorVo errorVo = (ErrorVo) obj;
+
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(PSQConsts.DIALOG_FRAGMENT_ERROR);
+            if (prev != null) {
+                ft.remove(prev);
+            }
+
+            ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.newInstance(errorVo);
+            errorDialogFragment.show(ft, "error_dialog");
+        }
+    }
+
+    @Override
+    public void genericAsyncTaskOnProgress(Object obj) {
 
     }
 
     @Override
-    public void genericAsyncTaskOnProgress
-            (Object obj) {
-
-    }
-
-    @Override
-    public void genericAsyncTaskOnCancelled
-            (Object obj) {
-
+    public void genericAsyncTaskOnCancelled(Object obj) {
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
     }
 }

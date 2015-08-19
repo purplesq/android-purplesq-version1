@@ -445,12 +445,16 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
 
     @Override
     public void onCancel() {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
     }
 
     @Override
     public void onError(FacebookException e) {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
         e.printStackTrace();
     }
 
@@ -463,7 +467,9 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
      */
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
 
         // Refer to the javadoc for ConnectionResult to see what error codes might
         // be returned in onConnectionFailed.
@@ -498,7 +504,9 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
      * setting to enable device networking, etc.
      */
     private void resolveSignInError() {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
 
         if (mSignInIntent != null) {
             // We have an intent which will allow our user to sign in or

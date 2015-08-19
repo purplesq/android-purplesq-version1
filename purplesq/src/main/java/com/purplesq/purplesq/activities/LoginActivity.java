@@ -95,7 +95,9 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
 
         if (obj instanceof String) {
             isInfoReceived = true;
@@ -139,7 +141,9 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
     @Override
     public void genericAsyncTaskOnError(Object obj) {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
 
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
@@ -162,7 +166,9 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
     @Override
     public void genericAsyncTaskOnCancelled(Object obj) {
-        PurpleSQ.dismissLoadingDialog();
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
     }
 
 
