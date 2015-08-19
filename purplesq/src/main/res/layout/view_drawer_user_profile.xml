@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="178dp"
-    android:background="@drawable/background_material"
+    android:background="@color/purple100"
     android:orientation="vertical"
     android:weightSum="1">
 
@@ -25,8 +25,7 @@
             android:layout_marginLeft="@dimen/horizontal_margin"
             android:layout_marginRight="@dimen/horizontal_margin"
             android:layout_marginStart="@dimen/horizontal_margin"
-            android:gravity="center"
-            android:textColor="#ffffff"
+            android:textColor="@color/grey900"
             android:textSize="14sp"
             android:textStyle="bold"/>
 
@@ -39,8 +38,7 @@
             android:layout_marginRight="@dimen/horizontal_margin"
             android:layout_marginStart="@dimen/horizontal_margin"
             android:layout_marginTop="@dimen/basic_margin"
-            android:gravity="center"
-            android:textColor="#ffffff"
+            android:textColor="@color/grey900"
             android:textSize="14sp"
             android:textStyle="normal"/>
     </LinearLayout>
@@ -49,13 +47,12 @@
         android:id="@+id/drawer_user_profile_circleView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
         android:layout_marginEnd="@dimen/horizontal_margin"
         android:layout_marginLeft="@dimen/horizontal_margin"
         android:layout_marginRight="@dimen/horizontal_margin"
         android:layout_marginStart="@dimen/horizontal_margin"
         android:layout_marginTop="@dimen/horizontal_margin"
-        android:src="@drawable/user"
+        android:src="@mipmap/ic_launcher"
         app:border_color="#FFFFFF"
         app:border_width="1dp"/>
 </RelativeLayout>

@@ -21,6 +21,9 @@
     <color name="grey800">#424242</color>
     <color name="grey900">#212121</color>
 
+    //Purple Palette
+    <color name="purple100">#E1BEE7</color>
+
     //Basic colors
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
