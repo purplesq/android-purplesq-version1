@@ -30,7 +30,7 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
 
     <!-- Background Rounded dimensions -->
-    <dimen name="bg_rounded_radius">8px</dimen>
+    <dimen name="bg_rounded_radius">2px</dimen>
     <dimen name="bg_padding_top">4dp</dimen>
     <dimen name="bg_padding_left">6dp</dimen>
     <dimen name="bg_padding_right">6dp</dimen>

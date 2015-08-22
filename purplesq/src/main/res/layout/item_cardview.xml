@@ -1,88 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    android:id="@+id/card_view"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginTop="5dp"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="5dp"
-    card_view:contentPadding="5dp">
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/item_cardview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:cardElevation="5dp"
+        card_view:contentPadding="5dp">
 
-        <FrameLayout
-            android:id="@+id/item_cardlayout_framelayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/item_cardlayout_imageview"
+            <FrameLayout
+                android:id="@+id/item_cardlayout_framelayout"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@drawable/ab_background_textured_purplesq"
-                android:contentDescription="Image"
-                android:scaleType="fitXY"/>
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true">
 
-            <TextView
-                android:id="@+id/item_cardlayout_tv_date"
-                style="@style/TextAppearance_Subhead_White"
+                <ImageView
+                    android:id="@+id/item_cardlayout_imageview"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/ab_background_textured_purplesq"
+                    android:contentDescription="Image"
+                    android:scaleType="fitXY"/>
+
+                <TextView
+                    android:id="@+id/item_cardlayout_tv_date"
+                    style="@style/TextAppearance_Subhead_White"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right|end"
+                    android:layout_margin="@dimen/basic_margin"/>
+
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/item_cardlayout_btn_book"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top|right|end"
-                android:layout_margin="@dimen/basic_margin"/>
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/item_cardlayout_framelayout"
+                android:layout_marginTop="@dimen/basic_margin"
+                android:background="@color/colorAccent"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:text="Book"
+                android:textColor="@color/white"/>
 
-        </FrameLayout>
+            <TextView
+                android:id="@+id/item_cardlayout_textview_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/item_cardlayout_framelayout"
+                android:layout_toLeftOf="@id/item_cardlayout_btn_book"
+                android:layout_toStartOf="@id/item_cardlayout_btn_book"
+                android:gravity="center_vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
 
-        <Button
-            android:id="@+id/item_cardlayout_btn_book"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/item_cardlayout_framelayout"
-            android:layout_marginTop="@dimen/basic_margin"
-            android:background="@color/colorAccent"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:text="Book"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/item_cardlayout_textview_subheading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/item_cardlayout_textview_heading"
+                android:layout_toLeftOf="@id/item_cardlayout_btn_book"
+                android:layout_toStartOf="@id/item_cardlayout_btn_book"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                android:text="Lorem Ipsum"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/item_cardlayout_textview_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/item_cardlayout_framelayout"
-            android:layout_toLeftOf="@id/item_cardlayout_btn_book"
-            android:layout_toStartOf="@id/item_cardlayout_btn_book"
-            android:gravity="center_vertical"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:textAppearance="@android:style/TextAppearance.Medium"/>
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/item_cardlayout_textview_subheading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/item_cardlayout_textview_heading"
-            android:layout_toLeftOf="@id/item_cardlayout_btn_book"
-            android:layout_toStartOf="@id/item_cardlayout_btn_book"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:maxLines="2"
-            android:text="Lorem Ipsum"
-            android:textAppearance="@android:style/TextAppearance.Small"
-            android:visibility="gone"/>
-
-    </RelativeLayout>
-
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

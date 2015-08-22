@@ -30,6 +30,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(List<EventsVo> items, RecyclerViewItemClickListener listener) {
         mDataset = items;
         mRecyclerViewItemClickListener = listener;
+
+        mDataset.add(new EventsVo());
     }
 
     // Create new views (invoked by the layout manager)
@@ -38,7 +40,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardview, parent, false);
 
         // set the view's size, margins, paddings and layout parameters
-        return new ViewHolder(itemView);
+        return new ViewHolder(itemView, viewType);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -49,29 +51,44 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         // - replace the contents of the view with that element
         holder.position = position;
-        holder.mTvHeading.setText(item.getName());
 
-        try {
-            Date date = new Date(item.getSchedule().getStart_date());
-            SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
-            holder.mTvDate.setText(sdf2.format(date));
+        if (holder.viewType == 0) {
+            holder.mTvHeading.setText(item.getName());
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            Crashlytics.logException(e);
+            try {
+                Date date = new Date(item.getSchedule().getStart_date());
+                SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
+                holder.mTvDate.setText(sdf2.format(date));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Crashlytics.logException(e);
+            }
+
+            if (mDataset.get(position).isSoldout()) {
+                holder.mBtnBook.setText("Sold Out");
+            }
+
+            ImageLoader.getInstance().displayImage(item.getThumbnail(), holder.mImage);
         }
-
-        if (mDataset.get(position).isSoldout()) {
-            holder.mBtnBook.setText("Sold Out");
-        }
-
-        ImageLoader.getInstance().displayImage(item.getThumbnail(), holder.mImage);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        int type;
+        if (position < mDataset.size() - 1) {
+            type = 0;
+        } else {
+            type = 1;
+        }
+
+        return type;
     }
 
     // Provide a reference to the views for each data item. Complex data items may need more than one view per item,
@@ -81,21 +98,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView mTvHeading, mTvDate;
         private ImageView mImage;
         private Button mBtnBook;
-        private int position;
+        private int position, viewType;
 
-        public ViewHolder(View v) {
+        public ViewHolder(View v, int viewType) {
             super(v);
-            mImage = (ImageView) v.findViewById(R.id.item_cardlayout_imageview);
-            mBtnBook = (Button) v.findViewById(R.id.item_cardlayout_btn_book);
-            mTvHeading = (TextView) v.findViewById(R.id.item_cardlayout_textview_heading);
-            mTvDate = (TextView) v.findViewById(R.id.item_cardlayout_tv_date);
-            v.setOnClickListener(this);
-            mBtnBook.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mRecyclerViewItemClickListener.OnRecyclerViewItemClick(position);
-                }
-            });
+            this.viewType = viewType;
+            if (this.viewType == 0) {
+                mImage = (ImageView) v.findViewById(R.id.item_cardlayout_imageview);
+                mBtnBook = (Button) v.findViewById(R.id.item_cardlayout_btn_book);
+                mTvHeading = (TextView) v.findViewById(R.id.item_cardlayout_textview_heading);
+                mTvDate = (TextView) v.findViewById(R.id.item_cardlayout_tv_date);
+                v.setOnClickListener(this);
+                mBtnBook.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mRecyclerViewItemClickListener.OnRecyclerViewItemClick(position);
+                    }
+                });
+            } else {
+                v.findViewById(R.id.item_cardview).setVisibility(View.GONE);
+                v.setPadding(16, 16, 16, 16);
+            }
         }
 
         @Override
