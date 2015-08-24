@@ -12,10 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|start|left"
         android:minHeight="48dp"
-        android:paddingEnd="@dimen/horizontal_padding"
         android:paddingLeft="@dimen/horizontal_padding"
         android:paddingRight="@dimen/horizontal_padding"
-        android:paddingStart="@dimen/horizontal_padding"
         android:spinnerMode="dropdown"/>
 
     <android.support.v7.widget.RecyclerView

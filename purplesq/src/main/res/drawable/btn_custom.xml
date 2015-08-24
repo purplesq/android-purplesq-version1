@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- pressed state -->
+    <item android:state_pressed="true">
+        <inset
+            android:drawable="@drawable/btn_default_shape"
+            android:insetBottom="@dimen/button_inset_vertical_material"
+            android:insetLeft="@dimen/button_inset_horizontal_material"
+            android:insetRight="@dimen/button_inset_horizontal_material"
+            android:insetTop="@dimen/button_inset_vertical_material"/>
+    </item>
+
+    <!-- focused state -->
+    <item android:state_focused="true">
+        <inset
+            android:drawable="@drawable/btn_default_shape"
+            android:insetBottom="@dimen/button_inset_vertical_material"
+            android:insetLeft="@dimen/button_inset_horizontal_material"
+            android:insetRight="@dimen/button_inset_horizontal_material"
+            android:insetTop="@dimen/button_inset_vertical_material"/>
+    </item>
+
+    <!-- normal state -->
+    <item>
+        <inset
+            android:drawable="@drawable/btn_default_shape"
+            android:insetBottom="@dimen/button_inset_vertical_material"
+            android:insetLeft="@dimen/button_inset_horizontal_material"
+            android:insetRight="@dimen/button_inset_horizontal_material"
+            android:insetTop="@dimen/button_inset_vertical_material"/>
+    </item>
+</selector>

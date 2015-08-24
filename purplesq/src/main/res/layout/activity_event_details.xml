@@ -92,10 +92,8 @@
                     android:layout_alignParentTop="true"
                     android:paddingLeft="@dimen/basic_padding"
                     android:paddingRight="@dimen/basic_padding"
-                    android:paddingStart="@dimen/basic_padding"
-                    android:paddingEnd="@dimen/basic_padding"
-                    android:background="@color/colorAccent"
-                    android:minWidth="70dp"
+                    android:background="@drawable/btn_custom"
+                    android:minWidth="88dp"
                     android:text="Book"
                     android:textColor="@color/white"/>
 

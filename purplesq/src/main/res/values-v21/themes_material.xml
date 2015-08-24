@@ -13,6 +13,7 @@
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorButtonNormal">@color/orange500</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:listDivider">@drawable/shape_line_shadow</item>
 

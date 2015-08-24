@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/btn_default_shape"
+    android:insetBottom="@dimen/button_inset_vertical_material"
+    android:insetLeft="@dimen/button_inset_horizontal_material"
+    android:insetRight="@dimen/button_inset_horizontal_material"
+    android:insetTop="@dimen/button_inset_vertical_material"/>
