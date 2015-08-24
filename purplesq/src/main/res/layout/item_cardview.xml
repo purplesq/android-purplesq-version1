@@ -54,8 +54,6 @@
                 android:layout_marginTop="@dimen/basic_margin"
                 android:background="@drawable/btn_custom"
                 android:minWidth="88dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
                 android:text="Book"
                 android:textColor="@color/white"/>
 
