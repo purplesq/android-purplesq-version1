@@ -5,45 +5,27 @@
     <!-- pressed state -->
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <corners
-                android:radius="@dimen/control_corner_material"/>
-            <solid
-                android:color="@color/orange700"/>
-            <padding
-                android:bottom="@dimen/button_padding_vertical_material"
-                android:left="@dimen/button_padding_horizontal_material"
-                android:right="@dimen/button_padding_horizontal_material"
-                android:top="@dimen/button_padding_vertical_material"/>
+            <corners android:radius="2dp"/>
+            <solid android:color="@color/orange700"/>
+            <padding android:left="8dp" android:right="8dp"/>
         </shape>
     </item>
 
     <!-- focused state -->
     <item android:state_focused="true">
         <shape android:shape="rectangle">
-            <corners
-                android:radius="@dimen/control_corner_material"/>
-            <solid
-                android:color="@color/orange600"/>
-            <padding
-                android:bottom="@dimen/button_padding_vertical_material"
-                android:left="@dimen/button_padding_horizontal_material"
-                android:right="@dimen/button_padding_horizontal_material"
-                android:top="@dimen/button_padding_vertical_material"/>
+            <corners android:radius="2dp"/>
+            <solid android:color="@color/orange600"/>
+            <padding android:left="8dp" android:right="8dp"/>
         </shape>
     </item>
 
     <!-- normal state -->
     <item>
         <shape android:shape="rectangle">
-            <corners
-                android:radius="@dimen/control_corner_material"/>
-            <solid
-                android:color="@color/orange500"/>
-            <padding
-                android:bottom="@dimen/button_padding_vertical_material"
-                android:left="@dimen/button_padding_horizontal_material"
-                android:right="@dimen/button_padding_horizontal_material"
-                android:top="@dimen/button_padding_vertical_material"/>
+            <corners android:radius="2dp"/>
+            <solid android:color="@color/orange500"/>
+            <padding android:left="8dp" android:right="8dp"/>
         </shape>
     </item>
 </selector>

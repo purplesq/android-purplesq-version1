@@ -8,7 +8,6 @@
     android:elevation="@dimen/snackbar_elevation"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/snackbar_padding_horizontal"
-    android:paddingRight="@dimen/snackbar_padding_horizontal"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:visibility="gone">
 
