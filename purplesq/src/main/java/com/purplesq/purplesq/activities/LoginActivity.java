@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
     private String finishActivity;
     private String mEventId;
     private int position;
+    private LoginPagerAdapter loginPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
         setupToolBar();
 
-        LoginPagerAdapter loginPagerAdapter = new LoginPagerAdapter(getSupportFragmentManager());
+        loginPagerAdapter = new LoginPagerAdapter(getSupportFragmentManager());
         final ViewPager mViewPager = (ViewPager) findViewById(R.id.activity_login_viewpager);
         mViewPager.setAdapter(loginPagerAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.activity_login_tablayout);
@@ -61,6 +62,9 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(loginPagerAdapter.getPageTitle(tab.getPosition()));
+                }
             }
 
             @Override

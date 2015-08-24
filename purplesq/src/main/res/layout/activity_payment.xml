@@ -76,6 +76,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/basic_margin"
         android:background="@color/orange500"
-        android:text="PROCEED TO PAYMENTS"
+        android:text="PAY"
         android:textColor="@color/white"/>
 </RelativeLayout>

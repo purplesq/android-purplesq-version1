@@ -5,7 +5,7 @@
     <string name="title_activity_event_details">EventDetailsActivity</string>
     <string name="title_activity_login">Sign in </string>
     <string name="title_activity_participants">Participants</string>
-    <string name="title_activity_payment">PaymentActivity</string>
+    <string name="title_activity_payment">Confirm</string>
     <string name="title_activity_payment_status">PaymentStatusActivity</string>
 
     <string name="title_leftdrawer_events">Events</string>
