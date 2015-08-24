@@ -24,8 +24,8 @@ android {
         applicationId "com.purplesq.purplesq"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 1
-        versionName "10001.0"
+        versionCode 2
+        versionName "1.0.1"
     }
     buildTypes {
         release {
