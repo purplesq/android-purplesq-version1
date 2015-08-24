@@ -9,7 +9,7 @@
     android:orientation="horizontal"
     android:paddingLeft="@dimen/snackbar_padding_horizontal"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    android:visibility="gone">
+    android:visibility="visible">
 
     <TextView
         android:id="@+id/snackbar_text"
