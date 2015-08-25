@@ -67,6 +67,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             if (mDataset.get(position).isSoldout()) {
                 holder.mBtnBook.setText("Sold Out");
+            } else {
+                holder.mBtnBook.setText("Book");
             }
 
             ImageLoader.getInstance().displayImage(item.getThumbnail(), holder.mImage);
