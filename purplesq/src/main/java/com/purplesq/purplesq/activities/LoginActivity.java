@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements GenericAsyncTask
 
         Intent i = getIntent();
         if (i.hasExtra(PSQConsts.EXTRAS_FINISH_ACTIVITY)) {
-            finishActivity = i.getStringExtra(PSQConsts.EXTRAS_FROM_ACTIVITY);
+            finishActivity = i.getStringExtra(PSQConsts.EXTRAS_FINISH_ACTIVITY);
         }
         if (getIntent().hasExtra(PSQConsts.EXTRAS_EVENT_ID)) {
             mEventId = getIntent().getStringExtra(PSQConsts.EXTRAS_EVENT_ID);
