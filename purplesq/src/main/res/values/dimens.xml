@@ -45,4 +45,13 @@
     <dimen name="font_large">18sp</dimen>
     <dimen name="font_extra_large">20sp</dimen>
     <dimen name="font_largest">22sp</dimen>
+
+
+    <!-- Flat Button -->
+    <dimen name="btn_flat_corner_radius">1dp</dimen>
+    <dimen name="btn_flat_min_width">88dp</dimen>
+    <dimen name="btn_flat_min_height">48dp</dimen>
+    <dimen name="btn_flat_padding">8dp</dimen>
+    <dimen name="btn_flat_margin">4dp</dimen>
+
 </resources>

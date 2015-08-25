@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
@@ -28,6 +28,7 @@ import com.crashlytics.android.Crashlytics;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.application.PurpleSQ;
+import com.purplesq.purplesq.fragments.CallDialogFragment;
 import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.EventFacilitiesVo;
 import com.purplesq.purplesq.vos.EventFaqsVo;
@@ -375,19 +376,13 @@ public class EventDetailsActivity extends AppCompatActivity implements AppBarLay
         findViewById(R.id.activity_event_details_tv_queries).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-                    phoneIntent.setData(Uri.parse("tel:+918080809339"));
-                    startActivity(phoneIntent);
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Snackbar snackbar = Snackbar.make(mCoordinatorLayout, "Comming Soon!!!", Snackbar.LENGTH_LONG);
-                    View snackbarView = snackbar.getView();
-                    TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-                    textView.setTextColor(Color.YELLOW);
-                    snackbar.show();
-
-                    Crashlytics.logException(ex);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                Fragment prev = getSupportFragmentManager().findFragmentByTag(PSQConsts.DIALOG_FRAGMENT_CALL);
+                if (prev != null) {
+                    ft.remove(prev);
                 }
+                CallDialogFragment callDialogFragment = CallDialogFragment.newInstance(CallDialogFragment.CALL_TYPE_QUERY);
+                callDialogFragment.show(ft, PSQConsts.DIALOG_FRAGMENT_CALL);
             }
         });
 

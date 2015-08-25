@@ -28,6 +28,7 @@ import com.crashlytics.android.Crashlytics;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.datamanagers.UserProfileDataManager;
+import com.purplesq.purplesq.fragments.CallDialogFragment;
 import com.purplesq.purplesq.fragments.HomeFragment;
 import com.purplesq.purplesq.fragments.InvoicesFragment;
 import com.purplesq.purplesq.fragments.ProfileFragment;
@@ -243,16 +244,9 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 break;
             case R.id.menu_navigation_queries:
                 mTitle = getString(R.string.title_leftdrawer_queries);
-                try {
-                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-                    phoneIntent.setData(Uri.parse("tel:+912261491313"));
-                    startActivity(phoneIntent);
-                    selectDefaultPage();
-                    isSecondGroupClicked = false;
-                } catch (android.content.ActivityNotFoundException ex) {
-                    ex.printStackTrace();
-                    Crashlytics.logException(ex);
-                }
+                CallDialogFragment callDialogFragment = CallDialogFragment.newInstance(CallDialogFragment.CALL_TYPE_QUERY);
+                callDialogFragment.show(fragmentManager.beginTransaction(), PSQConsts.DIALOG_FRAGMENT_CALL);
+                isSecondGroupClicked = false;
                 break;
             case R.id.menu_navigation_rateus:
                 mTitle = getString(R.string.title_leftdrawer_rateus);

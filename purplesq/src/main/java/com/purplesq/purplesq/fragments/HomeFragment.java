@@ -175,7 +175,7 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
             }
 
             ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.newInstance(errorVo);
-            errorDialogFragment.show(ft, "error_dialog");
+            errorDialogFragment.show(ft, PSQConsts.DIALOG_FRAGMENT_ERROR);
         }
     }
 
