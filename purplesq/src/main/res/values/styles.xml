@@ -79,7 +79,6 @@
         <item name="android:textColor">@color/orange500</item>
     </style>
 
-
     <!--    18sp secondary    -->
     <style name="TextAppearance_Medium" parent="TextAppearance.AppCompat.Medium">
         <item name="android:layout_width">match_parent</item>
@@ -103,6 +102,10 @@
 
     <style name="TextAppearance_Small_Grey700" parent="TextAppearance_Small">
         <item name="android:textColor">@color/grey700</item>
+    </style>
+
+    <style name="TextAppearance_Small_White700" parent="TextAppearance_Small">
+        <item name="android:textColor">@color/white700</item>
     </style>
 
 

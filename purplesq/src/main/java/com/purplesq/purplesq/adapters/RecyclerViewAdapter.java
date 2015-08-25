@@ -57,13 +57,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             try {
                 Date date = new Date(item.getSchedule().getStart_date());
-                SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
-                holder.mTvDate.setText(sdf2.format(date));
-
+                SimpleDateFormat sdf1 = new SimpleDateFormat("dd", Locale.ENGLISH);
+                holder.mTvDay.setText(sdf1.format(date));
+                SimpleDateFormat sdf2 = new SimpleDateFormat("MMM", Locale.ENGLISH);
+                holder.mTvMonth.setText(sdf2.format(date));
             } catch (Exception e) {
                 e.printStackTrace();
                 Crashlytics.logException(e);
             }
+
+            holder.mTvLocation.setText(item.getLocation().getCity());
 
             if (mDataset.get(position).isSoldout()) {
                 holder.mBtnBook.setText("Sold Out");
@@ -97,7 +100,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // and you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
-        private TextView mTvHeading, mTvDate;
+        private TextView mTvHeading, mTvDay, mTvMonth, mTvLocation;
         private ImageView mImage;
         private Button mBtnBook;
         private int position, viewType;
@@ -109,7 +112,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 mImage = (ImageView) v.findViewById(R.id.item_cardlayout_imageview);
                 mBtnBook = (Button) v.findViewById(R.id.item_cardlayout_btn_book);
                 mTvHeading = (TextView) v.findViewById(R.id.item_cardlayout_textview_heading);
-                mTvDate = (TextView) v.findViewById(R.id.item_cardlayout_tv_date);
+                mTvDay = (TextView) v.findViewById(R.id.item_cardlayout_tv_day);
+                mTvMonth = (TextView) v.findViewById(R.id.item_cardlayout_tv_month);
+                mTvLocation = (TextView) v.findViewById(R.id.item_cardlayout_tv_location);
                 v.setOnClickListener(this);
                 mBtnBook.setOnClickListener(new View.OnClickListener() {
                     @Override
