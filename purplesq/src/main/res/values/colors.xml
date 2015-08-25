@@ -25,6 +25,7 @@
 
     //Purple Palette
     <color name="purple100">#E1BEE7</color>
+    <color name="purple500">#9C27B0</color>
 
     //Basic colors
     <color name="black">#000000</color>
