@@ -47,12 +47,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.purplesq.purplesq.R;
-import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.activities.LoginActivity;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.tasks.GooglePlusLoginInfoTask;
 import com.purplesq.purplesq.tasks.SocialRegistrationFacebookTask;
 import com.purplesq.purplesq.tasks.UserLoginTask;
+import com.purplesq.purplesq.utils.Utils;
 
 import org.json.JSONObject;
 
@@ -186,9 +186,11 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
     @Override
     public void onResume() {
         super.onResume();
-        if (!mGoogleApiClient.isConnected()) {
-            if (mGoogleApiClient.isConnecting()) {
-                mGoogleApiClient.connect();
+        if (isGoogleClicked || isGoogleClickedWithoutConnection) {
+            if (!mGoogleApiClient.isConnected()) {
+                if (!mGoogleApiClient.isConnecting()) {
+                    mGoogleApiClient.connect();
+                }
             }
         }
         if (supportsGooglePlayServices()) {
@@ -197,12 +199,14 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
             mPlusSignInButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mSignInProgress = STATE_SIGN_IN;
                     if (mGoogleApiClient.isConnected()) {
                         isGoogleClicked = true;
                         PurpleSQ.showLoadingDialog(mActivity);
                         goolePlusSignIn();
                     } else {
                         isGoogleClickedWithoutConnection = true;
+                        mGoogleApiClient.connect();
                     }
                 }
             });
@@ -257,7 +261,6 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
     }
 
     public void goolePlusSignIn() {
-        mSignInProgress = STATE_SIGN_IN;
         if (!TextUtils.isEmpty(googleEmail)) {
             onConnected(null);
         } else {
@@ -513,10 +516,6 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
      * setting to enable device networking, etc.
      */
     private void resolveSignInError() {
-        if (PurpleSQ.isLoadingDialogVisible()) {
-            PurpleSQ.dismissLoadingDialog();
-        }
-
         if (mSignInIntent != null) {
             // We have an intent which will allow our user to sign in or
             // resolve an error.  For example if the user needs to
@@ -543,6 +542,11 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
             // error types, so we show the default Google Play services error
             // dialog which may still start an intent on our behalf if the
             // user can resolve the issue.
+
+            if (PurpleSQ.isLoadingDialogVisible()) {
+                PurpleSQ.dismissLoadingDialog();
+            }
+
             createErrorDialog().show();
         }
     }
