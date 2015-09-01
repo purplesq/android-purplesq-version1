@@ -2,10 +2,12 @@ package com.purplesq.purplesq.tasks;
 
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
+import com.purplesq.purplesq.utils.Config;
 import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.UserVo;
@@ -88,6 +90,9 @@ public class ProfileUpdateTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String response) {
         if (mErrorVo == null) {
+            if (Config.DEBUG) {
+                Log.i("HTTP", "Response : " + response);
+            }
             if (!TextUtils.isEmpty(response)) {
                 try {
                     mListener.genericAsyncTaskOnSuccess(new JSONObject(response));

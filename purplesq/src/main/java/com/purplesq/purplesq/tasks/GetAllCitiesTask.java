@@ -2,10 +2,13 @@ package com.purplesq.purplesq.tasks;
 
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
+import com.purplesq.purplesq.utils.Config;
+import com.purplesq.purplesq.utils.OkHttpLoggingInterceptor;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -30,6 +33,11 @@ public class GetAllCitiesTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... voids) {
         try {
+
+            ApiConst.getHttpClient().interceptors().clear();
+            if (Config.DEBUG) {
+                ApiConst.getHttpClient().interceptors().add(new OkHttpLoggingInterceptor());
+            }
 
             Request request = new Request.Builder()
                     .url(ApiConst.URL_GET_ALL_CITIES)
@@ -56,11 +64,14 @@ public class GetAllCitiesTask extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(String response) {
         if (mErrorVo == null) {
-            if (!TextUtils.isEmpty(result)) {
+            if (Config.DEBUG) {
+                Log.i("HTTP", "Response : " + response);
+            }
+            if (!TextUtils.isEmpty(response)) {
                 try {
-                    JSONArray jsonArray = new JSONArray(result);
+                    JSONArray jsonArray = new JSONArray(response);
                     if (jsonArray.length() > 0) {
                         mListener.genericAsyncTaskOnSuccess(jsonArray);
                     } else {

@@ -8,10 +8,13 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
+import com.purplesq.purplesq.utils.Config;
+import com.purplesq.purplesq.utils.OkHttpLoggingInterceptor;
 import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.vos.ErrorVo;
@@ -67,6 +70,10 @@ public class UserLoginTask extends AsyncTask<Void, Void, String> {
         }
 
         try {
+            ApiConst.getHttpClient().interceptors().clear();
+            if (Config.DEBUG) {
+                ApiConst.getHttpClient().interceptors().add(new OkHttpLoggingInterceptor());
+            }
 
             RequestBody body = RequestBody.create(ApiConst.JSON, jsonUser.toString());
 
@@ -97,6 +104,9 @@ public class UserLoginTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(final String response) {
         if (mErrorVo == null) {
+            if (Config.DEBUG) {
+                Log.i("HTTP", "Response : " + response);
+            }
             if (!TextUtils.isEmpty(response)) {
                 JSONObject jsonResponse;
                 try {

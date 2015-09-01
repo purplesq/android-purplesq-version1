@@ -2,12 +2,14 @@ package com.purplesq.purplesq.tasks;
 
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.reflect.TypeToken;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
-import com.purplesq.purplesq.utils.PSQConsts;
+import com.purplesq.purplesq.utils.Config;
+import com.purplesq.purplesq.utils.OkHttpLoggingInterceptor;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.EventsVo;
 import com.squareup.okhttp.Request;
@@ -34,6 +36,12 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... voids) {
         try {
+
+            ApiConst.getHttpClient().interceptors().clear();
+            if (Config.DEBUG) {
+                ApiConst.getHttpClient().interceptors().add(new OkHttpLoggingInterceptor());
+            }
+
             String url = ApiConst.URL_GET_ALL_EVENTS;
             if (!TextUtils.isEmpty(mCity)) {
                 if (!mCity.contains("All Events")) {
@@ -66,15 +74,18 @@ public class GetAllEventsTask extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(String response) {
         if (mErrorVo == null) {
-            if (!TextUtils.isEmpty(result)) {
+            if (Config.DEBUG) {
+                Log.i("HTTP", "Response : " + response);
+            }
+            if (!TextUtils.isEmpty(response)) {
                 List<EventsVo> eventsVos = null;
 
                 Type listType = new TypeToken<List<EventsVo>>() {
                 }.getType();
 
-                eventsVos = ApiConst.getGson().fromJson(result, listType);
+                eventsVos = ApiConst.getGson().fromJson(response, listType);
                 mListener.genericAsyncTaskOnSuccess(eventsVos);
 
             } else {

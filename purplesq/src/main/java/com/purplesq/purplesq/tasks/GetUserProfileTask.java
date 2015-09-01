@@ -2,12 +2,14 @@ package com.purplesq.purplesq.tasks;
 
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
+import com.purplesq.purplesq.utils.Config;
+import com.purplesq.purplesq.utils.OkHttpLoggingInterceptor;
 import com.purplesq.purplesq.vos.ErrorVo;
-import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -34,6 +36,11 @@ public class GetUserProfileTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         try {
+            ApiConst.getHttpClient().interceptors().clear();
+            if (Config.DEBUG) {
+                ApiConst.getHttpClient().interceptors().add(new OkHttpLoggingInterceptor());
+            }
+
             Request request = new Request.Builder()
                     .url(ApiConst.URL_GET_USER_PROFILE)
                     .header(ApiConst.HEADER_PLATFORM, ApiConst.HEADER_PARAM_ANDROID)
@@ -62,6 +69,9 @@ public class GetUserProfileTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String response) {
         if (mErrorVo == null) {
+            if (Config.DEBUG) {
+                Log.i("HTTP", "Response : " + response);
+            }
             if (!TextUtils.isEmpty(response)) {
                 try {
                     mListener.genericAsyncTaskOnSuccess(new JSONObject(response));

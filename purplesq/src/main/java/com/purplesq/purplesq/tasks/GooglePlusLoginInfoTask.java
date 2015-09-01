@@ -3,6 +3,7 @@ package com.purplesq.purplesq.tasks;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -10,6 +11,7 @@ import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.Scopes;
 import com.purplesq.purplesq.fragments.LoginFragment;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
+import com.purplesq.purplesq.utils.Config;
 import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.ErrorVo;
 
@@ -93,6 +95,9 @@ public class GooglePlusLoginInfoTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String jsonObject) {
+        if (Config.DEBUG) {
+            Log.i("HTTP", "Response : " + jsonObject);
+        }
         if (!TextUtils.isEmpty(jsonObject)) {
             try {
                 JSONObject jsonResponse = new JSONObject(jsonObject);

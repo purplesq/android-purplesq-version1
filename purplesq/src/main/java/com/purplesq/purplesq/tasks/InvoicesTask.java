@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
 import com.purplesq.purplesq.utils.Config;
+import com.purplesq.purplesq.utils.OkHttpLoggingInterceptor;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.InvoicesVo;
 import com.squareup.okhttp.Request;
@@ -35,6 +36,10 @@ public class InvoicesTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... voids) {
         try {
+            ApiConst.getHttpClient().interceptors().clear();
+            if (Config.DEBUG) {
+                ApiConst.getHttpClient().interceptors().add(new OkHttpLoggingInterceptor());
+            }
 
             Request request = new Request.Builder()
                     .url(ApiConst.URL_INVOICES)
@@ -62,18 +67,18 @@ public class InvoicesTask extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String result) {
-        if (Config.DEBUG) {
-            Log.i("Nish", "Invoices : \n" + result);
-        }
+    protected void onPostExecute(String response) {
         if (mErrorVo == null) {
-            if (!TextUtils.isEmpty(result)) {
+            if (Config.DEBUG) {
+                Log.i("HTTP", "Response : " + response);
+            }
+            if (!TextUtils.isEmpty(response)) {
                 List<InvoicesVo> invoicesVos = null;
 
                 Type listType = new TypeToken<List<InvoicesVo>>() {
                 }.getType();
 
-                invoicesVos = ApiConst.getGson().fromJson(result, listType);
+                invoicesVos = ApiConst.getGson().fromJson(response, listType);
                 mListener.genericAsyncTaskOnSuccess(invoicesVos);
 
             } else {
