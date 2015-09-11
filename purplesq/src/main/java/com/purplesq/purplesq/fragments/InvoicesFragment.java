@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
@@ -24,7 +25,10 @@ import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.InvoicesVo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +40,7 @@ public class InvoicesFragment extends Fragment implements GenericAsyncTaskListen
     private LinearLayout transactionsLayout;
     private FragmentActivity mActivity;
     private List<InvoicesVo> mInvoices;
+    private InvoiceDetailsDialogFragment invoiceDetailsDialogFragment;
 
     public static InvoicesFragment newInstance() {
         InvoicesFragment fragment = new InvoicesFragment();
@@ -81,42 +86,69 @@ public class InvoicesFragment extends Fragment implements GenericAsyncTaskListen
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (invoiceDetailsDialogFragment != null && !invoiceDetailsDialogFragment.isVisible()) {
+            invoiceDetailsDialogFragment = null;
+        }
+    }
+
     private void populateTransactios() {
         transactionsLayout.removeAllViews();
 
         for (int i = 0; i < mInvoices.size(); i++) {
+            final int position = i;
 
             InvoicesVo invoice = mInvoices.get(i);
             CardView cardView = (CardView) getActivity().getLayoutInflater().inflate(R.layout.item_invoices_cardview, transactionsLayout, false);
             TextView tvEventName = (TextView) cardView.findViewById(R.id.item_invoices_cardview_tv_eventname);
+            TextView tvEventDate = (TextView) cardView.findViewById(R.id.item_invoices_cardview_tv_eventdate);
             TextView tvEventAmount = (TextView) cardView.findViewById(R.id.item_invoices_cardview_tv_eventamount);
-            LinearLayout layoutParticipants = (LinearLayout) cardView.findViewById(R.id.item_invoices_cardview_layout_participants);
+            TextView tvEventCardName = (TextView) cardView.findViewById(R.id.item_invoices_cardview_tv_cardname);
+//            LinearLayout layoutParticipants = (LinearLayout) cardView.findViewById(R.id.item_invoices_cardview_layout_participants);
 
             tvEventName.setText(invoice.getProduct().getName());
+
+            String dateLocation = "";
+            try {
+                Date date = new Date(invoice.getProduct().getSchedule().getStart_date());
+                SimpleDateFormat sdf1 = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
+                dateLocation = sdf1.format(date) + ", ";
+            } catch (Exception e) {
+                e.printStackTrace();
+                Crashlytics.logException(e);
+            }
+
+            dateLocation = dateLocation + invoice.getProduct().getLocation().getCity();
+            tvEventDate.setText(dateLocation);
 
             Typeface font = Typeface.createFromAsset(mActivity.getAssets(), "fontawesome.ttf");
             tvEventAmount.setTypeface(font);
             tvEventAmount.setText(PSQConsts.UNICODE_RUPEE + " " + (int) invoice.getAmount().getTotal());
 
-            for (int j = 0; j < invoice.getStudents().size(); j++) {
+            tvEventCardName.setText("ADMITS " + invoice.getStudents().size());
 
-                InvoicesVo.StudentsVo student = invoice.getStudents().get(j);
-                View participantView = getActivity().getLayoutInflater().inflate(R.layout.item_payment_participants, layoutParticipants, false);
-
-                ((TextView) participantView.findViewById(R.id.item_payment_participants_tv_number)).setText((j + 1) + "");
-                ((TextView) participantView.findViewById(R.id.item_payment_participants_tv_name)).setText(student.getFname() + " " + student.getLname());
-
-                if (student.getProfile() != null) {
-                    ((TextView) participantView.findViewById(R.id.item_payment_participants_tv_insitute)).setText(student.getProfile().getInstitute());
-                } else {
-                    participantView.findViewById(R.id.item_payment_participants_tv_insitute).setVisibility(View.GONE);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cardClicked(position);
                 }
-
-                layoutParticipants.addView(participantView);
-            }
+            });
 
             transactionsLayout.addView(cardView);
         }
+    }
+
+    private void cardClicked(int position) {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(PSQConsts.DIALOG_FRAGMENT_INVOICES);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+
+        invoiceDetailsDialogFragment = InvoiceDetailsDialogFragment.newInstance(mInvoices.get(position));
+        invoiceDetailsDialogFragment.show(ft, PSQConsts.DIALOG_FRAGMENT_INVOICES);
     }
 
     @Override
@@ -160,5 +192,17 @@ public class InvoicesFragment extends Fragment implements GenericAsyncTaskListen
         if (PurpleSQ.isLoadingDialogVisible()) {
             PurpleSQ.dismissLoadingDialog();
         }
+    }
+
+    public boolean homeButtonPressed() {
+        if (invoiceDetailsDialogFragment != null) {
+            if (invoiceDetailsDialogFragment.isVisible()) {
+                invoiceDetailsDialogFragment.dismiss();
+                invoiceDetailsDialogFragment = null;
+                return true;
+            }
+        }
+
+        return false;
     }
 }

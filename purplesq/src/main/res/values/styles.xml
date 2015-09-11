@@ -17,6 +17,10 @@
         <item name="android:textColor">@color/grey900</item>
     </style>
 
+    <style name="TextAppearance_Headline_White700" parent="TextAppearance_Headline">
+        <item name="android:textColor">@color/white700</item>
+    </style>
+
 
     <!--    20sp primary    -->
     <style name="TextAppearance_Title" parent="TextAppearance.AppCompat.Title">
@@ -27,6 +31,10 @@
 
     <style name="TextAppearance_Title_Black" parent="TextAppearance_Title">
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextAppearance_Title_Grey900" parent="TextAppearance_Title">
+        <item name="android:textColor">@color/grey900</item>
     </style>
 
     <!--    16sp primary    -->
@@ -123,6 +131,11 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="FullScreenBorderlessDialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
 
     <style name="BorderlessDialog">
         <item name="android:windowFrame">@null</item>

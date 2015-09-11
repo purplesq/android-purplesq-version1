@@ -10,110 +10,11 @@ public class InvoicesVo {
     private String id;
     private String status;
     private EventCostVo amount;
-    private ProductVo product;
-    private CustomerVo customer;
+    private EventsVo product;
     private List<StudentsVo> students;
+    private long created_at;
 
     public InvoicesVo() {
-    }
-
-    public class MethodVo {
-        String mode;
-
-        public MethodVo() {
-        }
-
-        public String getMode() {
-            return mode;
-        }
-
-        public void setMode(String mode) {
-            this.mode = mode;
-        }
-    }
-
-    public class ProductVo {
-        private String id;
-        private String name;
-        private String type;
-
-        public ProductVo() {
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-    }
-
-    public class CustomerVo {
-        private String id;
-        private String fname;
-        private String lname;
-        private String phone;
-        private String email;
-
-        public CustomerVo() {
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getFname() {
-            return fname;
-        }
-
-        public void setFname(String fname) {
-            this.fname = fname;
-        }
-
-        public String getLname() {
-            return lname;
-        }
-
-        public void setLname(String lname) {
-            this.lname = lname;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
     }
 
     public class StudentsVo {
@@ -206,20 +107,12 @@ public class InvoicesVo {
         this.amount = amount;
     }
 
-    public ProductVo getProduct() {
+    public EventsVo getProduct() {
         return product;
     }
 
-    public void setProduct(ProductVo product) {
+    public void setProduct(EventsVo product) {
         this.product = product;
-    }
-
-    public CustomerVo getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(CustomerVo customer) {
-        this.customer = customer;
     }
 
     public List<StudentsVo> getStudents() {
@@ -228,5 +121,13 @@ public class InvoicesVo {
 
     public void setStudents(List<StudentsVo> students) {
         this.students = students;
+    }
+
+    public long getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(long created_at) {
+        this.created_at = created_at;
     }
 }

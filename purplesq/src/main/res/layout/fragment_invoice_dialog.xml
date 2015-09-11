@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/fragment_invoice_dialog_toolbar"
+        layout="@layout/toolbar"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/fragment_invoice_dialog_toolbar">
+
+        <LinearLayout
+            android:id="@+id/fragment_invoice_dialog_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/fragment_invoice_dialog_cardview"
+                layout="@layout/item_invoices_detailed_cardview"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>

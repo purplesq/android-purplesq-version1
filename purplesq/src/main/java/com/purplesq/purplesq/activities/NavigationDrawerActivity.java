@@ -55,6 +55,7 @@ public class NavigationDrawerActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private ActionBar mActionBar;
     private boolean isUserProfileUpdated = false;
+    private Fragment mCurrentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,7 +209,8 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.main_container, ProfileFragment.newInstance()).commit();
+                    mCurrentFragment = ProfileFragment.newInstance();
+                    fragmentManager.beginTransaction().replace(R.id.main_container, mCurrentFragment).commit();
                     mTitle = getString(R.string.title_leftdrawer_profile);
                     mDrawerLayout.closeDrawers();
                 }
@@ -233,12 +235,14 @@ public class NavigationDrawerActivity extends AppCompatActivity {
         boolean isSecondGroupClicked = false;
         switch (itemId) {
             case R.id.menu_navigation_events:
-                fragmentManager.beginTransaction().replace(R.id.main_container, HomeFragment.newInstance()).commit();
+                mCurrentFragment = HomeFragment.newInstance();
+                fragmentManager.beginTransaction().replace(R.id.main_container, mCurrentFragment).commit();
                 mTitle = getString(R.string.title_activity_Home);
                 isSecondGroupClicked = false;
                 break;
             case R.id.menu_navigation_invoices:
-                fragmentManager.beginTransaction().replace(R.id.main_container, InvoicesFragment.newInstance()).commit();
+                mCurrentFragment = InvoicesFragment.newInstance();
+                fragmentManager.beginTransaction().replace(R.id.main_container, mCurrentFragment).commit();
                 mTitle = getString(R.string.title_leftdrawer_invoices);
                 isSecondGroupClicked = false;
                 break;
@@ -257,7 +261,8 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                 isSecondGroupClicked = true;
                 break;
             case R.id.menu_navigation_tnc:
-                fragmentManager.beginTransaction().replace(R.id.main_container, TermsAndConditionsFragment.newInstance()).commit();
+                mCurrentFragment = TermsAndConditionsFragment.newInstance();
+                fragmentManager.beginTransaction().replace(R.id.main_container, mCurrentFragment).commit();
                 mTitle = getString(R.string.title_leftdrawer_tnc);
                 isSecondGroupClicked = true;
                 break;
@@ -333,8 +338,14 @@ public class NavigationDrawerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
+                if (mCurrentFragment instanceof InvoicesFragment) {
+                    if(((InvoicesFragment) mCurrentFragment).homeButtonPressed()) {
+                        return true;
+                    }
+                } else {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                    return true;
+                }
         }
         return super.onOptionsItemSelected(item);
     }
