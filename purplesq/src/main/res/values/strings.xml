@@ -39,6 +39,7 @@
     <string name="prompt_phoneno">Phone No (Optional)</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_confirm_password">Confirm password</string>
+    <string name="prompt_coupon">Have a coupon?</string>
     <string name="action_sign_in_short">Sign in </string>
     <string name="error_invalid_email">This email address is invalid </string>
     <string name="error_invalid_phoneno">Phone number should be between 10-13. Numeric and \'+\' allowed. </string>

@@ -10,13 +10,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.share.Sharer.Result;
+import com.facebook.share.model.ShareOpenGraphAction;
+import com.facebook.share.model.ShareOpenGraphContent;
+import com.facebook.share.model.ShareOpenGraphObject;
+import com.facebook.share.widget.ShareDialog;
 import com.google.gson.Gson;
 import com.payu.sdk.PayU;
 import com.purplesq.purplesq.R;
@@ -35,8 +49,10 @@ import com.purplesq.purplesq.vos.TransactionVo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Set;
 
 public class PaymentActivity extends AppCompatActivity implements GenericAsyncTaskListener {
 
@@ -48,13 +64,17 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
     private EventsVo mEventData;
     private PaymentTask mPaymentTask;
     private Toolbar mToolbar;
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-
         mActivity = this;
+
+        FacebookSdk.sdkInitialize(mActivity.getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+
         setupToolBar();
         getIntentExtras();
 
@@ -68,10 +88,13 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
         CardView cardView = (CardView) findViewById(R.id.activity_payment_cardview);
         LinearLayout participantslayout = (LinearLayout) findViewById(R.id.activity_payment_layout_participants);
         Button btnPay = (Button) findViewById(R.id.activity_participants_btn_pay);
+        Button btnCod = (Button) findViewById(R.id.activity_participants_btn_cod);
         TextView tvAmount = (TextView) findViewById(R.id.activity_payment_tv_eventamount);
 
         TextView tvHeading = (TextView) findViewById(R.id.activity_payment_tv_eventname);
         TextView tvDate = (TextView) findViewById(R.id.activity_payment_tv_eventdate);
+
+        final EditText etCoupons = (EditText) findViewById(R.id.activity_payment_et_coupon);
 
 
         String eventDay = "";
@@ -118,7 +141,119 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
             }
         });
 
+        btnCod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+
+        findViewById(R.id.activity_payment_tv_coupon_apply).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String couponCode = etCoupons.getText().toString();
+                if (!TextUtils.isEmpty(couponCode)) {
+                    //TODO : API call to check coupon validity
+                }
+            }
+        });
+
+        findViewById(R.id.activity_payment_fbshare_cardview).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareOnFB();
+            }
+        });
+
+
+    }
+
+    private void shareOnFB() {
+        // Create an object
+        Set<String> permissions = AccessToken.getCurrentAccessToken().getPermissions();
+        if (!permissions.contains("publish_actions")) {
+            LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    if (AccessToken.getCurrentAccessToken().getPermissions().contains("publish_actions")) {
+                        shareOnFB();
+                    }
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+
+                @Override
+                public void onError(FacebookException e) {
+
+                }
+            });
+            LoginManager.getInstance().logInWithPublishPermissions(PaymentActivity.this, Arrays.asList("publish_actions"));
+        } else {
+            String dateString = "";
+            String dateString2 = "";
+            try {
+                Date date = new Date(mEventData.getSchedule().getStart_date());
+                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.ENGLISH);
+                dateString = sdf2.format(date);
+                date.setTime(mEventData.getSchedule().getEnd_date());
+                dateString2 = sdf2.format(date);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Crashlytics.logException(e);
+            }
+
+            String url = "http://purplesq.com/event/" + mEventData.get_id();
+
+            ShareOpenGraphObject eventObject = new ShareOpenGraphObject.Builder()
+                    .putString("fb:app_id", "852292264845107")
+                    .putString("og:type", "purplesquirrel:event")
+                    .putString("og:title", mEventData.getName())
+                    .putString("og:description", mEventData.getSummary())
+                    .putString("og:url", url)
+                    .putString("og:image", mEventData.getThumbnail())
+                    .build();
+
+            ShareOpenGraphAction action = new ShareOpenGraphAction.Builder()
+                    .setActionType("purplesquirrel:attend")
+                    .putString("start_time", dateString)
+                    .putString("expires_time", dateString2)
+                    .putObject("event", eventObject)
+                    .build();
+
+            ShareOpenGraphContent content = new ShareOpenGraphContent.Builder()
+                    .setPreviewPropertyName("event")
+                    .setAction(action)
+                    .build();
+
+            if (ShareDialog.canShow(ShareOpenGraphContent.class)) {
+                ShareDialog shareDialog = new ShareDialog(this);
+                shareDialog.registerCallback(callbackManager, new FacebookCallback<Result>() {
+                    @Override
+                    public void onSuccess(Result result) {
+                        if (!TextUtils.isEmpty(result.getPostId())) {
+                            Log.i("Nish", "FB Share Success : " + result.getPostId());
+                        } else {
+                            Log.i("Nish", "FB Share Success without postId ");
+                        }
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void onError(FacebookException e) {
+
+                    }
+                });
+                shareDialog.show(content);
+            }
+        }
     }
 
     /**
@@ -232,6 +367,10 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
                 if (data != null)
                     Toast.makeText(this, "Failed" + data.getStringExtra(PSQConsts.EXTRAS_RESULT), Toast.LENGTH_LONG).show();
             }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 }

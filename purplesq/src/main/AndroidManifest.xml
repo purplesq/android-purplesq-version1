@@ -143,6 +143,8 @@
             android:authorities="com.purplesq.purplesq.provider"
             android:exported="false">
         </provider>
+
+        
     </application>
 
 </manifest>

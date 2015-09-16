@@ -17,7 +17,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
-        android:layout_margin="@dimen/horizontal_margin"
+        android:layout_marginBottom="@dimen/half_margin"
+        android:layout_marginEnd="@dimen/horizontal_margin"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:layout_marginRight="@dimen/horizontal_margin"
+        android:layout_marginStart="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/horizontal_margin"
         android:background="@color/white"
         android:elevation="8dp"
         card_view:cardCornerRadius="2dp"
@@ -68,14 +73,109 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/activity_payment_coupon_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_payment_cardview"
+        android:layout_marginBottom="@dimen/half_margin"
+        android:layout_marginEnd="@dimen/horizontal_margin"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:layout_marginRight="@dimen/horizontal_margin"
+        android:layout_marginStart="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/half_margin"
+        android:background="@color/white"
+        android:elevation="8dp"
+        card_view:cardCornerRadius="2dp"
+        card_view:contentPadding="@dimen/vertical_half_padding">
 
-    <Button
-        android:id="@+id/activity_participants_btn_pay"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/half_margin"
+                android:layout_marginRight="@dimen/half_margin"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/activity_payment_et_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/prompt_coupon"
+                    android:inputType="text"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/activity_payment_tv_coupon_apply"
+                style="@style/TextAppearance_Subhead_Teal500"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:text="Apply"/>
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/activity_payment_fbshare_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_payment_coupon_cardview"
+        android:layout_marginBottom="@dimen/half_margin"
+        android:layout_marginEnd="@dimen/horizontal_margin"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:layout_marginRight="@dimen/horizontal_margin"
+        android:layout_marginStart="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/half_margin"
+        android:background="@color/white"
+        android:elevation="8dp"
+        card_view:cardCornerRadius="2dp">
+
+        <TextView
+            style="@style/TextAppearance_Subhead_Teal500"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:minWidth="60dp"
+            android:text="Share on Facebook and get %s off"
+            android:textAllCaps="true"/>
+
+    </android.support.v7.widget.CardView>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/basic_margin"
-        android:background="@color/orange500"
-        android:text="PAY"
-        android:textColor="@color/white"/>
+        android:layout_marginTop="@dimen/basic_margin">
+
+        <Button
+            android:id="@+id/activity_participants_btn_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/orange500"
+            android:text="PAY"
+            android:layout_weight="1"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/activity_participants_btn_cod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/orange500"
+            android:layout_weight="1"
+            android:text="COD"
+            android:textColor="@color/white"/>
+    </LinearLayout>
 </RelativeLayout>
