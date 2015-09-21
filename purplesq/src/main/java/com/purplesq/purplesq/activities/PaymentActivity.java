@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -34,7 +33,6 @@ import com.facebook.share.model.ShareOpenGraphAction;
 import com.facebook.share.model.ShareOpenGraphContent;
 import com.facebook.share.model.ShareOpenGraphObject;
 import com.facebook.share.widget.ShareDialog;
-import com.google.gson.Gson;
 import com.payu.sdk.PayU;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.application.PurpleSQ;
@@ -71,7 +69,8 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
     private Activity mActivity;
     private TransactionVo mTransactionVo;
     private ArrayList<ParticipantVo> mParticipantList;
-    private float mAmount, finalPrice;
+    private AuthVo authVo;
+    private float mAmount;
     private int position = -1;
     private EventsVo mEventData;
     private PaymentTask mPaymentTask;
@@ -99,9 +98,48 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
 
     }
 
+    /**
+     * Set up the {@link android.support.v7.widget.Toolbar}.
+     */
+    private void setupToolBar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+        }
+    }
+
+
+    public void getIntentExtras() {
+        Intent i = getIntent();
+        if (getIntent().hasExtra(PSQConsts.EXTRAS_EVENT_ID)) {
+            mEventId = getIntent().getStringExtra(PSQConsts.EXTRAS_EVENT_ID);
+        }
+
+        if (i.hasExtra(PSQConsts.EXTRAS_EVENT_POSITION)) {
+            position = i.getIntExtra(PSQConsts.EXTRAS_EVENT_POSITION, -1);
+        }
+
+        if (i.hasExtra(PSQConsts.EXTRAS_PARTICIPANTS)) {
+            mParticipantList = i.getParcelableArrayListExtra(PSQConsts.EXTRAS_PARTICIPANTS);
+        }
+
+        if (position >= 0) {
+            mEventData = ((PurpleSQ) mActivity.getApplication()).getEventsData().get(position);
+        }
+
+        if (mEventData != null && !mParticipantList.isEmpty()) {
+            mAmount = mEventData.getCost().getTotal() * mParticipantList.size();
+        }
+
+        authVo = AuthDataManager.getAuthData(PaymentActivity.this);
+    }
+
+
     private void populateUI() {
 
-        CardView cardView = (CardView) findViewById(R.id.activity_payment_cardview);
         LinearLayout participantslayout = (LinearLayout) findViewById(R.id.activity_payment_layout_participants);
         Button btnPay = (Button) findViewById(R.id.activity_payment_btn_pay);
         Button btnCod = (Button) findViewById(R.id.activity_payment_btn_cod);
@@ -116,16 +154,12 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
         String eventDay = "";
         try {
             Date date = new Date(mEventData.getSchedule().getStart_date());
-
             SimpleDateFormat sdf2 = new SimpleDateFormat("dd MMM", Locale.ENGLISH);
             eventDay = sdf2.format(date);
-
         } catch (Exception e) {
             e.printStackTrace();
             Crashlytics.logException(e);
         }
-
-
         tvHeading.setText(mEventData.getName());
         tvDate.setText(eventDay + ", " + mEventData.getLocation().getCity());
 
@@ -146,13 +180,9 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AuthVo authVo = AuthDataManager.getAuthData(PaymentActivity.this);
                 if (authVo != null) {
-
                     PurpleSQ.showLoadingDialog(PaymentActivity.this);
-
-                    mPaymentTask = new PaymentTask(authVo.getToken(), couponCode, mTransactionVo, PaymentActivity.this);
-                    mPaymentTask.execute((Void) null);
+                    new RegisterParticipantsTask(mEventId, authVo.getToken(), couponCode, mParticipantList, PaymentActivity.this).execute((Void) null);
                 }
             }
         });
@@ -161,7 +191,6 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, CodActivity.class);
-                intent.putExtra(PSQConsts.EXTRAS_TRANSACTION, mTransactionVo.toString());
                 intent.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
                 intent.putExtra("discount", discountedPrice);
                 intent.putExtra("coupon", couponCode);
@@ -175,7 +204,6 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
             @Override
             public void onClick(View v) {
                 couponCode = etCoupons.getText().toString();
-                AuthVo authVo = AuthDataManager.getAuthData(PaymentActivity.this);
                 if (!TextUtils.isEmpty(couponCode)) {
                     new CheckCouponTask(authVo.getToken(), couponCode, mEventData.getId(), (int) mAmount, PaymentActivity.this).execute();
                 }
@@ -210,34 +238,16 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
 
     private void updateUiForCoupon(CouponsVo couponsVo) {
         List<CouponsVo.OffersVo> offersVo = couponsVo.getOffers();
-        String discountString = "";
-        String multipleDiscountString = "";
         float discountedAmount = mAmount;
         for (int i = 0; i < offersVo.size(); i++) {
             if (offersVo.get(i).getType().equalsIgnoreCase("Percentage")) {
                 int percentage = offersVo.get(i).getDiscount();
                 discountedAmount = discountedAmount - (discountedAmount * percentage / 100);
                 discountedAmount = (float) Math.floor(discountedAmount);
-                if (TextUtils.isEmpty(discountString)) {
-                    discountString = " (" + percentage + "% OFF)";
-                    multipleDiscountString = " (" + percentage + "% OFF";
-                } else {
-                    multipleDiscountString = multipleDiscountString + " + " + percentage + "%";
-                }
             } else {
                 int discount = offersVo.get(i).getDiscount();
                 discountedAmount = discountedAmount - discount;
-                if (TextUtils.isEmpty(discountString)) {
-                    discountString = " (" + PSQConsts.UNICODE_RUPEE + discount + " OFF)";
-                    multipleDiscountString = " (" + PSQConsts.UNICODE_RUPEE + discount + " OFF";
-                } else {
-                    multipleDiscountString = multipleDiscountString + " + " + PSQConsts.UNICODE_RUPEE + discount + " OFF";
-                }
             }
-        }
-
-        if (offersVo.size() > 1) {
-            discountString = multipleDiscountString + ")";
         }
 
         if (discountedAmount < mAmount) {
@@ -257,64 +267,12 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
             tvDiscountedAmount.setVisibility(View.VISIBLE);
 
             tvDiscount.setTypeface(font);
-            tvDiscount.setText("Coupon Applied : " + couponCode + discountString);
+            tvDiscount.setText("Coupon Applied : " + couponCode);
             tvDiscount.setVisibility(View.VISIBLE);
 
             findViewById(R.id.activity_payment_coupon_cardview).setVisibility(View.GONE);
         }
-
-        AuthVo authVo = AuthDataManager.getAuthData(PaymentActivity.this);
-        new RegisterParticipantsTask(mEventId, authVo.getToken(), couponCode, mParticipantList, this).execute((Void) null);
-
     }
-
-    /**
-     * Set up the {@link android.support.v7.widget.Toolbar}.
-     */
-    private void setupToolBar() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            }
-        }
-    }
-
-
-    public void getIntentExtras() {
-        Intent i = getIntent();
-        if (i.hasExtra(PSQConsts.EXTRAS_TRANSACTION)) {
-            String transaction = i.getStringExtra(PSQConsts.EXTRAS_TRANSACTION);
-            if (!TextUtils.isEmpty(transaction)) {
-                Gson gson = new Gson();
-                mTransactionVo = gson.fromJson(transaction, TransactionVo.class);
-
-                if (mTransactionVo != null) {
-                    mAmount = mTransactionVo.getAmount();
-                    finalPrice = mAmount;
-                }
-            }
-        }
-
-        if (getIntent().hasExtra(PSQConsts.EXTRAS_EVENT_ID)) {
-            mEventId = getIntent().getStringExtra(PSQConsts.EXTRAS_EVENT_ID);
-        }
-
-        if (i.hasExtra(PSQConsts.EXTRAS_EVENT_POSITION)) {
-            position = i.getIntExtra(PSQConsts.EXTRAS_EVENT_POSITION, -1);
-        }
-
-        if (i.hasExtra(PSQConsts.EXTRAS_PARTICIPANTS)) {
-            mParticipantList = i.getParcelableArrayListExtra(PSQConsts.EXTRAS_PARTICIPANTS);
-        }
-
-        if (position >= 0) {
-            mEventData = ((PurpleSQ) mActivity.getApplication()).getEventsData().get(position);
-        }
-
-    }
-
 
     private void shareOnFB() {
         // Create an object
@@ -411,6 +369,10 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
+        if (PurpleSQ.isLoadingDialogVisible()) {
+            PurpleSQ.dismissLoadingDialog();
+        }
+
         mPaymentTask = null;
         if (obj != null && obj instanceof PaymentPayUVo) {
             PaymentPayUVo paymentPayUVo = (PaymentPayUVo) obj;
@@ -423,15 +385,14 @@ public class PaymentActivity extends AppCompatActivity implements GenericAsyncTa
             TransactionVo transactionVo = (TransactionVo) obj;
             try {
                 mTransactionVo = transactionVo;
-                finalPrice = transactionVo.getAmount();
+
+                PurpleSQ.showLoadingDialog(PaymentActivity.this);
+                mPaymentTask = new PaymentTask(authVo.getToken(), couponCode, mTransactionVo, PaymentActivity.this);
+                mPaymentTask.execute((Void) null);
             } catch (Exception e) {
                 e.printStackTrace();
                 Crashlytics.logException(e);
             }
-        }
-
-        if (PurpleSQ.isLoadingDialogVisible()) {
-            PurpleSQ.dismissLoadingDialog();
         }
     }
 

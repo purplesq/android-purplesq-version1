@@ -71,7 +71,7 @@ public class CoDRegistrationTask extends AsyncTask<Void, Void, String> {
             if (!TextUtils.isEmpty(mCoupon)) {
                 jsonRequestBody.put("coupon", mCoupon);
             }
-            jsonRequestBody.put("method", "CashOnDelivery");
+            jsonRequestBody.put("method", "cod");
             jsonRequestBody.put("shipment", mShipmentVo.getShipmentJson());
 
         } catch (JSONException e) {

@@ -21,13 +21,11 @@ import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
 import com.purplesq.purplesq.fragments.ErrorDialogFragment;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
-import com.purplesq.purplesq.tasks.RegisterParticipantsTask;
 import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.utils.Utils;
 import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.ParticipantVo;
-import com.purplesq.purplesq.vos.TransactionVo;
 import com.purplesq.purplesq.vos.UserVo;
 
 import java.util.ArrayList;
@@ -40,7 +38,6 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
     private AuthVo authVo;
     private boolean inEditMode = false;
     private String mEventId = "";
-    private RegisterParticipantsTask mRegisterParticipantsTask;
     private int position = -1;
 
     @Override
@@ -438,25 +435,8 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
         }
     }
 
-
     private void registerParticipants() {
-        if (mRegisterParticipantsTask != null) {
-            return;
-        }
-
         if (!mParticipantList.isEmpty()) {
-
-            PurpleSQ.showLoadingDialog(ParticipantsActivity.this);
-            mRegisterParticipantsTask = new RegisterParticipantsTask(mEventId, authVo.getToken(), mParticipantList, this);
-            mRegisterParticipantsTask.execute((Void) null);
-        }
-    }
-
-    @Override
-    public void genericAsyncTaskOnSuccess(Object obj) {
-        mRegisterParticipantsTask = null;
-        if (obj != null && obj instanceof TransactionVo) {
-            TransactionVo transactionVo = (TransactionVo) obj;
             try {
                 ArrayList<String> participantList = new ArrayList<>();
                 ArrayList<String> participantIntitute = new ArrayList<>();
@@ -466,18 +446,19 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                 }
 
                 Intent intent = new Intent(mActivity, PaymentActivity.class);
-                intent.putExtra(PSQConsts.EXTRAS_TRANSACTION, transactionVo.toString());
                 intent.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
                 intent.putExtra(PSQConsts.EXTRAS_EVENT_ID, mEventId);
                 intent.putParcelableArrayListExtra(PSQConsts.EXTRAS_PARTICIPANTS, mParticipantList);
                 startActivity(intent);
-
             } catch (Exception e) {
                 e.printStackTrace();
                 Crashlytics.logException(e);
             }
         }
+    }
 
+    @Override
+    public void genericAsyncTaskOnSuccess(Object obj) {
         if (PurpleSQ.isLoadingDialogVisible()) {
             PurpleSQ.dismissLoadingDialog();
         }
@@ -489,7 +470,6 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
             PurpleSQ.dismissLoadingDialog();
         }
 
-        mRegisterParticipantsTask = null;
         if (obj instanceof ErrorVo) {
             ErrorVo errorVo = (ErrorVo) obj;
 
@@ -511,7 +491,6 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
 
     @Override
     public void genericAsyncTaskOnCancelled(Object obj) {
-        mRegisterParticipantsTask = null;
         if (PurpleSQ.isLoadingDialogVisible()) {
             PurpleSQ.dismissLoadingDialog();
         }

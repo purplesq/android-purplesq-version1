@@ -1,5 +1,6 @@
 package com.purplesq.purplesq.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -7,8 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -16,9 +17,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.google.gson.Gson;
 import com.purplesq.purplesq.R;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
@@ -45,7 +46,6 @@ import java.util.Locale;
 public class CodActivity extends AppCompatActivity implements GenericAsyncTaskListener {
 
     private AppCompatActivity mActivity;
-    private TransactionVo mTransactionVo;
     private ArrayList<ParticipantVo> mParticipantList;
     private float mAmount;
     private int position = -1;
@@ -75,18 +75,6 @@ public class CodActivity extends AppCompatActivity implements GenericAsyncTaskLi
 
     public void getIntentExtras() {
         Intent i = getIntent();
-        if (i.hasExtra(PSQConsts.EXTRAS_TRANSACTION)) {
-            String transaction = i.getStringExtra(PSQConsts.EXTRAS_TRANSACTION);
-            if (!TextUtils.isEmpty(transaction)) {
-                Gson gson = new Gson();
-                mTransactionVo = gson.fromJson(transaction, TransactionVo.class);
-
-                if (mTransactionVo != null) {
-                    mAmount = mTransactionVo.getAmount();
-                }
-            }
-        }
-
         if (i.hasExtra(PSQConsts.EXTRAS_EVENT_POSITION)) {
             position = i.getIntExtra(PSQConsts.EXTRAS_EVENT_POSITION, -1);
         }
@@ -109,6 +97,10 @@ public class CodActivity extends AppCompatActivity implements GenericAsyncTaskLi
 
         if (position >= 0) {
             mEventData = ((PurpleSQ) mActivity.getApplication()).getEventsData().get(position);
+        }
+
+        if (mEventData != null && !mParticipantList.isEmpty()) {
+            mAmount = mEventData.getCost().getTotal() * mParticipantList.size();
         }
     }
 
@@ -175,6 +167,13 @@ public class CodActivity extends AppCompatActivity implements GenericAsyncTaskLi
             @Override
             public void onClick(View v) {
                 if (checkAddressValidations()) {
+
+                    View view = mActivity.getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+
                     layoutGetPincode.setVisibility(View.GONE);
                     layoutPincode.setVisibility(View.GONE);
                     cardAddress.setVisibility(View.GONE);
@@ -189,6 +188,12 @@ public class CodActivity extends AppCompatActivity implements GenericAsyncTaskLi
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View view = mActivity.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+
                 ShipmentVo shipmentVo = new ShipmentVo();
                 ShipmentVo.ReceiverVo receiverVo = shipmentVo.new ReceiverVo();
                 ShipmentVo.AddressVo addressVo = shipmentVo.new AddressVo();
@@ -244,6 +249,7 @@ public class CodActivity extends AppCompatActivity implements GenericAsyncTaskLi
         if (discountedAmount >= 0) {
             tvDiscountedAmount.setTypeface(font);
             tvDiscountedAmount.setText(PSQConsts.UNICODE_RUPEE + " " + discountedAmount);
+            tvDiscountedAmount.setVisibility(View.VISIBLE);
             finalAmount = discountedAmount;
             tvAmount.setPaintFlags(tvAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
@@ -254,6 +260,7 @@ public class CodActivity extends AppCompatActivity implements GenericAsyncTaskLi
         if (!TextUtils.isEmpty(coupunString)) {
             tvDiscount.setTypeface(font);
             tvDiscount.setText(coupunString);
+            tvDiscount.setVisibility(View.VISIBLE);
         } else {
             tvDiscount.setVisibility(View.GONE);
         }
@@ -262,6 +269,11 @@ public class CodActivity extends AppCompatActivity implements GenericAsyncTaskLi
         tvFinalAmount.setTypeface(font);
         tvCashCollection.setText("Cash Collection : + " + PSQConsts.UNICODE_RUPEE + " 30");
         tvFinalAmount.setText("Final : " + PSQConsts.UNICODE_RUPEE + " " + (finalAmount + 30));
+
+
+        ((EditText) findViewById(R.id.activity_cod_et_fname)).setText(mParticipantList.get(0).getFirstname());
+        ((EditText) findViewById(R.id.activity_cod_et_lname)).setText(mParticipantList.get(0).getLastname());
+        ((EditText) findViewById(R.id.activity_cod_et_phone)).setText(mParticipantList.get(0).getPhone());
 
     }
 
@@ -354,6 +366,28 @@ public class CodActivity extends AppCompatActivity implements GenericAsyncTaskLi
             btnSubmit.setVisibility(View.GONE);
             tvPincode.setText("Pincode : " + etPincode.getText());
             codPincode = Integer.parseInt(etPincode.getText().toString());
+        } else if (obj != null && obj instanceof TransactionVo) {
+            TransactionVo transactionVo = (TransactionVo) obj;
+            try {
+                if (transactionVo.getStatus().equalsIgnoreCase("success")) {
+                    Toast.makeText(mActivity, "Sucesss : Order placed successfully", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(mActivity, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    finish();
+                } else if (transactionVo.getStatus().equalsIgnoreCase("initiated")) {
+                    Toast.makeText(mActivity, "Initiated : Order placed successfully", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(mActivity, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Crashlytics.logException(e);
+            }
         }
 
         if (PurpleSQ.isLoadingDialogVisible()) {

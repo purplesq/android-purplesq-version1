@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/orange500"
-            android:text="PAY"
+            android:text="PAY ONLINE"
             android:textColor="@color/white"/>
 
         <Button
@@ -33,10 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/orange500"
-            android:text="COD"
-            android:textColor="@color/white"
-            android:visibility="gone"/>
+            android:background="@color/grey300"
+            android:text="PAY BY CASH"
+            android:textColor="@color/orange500"/>
     </LinearLayout>
 
     <ScrollView
@@ -126,7 +125,7 @@
 
                     <TextView
                         android:id="@+id/activity_payment_tv_coupon_applied"
-                        style="@style/TextAppearance_Small_Teal500"
+                        style="@style/TextAppearance_Small_Grey700"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/vertical_margin"
@@ -173,12 +172,12 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="@string/prompt_coupon"
-                            android:inputType="text"/>
+                            android:inputType="text|textCapCharacters"/>
                     </android.support.design.widget.TextInputLayout>
 
                     <TextView
                         android:id="@+id/activity_payment_tv_coupon_apply"
-                        style="@style/TextAppearance_Subhead_Teal500"
+                        style="@style/TextAppearance_Small_Grey700"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
