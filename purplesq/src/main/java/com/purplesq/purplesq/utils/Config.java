@@ -41,15 +41,7 @@ public class Config {
             purplesqBaseUrl = context.getString(R.string.url_purplesq_prod);
             isProd = true;
         }
-
-        String debug = context.getString(R.string.enable_debug_dump);
-
-        if (!TextUtils.isEmpty(debug)) {
-            debug = debug.toLowerCase();
-            DEBUG = debug.equals("true");
-        } else {
-            DEBUG = false;
-        }
+        
     }
 
     public static String getPurplesqBaseUrl() {
