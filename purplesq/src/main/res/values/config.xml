@@ -3,7 +3,7 @@
 
     <string name="env">prod</string>
 
-    <string name="enable_debug_dump">true</string>
+    <string name="enable_debug_dump">false</string>
     <string name="url_purplesq_prod">http://api.purplesq.com/</string>
     <string name="url_purplesq_qa">http://dev.purplesq.com:4000/</string>
 
