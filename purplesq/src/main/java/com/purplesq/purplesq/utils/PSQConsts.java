@@ -31,8 +31,7 @@ public class PSQConsts {
     public static final String EXTRAS_FROM_ACTIVITY = "from-activity";
     public static final String EXTRAS_FINISH_ACTIVITY = "finish-activity";
     public static final String EXTRAS_TRANSACTION = "transaction";
-    public static final String EXTRAS_PARTICIPANTS_NAME = "participants-name";
-    public static final String EXTRAS_PARTICIPANTS_INSTITUTE = "participants-institute";
+    public static final String EXTRAS_PARTICIPANTS = "participants";
     public static final String EXTRAS_RESULT = "result";
 
 

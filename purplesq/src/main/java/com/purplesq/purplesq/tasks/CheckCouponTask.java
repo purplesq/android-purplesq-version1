@@ -9,32 +9,33 @@ import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.utils.ApiConst;
 import com.purplesq.purplesq.utils.Config;
 import com.purplesq.purplesq.utils.OkHttpLoggingInterceptor;
-import com.purplesq.purplesq.utils.PSQConsts;
+import com.purplesq.purplesq.vos.CouponsVo;
 import com.purplesq.purplesq.vos.ErrorVo;
-import com.purplesq.purplesq.vos.PaymentPayUVo;
-import com.purplesq.purplesq.vos.TransactionVo;
-import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 /**
- * Created by nishant on 07/07/15.
+ * Created by nishant on 19/09/15.
  */
-public class PaymentTask extends AsyncTask<Void, Void, String> {
+public class CheckCouponTask extends AsyncTask<Void, Void, String> {
 
     private GenericAsyncTaskListener mListener;
-    private String mToken, mCoupon;
-    private TransactionVo mTransactionVo;
     private ErrorVo mErrorVo;
+    private String mToken, mCouponCode, mEventId;
+    private int mAmount;
 
-    public PaymentTask(String token, String coupon, TransactionVo transactionVo, GenericAsyncTaskListener listener) {
-        this.mToken = token;
-        this.mCoupon = coupon;
-        this.mTransactionVo = transactionVo;
-        this.mListener = listener;
+    public CheckCouponTask(String token, String couponCode, String eventId, int amount, GenericAsyncTaskListener listener) {
+        mListener = listener;
+        mToken = token;
+        mCouponCode = couponCode;
+        mEventId = eventId;
+        mAmount = amount;
     }
 
     @Override
@@ -45,22 +46,19 @@ public class PaymentTask extends AsyncTask<Void, Void, String> {
                 ApiConst.getHttpClient().interceptors().add(new OkHttpLoggingInterceptor());
             }
 
-            RequestBody formBody = new FormEncodingBuilder()
-                    .add(PSQConsts.JSON_PARAM_ID, mTransactionVo.getId())
-                    .add(PSQConsts.JSON_PARAM_STATUS, mTransactionVo.getStatus())
-                    .add(PSQConsts.JSON_PARAM_EMAIL, mTransactionVo.getEmail())
-                    .add(PSQConsts.JSON_PARAM_PHONE, mTransactionVo.getPhone() + "")
-                    .add(PSQConsts.JSON_PARAM_MODE, mTransactionVo.getMode())
-                    .add(PSQConsts.JSON_PARAM_AMOUNT, mTransactionVo.getAmount() + "")
-                    .add("coupon", mCoupon)
-                    .build();
+            JSONObject jsonPincode;
+            jsonPincode = new JSONObject();
+            jsonPincode.put("couponCode", mCouponCode);
+            jsonPincode.put("event_id", mEventId);
+            jsonPincode.put("amount", mAmount);
 
+            RequestBody body = RequestBody.create(ApiConst.JSON, jsonPincode.toString());
 
             Request request = new Request.Builder()
-                    .url(ApiConst.URL_PAYMENT + mTransactionVo.getId())
-                    .header(ApiConst.HEADER_PURPLE_TOKEN, mToken)
+                    .url(ApiConst.URL_CHECK_COUPON)
                     .header(ApiConst.HEADER_PLATFORM, ApiConst.HEADER_PARAM_ANDROID)
-                    .post(formBody)
+                    .header(ApiConst.HEADER_PURPLE_TOKEN, mToken)
+                    .post(body)
                     .build();
 
             Response response = ApiConst.getHttpClient().newCall(request).execute();
@@ -78,25 +76,29 @@ public class PaymentTask extends AsyncTask<Void, Void, String> {
             e.printStackTrace();
             Crashlytics.logException(e);
             return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Crashlytics.logException(e);
+            return null;
         }
-
     }
 
     @Override
-    protected void onPostExecute(final String response) {
+    protected void onPostExecute(String response) {
         if (mErrorVo == null) {
             if (Config.DEBUG) {
                 Log.i("HTTP", "Response : " + response);
             }
             if (!TextUtils.isEmpty(response)) {
                 try {
-                    PaymentPayUVo paymentPayUVo = ApiConst.getGson().fromJson(response, PaymentPayUVo.class);
-                    mListener.genericAsyncTaskOnSuccess(paymentPayUVo);
+                    CouponsVo couponsVo = ApiConst.getGson().fromJson(response, CouponsVo.class);
+                    mListener.genericAsyncTaskOnSuccess(couponsVo);
                 } catch (Exception e) {
                     e.printStackTrace();
                     Crashlytics.logException(e);
                     mListener.genericAsyncTaskOnError(mErrorVo);
                 }
+
             } else {
                 mListener.genericAsyncTaskOnError(mErrorVo);
             }
@@ -107,6 +109,6 @@ public class PaymentTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onCancelled() {
-        mListener.genericAsyncTaskOnCancelled(null);
+        mListener.genericAsyncTaskOnCancelled(mErrorVo);
     }
 }

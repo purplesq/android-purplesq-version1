@@ -1,9 +1,12 @@
 package com.purplesq.purplesq.vos;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by nishant on 25/06/15.
  */
-public class ParticipantVo {
+public class ParticipantVo implements Parcelable {
 
     private String firstname;
     private String lastname;
@@ -85,4 +88,44 @@ public class ParticipantVo {
     public void setIsFixed(boolean isFixed) {
         this.isFixed = isFixed;
     }
+
+
+    protected ParticipantVo(Parcel in) {
+        firstname = in.readString();
+        lastname = in.readString();
+        email = in.readString();
+        phone = in.readString();
+        institute = in.readString();
+        position = in.readInt();
+        isFixed = in.readByte() != 0x00;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(firstname);
+        dest.writeString(lastname);
+        dest.writeString(email);
+        dest.writeString(phone);
+        dest.writeString(institute);
+        dest.writeInt(position);
+        dest.writeByte((byte) (isFixed ? 0x01 : 0x00));
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<ParticipantVo> CREATOR = new Parcelable.Creator<ParticipantVo>() {
+        @Override
+        public ParticipantVo createFromParcel(Parcel in) {
+            return new ParticipantVo(in);
+        }
+
+        @Override
+        public ParticipantVo[] newArray(int size) {
+            return new ParticipantVo[size];
+        }
+    };
 }

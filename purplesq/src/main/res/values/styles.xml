@@ -116,6 +116,14 @@
         <item name="android:textColor">@color/white700</item>
     </style>
 
+    <style name="TextAppearance_Small_Teal500" parent="TextAppearance_Small">
+        <item name="android:textColor">@color/teal500</item>
+    </style>
+
+    <style name="TextAppearance_Small_Orange500" parent="TextAppearance_Small">
+        <item name="android:textColor">@color/orange500</item>
+    </style>
+
 
 
     <style name="LinearLayout_Vertical">

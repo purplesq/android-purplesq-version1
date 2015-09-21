@@ -167,7 +167,7 @@ public class SignUpFragment extends Fragment implements LoaderManager.LoaderCall
         }
 
         if (!Utils.isNumeric(phoneno)) {
-            mEmailView.setError(getString(R.string.error_invalid_phoneno));
+            mPhoneNoView.setError(getString(R.string.error_invalid_phoneno));
             focusView = mPhoneNoView;
             cancel = true;
         }

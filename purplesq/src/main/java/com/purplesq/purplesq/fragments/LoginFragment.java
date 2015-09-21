@@ -52,6 +52,7 @@ import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.tasks.GooglePlusLoginInfoTask;
 import com.purplesq.purplesq.tasks.SocialRegistrationFacebookTask;
 import com.purplesq.purplesq.tasks.UserLoginTask;
+import com.purplesq.purplesq.utils.Config;
 import com.purplesq.purplesq.utils.Utils;
 
 import org.json.JSONObject;
@@ -445,6 +446,10 @@ public class LoginFragment extends Fragment implements GoogleApiClient.Connectio
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         // Application code
                         JSONObject userJson = response.getJSONObject();
+
+                        if (Config.DEBUG) {
+                            Log.i("HTTP", "Facebook Response : " + userJson.toString());
+                        }
                         String fbToken = loginResult.getAccessToken().getToken();
 
                         PurpleSQ.showLoadingDialog(mActivity);

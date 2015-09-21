@@ -8,6 +8,7 @@
     <string name="title_activity_payment">Confirm</string>
     <string name="title_activity_payment_status">PaymentStatusActivity</string>
     <string name="title_fragment_invoice_details">Invoice</string>
+    <string name="title_activity_cod">CodActivity</string>
 
     <string name="title_leftdrawer_events">Events</string>
     <string name="title_leftdrawer_invoices">Invoices</string>
@@ -33,13 +34,21 @@
     <string name="plus_disconnect">Disconnect from Google+ </string>
 
 
+    <string name="prompt_name">Name</string>
     <string name="prompt_first_name">First Name</string>
     <string name="prompt_last_name">Last Name</string>
     <string name="prompt_email">Email</string>
+    <string name="prompt_phone">Phone</string>
     <string name="prompt_phoneno">Phone No (Optional)</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_confirm_password">Confirm password</string>
     <string name="prompt_coupon">Have a coupon?</string>
+    <string name="prompt_pincode">Pincode</string>
+    <string name="prompt_city">City</string>
+    <string name="prompt_address">Address</string>
+    <string name="prompt_landmark">Landmark (Optional)</string>
+    <string name="prompt_spinner">Select State</string>
+
     <string name="action_sign_in_short">Sign in </string>
     <string name="error_invalid_email">This email address is invalid </string>
     <string name="error_invalid_phoneno">Phone number should be between 10-13. Numeric and \'+\' allowed. </string>
@@ -53,5 +62,45 @@
     <string name="event_details_what_you_get">What you get</string>
     <string name="event_details_faq">FAQ</string>
     <string name="event_details_queries">QUERIES? CALL US!</string>
+
+
+    <string-array name="states" >
+        <item>Andaman and Nicobar Island</item>
+        <item>Andhra Pradesh</item>
+        <item>Arunachal Pradesh</item>
+        <item>Assam</item>
+        <item>Bihar</item>
+        <item>Chandigarh</item>
+        <item>Chhattisgarh</item>
+        <item>Dadra and Nagar Haveli</item>
+        <item>Daman and Diu</item>
+        <item>Delhi</item>
+        <item>Goa</item>
+        <item>Gujarat</item>
+        <item>Haryana</item>
+        <item>Himachal Pradesh</item>
+        <item>Jammu and Kashmir</item>
+        <item>Jharkhand</item>
+        <item>Karnataka</item>
+        <item>Kerala</item>
+        <item>Lakshadweep</item>
+        <item>Madhya Pradesh</item>
+        <item>Maharashtra</item>
+        <item>Manipur</item>
+        <item>Meghalaya</item>
+        <item>Mizoram</item>
+        <item>Nagaland</item>
+        <item>Odisha</item>
+        <item>Pondicherry</item>
+        <item>Punjab</item>
+        <item>Rajasthan</item>
+        <item>Sikkim</item>
+        <item>Tamil Nadu</item>
+        <item>Telangana</item>
+        <item>Tripura</item>
+        <item>Uttarakhand</item>
+        <item>Uttar Pradesh</item>
+        <item>West Bengal</item>
+    </string-array>
 
 </resources>

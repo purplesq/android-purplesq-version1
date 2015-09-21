@@ -468,8 +468,8 @@ public class ParticipantsActivity extends AppCompatActivity implements GenericAs
                 Intent intent = new Intent(mActivity, PaymentActivity.class);
                 intent.putExtra(PSQConsts.EXTRAS_TRANSACTION, transactionVo.toString());
                 intent.putExtra(PSQConsts.EXTRAS_EVENT_POSITION, position);
-                intent.putStringArrayListExtra(PSQConsts.EXTRAS_PARTICIPANTS_NAME, participantList);
-                intent.putStringArrayListExtra(PSQConsts.EXTRAS_PARTICIPANTS_INSTITUTE, participantIntitute);
+                intent.putExtra(PSQConsts.EXTRAS_EVENT_ID, mEventId);
+                intent.putParcelableArrayListExtra(PSQConsts.EXTRAS_PARTICIPANTS, mParticipantList);
                 startActivity(intent);
 
             } catch (Exception e) {

@@ -12,6 +12,7 @@ import com.purplesq.purplesq.utils.OkHttpLoggingInterceptor;
 import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.ParticipantVo;
+import com.purplesq.purplesq.vos.ShipmentVo;
 import com.purplesq.purplesq.vos.TransactionVo;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -25,36 +26,30 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by nishant on 04/07/15.
+ * Created by nishant on 20/09/15.
  */
-public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
+public class CoDRegistrationTask extends AsyncTask<Void, Void, String> {
 
     private GenericAsyncTaskListener mListener;
     private ArrayList<ParticipantVo> mParticipants = new ArrayList<>();
     private String mEventId;
-    private String mToken;
-    private String mCoupon;
+    private String mToken, mCoupon;
     private ErrorVo mErrorVo;
+    private ShipmentVo mShipmentVo;
 
-    public RegisterParticipantsTask(String event, String token, ArrayList<ParticipantVo> data, GenericAsyncTaskListener listener) {
+    public CoDRegistrationTask(String event, String token, ArrayList<ParticipantVo> data, String coupon, ShipmentVo shipmentVo, GenericAsyncTaskListener listener) {
         this.mEventId = event;
         this.mToken = token;
         this.mParticipants = data;
-        this.mListener = listener;
-    }
-
-    public RegisterParticipantsTask(String event, String token, String coupon, ArrayList<ParticipantVo> data, GenericAsyncTaskListener listener) {
-        this.mEventId = event;
-        this.mToken = token;
         this.mCoupon = coupon;
-        this.mParticipants = data;
+        this.mShipmentVo = shipmentVo;
         this.mListener = listener;
     }
 
     @Override
     protected String doInBackground(Void... params) {
 
-        JSONObject jsonParticipants = new JSONObject();
+        JSONObject jsonRequestBody = new JSONObject();
         try {
             JSONArray jsonArrayStudents = new JSONArray();
             for (ParticipantVo participantVo : mParticipants) {
@@ -71,11 +66,13 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
                 jsonArrayStudents.put(participant);
             }
 
-            jsonParticipants.put(PSQConsts.JSON_PARAM_STUDENTS, jsonArrayStudents);
-            jsonParticipants.put(PSQConsts.JSON_PARAM_CLIENT, ApiConst.HEADER_PARAM_ANDROID);
+            jsonRequestBody.put(PSQConsts.JSON_PARAM_STUDENTS, jsonArrayStudents);
+            jsonRequestBody.put(PSQConsts.JSON_PARAM_CLIENT, ApiConst.HEADER_PARAM_ANDROID);
             if (!TextUtils.isEmpty(mCoupon)) {
-                jsonParticipants.put("coupon", mCoupon);
+                jsonRequestBody.put("coupon", mCoupon);
             }
+            jsonRequestBody.put("method", "CashOnDelivery");
+            jsonRequestBody.put("shipment", mShipmentVo.getShipmentJson());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -88,7 +85,7 @@ public class RegisterParticipantsTask extends AsyncTask<Void, Void, String> {
                 ApiConst.getHttpClient().interceptors().add(new OkHttpLoggingInterceptor());
             }
 
-            RequestBody body = RequestBody.create(ApiConst.JSON, jsonParticipants.toString());
+            RequestBody body = RequestBody.create(ApiConst.JSON, jsonRequestBody.toString());
 
             Request request = new Request.Builder()
                     .url(ApiConst.URL_PAYMENT_INITIATE + mEventId + ApiConst.URL_PAYMENT_INITIATE_PART)
