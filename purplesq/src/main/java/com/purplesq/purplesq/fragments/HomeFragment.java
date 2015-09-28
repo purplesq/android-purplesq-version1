@@ -22,15 +22,19 @@ import com.purplesq.purplesq.activities.EventDetailsActivity;
 import com.purplesq.purplesq.adapters.RecyclerViewAdapter;
 import com.purplesq.purplesq.application.PurpleSQ;
 import com.purplesq.purplesq.datamanagers.AuthDataManager;
+import com.purplesq.purplesq.dialogs.CheckUpdateDialogFragment;
 import com.purplesq.purplesq.interfces.GenericAsyncTaskListener;
 import com.purplesq.purplesq.interfces.RecyclerViewItemClickListener;
+import com.purplesq.purplesq.tasks.CheckUpdateTask;
 import com.purplesq.purplesq.tasks.GetAllCitiesTask;
 import com.purplesq.purplesq.tasks.GetAllEventsTask;
 import com.purplesq.purplesq.tasks.RefreshTokenTask;
+import com.purplesq.purplesq.utils.Config;
 import com.purplesq.purplesq.utils.PSQConsts;
 import com.purplesq.purplesq.vos.AuthVo;
 import com.purplesq.purplesq.vos.ErrorVo;
 import com.purplesq.purplesq.vos.EventsVo;
+import com.purplesq.purplesq.vos.VersionVo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,6 +92,8 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
             }
         }
 
+        new CheckUpdateTask(this).execute((Void) null);
+
         PurpleSQ.showLoadingDialog(getActivity());
         new GetAllCitiesTask(this).execute((Void) null);
 
@@ -122,7 +128,51 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
     @Override
     public void genericAsyncTaskOnSuccess(Object obj) {
         if (obj != null) {
-            if (obj instanceof JSONArray) {
+            if (obj instanceof VersionVo) {
+                try {
+                    VersionVo versionVo = (VersionVo) obj;
+                    int currentVersionCode = 0;
+                    int installedVersionCode = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionCode;
+
+                    currentVersionCode = versionVo.getCurrentVersion();
+                    int forceInstallCode = versionVo.getForcedVersions();
+
+                    if (installedVersionCode < forceInstallCode) {
+                        CheckUpdateDialogFragment updateDialogFragment = new CheckUpdateDialogFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("versionVo", versionVo);
+                        bundle.putBoolean("forced", true);
+                        updateDialogFragment.setArguments(bundle);
+
+                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(PSQConsts.DIALOG_FRAGMENT_UPDATE);
+                        if (prev != null) {
+                            ft.remove(prev);
+                        }
+
+                        updateDialogFragment.show(ft, PSQConsts.DIALOG_FRAGMENT_UPDATE);
+                    } else if (installedVersionCode != 0 && installedVersionCode < currentVersionCode) {
+                        CheckUpdateDialogFragment updateDialogFragment = new CheckUpdateDialogFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("versionVo", versionVo);
+                        bundle.putBoolean("forced", false);
+                        updateDialogFragment.setArguments(bundle);
+
+                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(PSQConsts.DIALOG_FRAGMENT_UPDATE);
+                        if (prev != null) {
+                            ft.remove(prev);
+                        }
+                        updateDialogFragment.show(ft, PSQConsts.DIALOG_FRAGMENT_UPDATE);
+                    } else if (installedVersionCode == currentVersionCode) {
+                        if (Config.DEBUG) {
+                        }
+                    }
+
+                } catch (Exception e) {
+
+                }
+            } else if (obj instanceof JSONArray) {
                 try {
                     JSONArray jsonCities = (JSONArray) obj;
 
@@ -174,7 +224,7 @@ public class HomeFragment extends Fragment implements GenericAsyncTaskListener, 
                 ft.remove(prev);
             }
 
-            ErrorDialogFragment errorDialogFragment = ErrorDialogFragment.newInstance(errorVo);
+            com.purplesq.purplesq.fragments.ErrorDialogFragment errorDialogFragment = com.purplesq.purplesq.fragments.ErrorDialogFragment.newInstance(errorVo);
             errorDialogFragment.show(ft, PSQConsts.DIALOG_FRAGMENT_ERROR);
         }
     }

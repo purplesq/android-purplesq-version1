@@ -24,6 +24,7 @@ public class PSQConsts {
     public static final String DIALOG_FRAGMENT_LOADING = "loading_dialog";
     public static final String DIALOG_FRAGMENT_CALL = "call_dialog";
     public static final String DIALOG_FRAGMENT_INVOICES = "invoice_dialog";
+    public static final String DIALOG_FRAGMENT_UPDATE = "update_dialog";
 
 
     public static final String EXTRAS_EVENT_POSITION = "event-position";
